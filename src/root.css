@@ -1,0 +1,13 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+
+.banner {
+    color: crimson;
+    font-size: calc(10px + 2vmin);
+}
