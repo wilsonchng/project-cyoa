@@ -5,9 +5,27 @@
     color: white;
     background-color: black;
     text-align: center;
+    align-items: center;
 }
 
 .banner {
     color: crimson;
     font-size: calc(10px + 2vmin);
+    margin: 20px 0px;
+}
+
+button {
+    width: 200px;
+    color: white;
+    background-color: black;
+    border: 1px solid whitesmoke;
+
+    &:hover {
+        color: white;
+        background-color: grey;
+    }
+}
+
+button + button {
+    margin-top: 10px;
 }
