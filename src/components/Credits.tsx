@@ -1,23 +1,19 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { ScreenID } from "../utils/types";
+import { ScreenID, UpdateType } from "../utils/types";
+import Banner from "./Banner";
 
 const Credits = () => {
     const store = useContext(StoreContext);
 
-    const changeScreen = (screen: ScreenID) =>
-        store.dispatch({ type: "screen", payload: screen });
+    const changeScreen = (screen: ScreenID) => () =>
+        store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     return (
         <>
-            <header className="banner">CREDITS</header>
+            <Banner>CREDITS</Banner>
             {/* Credits */}
-            <button
-                className="button"
-                onClick={() => changeScreen(ScreenID.MainMenu)}
-            >
-                Back
-            </button>
+            <button onClick={changeScreen(ScreenID.MainMenu)}>Back</button>
         </>
     );
 };

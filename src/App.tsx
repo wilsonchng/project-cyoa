@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react";
 import "./root.css";
 
-import { AppState, PageNumber, ScreenID, Store } from "./utils/types";
+import { AppState, Health, PageNumber, ScreenID, Store } from "./utils/types";
 import storeReducer from "./utils/reducer";
 import MainMenu from "./components/MainMenu";
 import Achievements from "./components/Achievements";
@@ -13,16 +13,11 @@ import DeathScreen from "./components/Death";
 
 export const StoreContext = createContext({} as Store);
 
-const initialState: AppState = {
-    activeScreen: ScreenID.MainMenu,
-    currentPage: PageNumber.Start,
-};
-
 const App = () => {
-    const [state, dispatch] = useReducer(storeReducer, initialState);
+    const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);
 
     const renderScreen = () => {
-        switch (state.activeScreen) {
+        switch (state.screen) {
             case ScreenID.Achievements:
                 return <Achievements />;
             case ScreenID.CharacterCreation:
@@ -46,6 +41,16 @@ const App = () => {
             <div className="root">{renderScreen()}</div>
         </StoreContext.Provider>
     );
+};
+
+const INITIAL_STATE: AppState = {
+    screen: ScreenID.MainMenu,
+    page: PageNumber.Start,
+    character: null,
+    status: {
+        health: Health.Unharmed,
+        inventory: [],
+    },
 };
 
 export default App;

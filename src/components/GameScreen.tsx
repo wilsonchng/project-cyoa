@@ -1,12 +1,17 @@
 import { useContext } from "react";
-import { Store, PageNumber } from "../utils/types";
+import { ScreenID, UpdateType } from "../utils/types";
+import { StoreContext } from "../App";
 
 const GameScreen = () => {
+    const store = useContext(StoreContext);
+
+    const changeScreen = (screen: ScreenID) => () =>
+        store.dispatch({ type: UpdateType.Screen, payload: screen });
+
     return (
         <>
-            <p>Lorem ipsum</p>
-            <button className="button">Option A</button>
-            <button className="button">Option B</button>
+            <p>test</p>
+            <button onClick={changeScreen(ScreenID.Death)}>Death</button>
         </>
     );
 };

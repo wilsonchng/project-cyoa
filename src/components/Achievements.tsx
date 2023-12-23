@@ -1,23 +1,19 @@
 import { useContext } from "react";
-import { ScreenID } from "../utils/types";
+import { ScreenID, UpdateType } from "../utils/types";
 import { StoreContext } from "../App";
+import Banner from "./Banner";
 
 const Achievements = () => {
     const store = useContext(StoreContext);
 
-    const changeScreen = (screen: ScreenID) =>
-        store.dispatch({ type: "screen", payload: screen });
+    const changeScreen = (screen: ScreenID) => () =>
+        store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     return (
         <>
-            <header className="banner">ACHIEVEMENTS</header>
-            {/* TODO: List of achievements */}
-            <button
-                className="button"
-                onClick={() => changeScreen(ScreenID.MainMenu)}
-            >
-                Back
-            </button>
+            <Banner>ACHIEVEMENTS</Banner>
+            <p>Todo: Have tracking of achievements, or past characters</p>
+            <button onClick={changeScreen(ScreenID.MainMenu)}>Back</button>
         </>
     );
 };

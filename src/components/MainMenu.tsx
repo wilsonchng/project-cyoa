@@ -1,34 +1,24 @@
 import { useContext } from "react";
-import { ScreenID } from "../utils/types";
+import { ScreenID, UpdateType } from "../utils/types";
 import { StoreContext } from "../App";
+import Banner from "./Banner";
 
 const MainMenu = () => {
     const store = useContext(StoreContext);
 
-    const changeScreen = (screen: ScreenID) =>
-        store.dispatch({ type: "screen", payload: screen });
+    const changeScreen = (screen: ScreenID) => () =>
+        store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     return (
         <>
-            <header className="banner">CYOA: Outbreak</header>
-            <button
-                className="button"
-                onClick={() => changeScreen(ScreenID.CharacterCreation)}
-            >
+            <Banner>CYOA: Outbreak</Banner>
+            <button onClick={changeScreen(ScreenID.CharacterCreation)}>
                 START
             </button>
-            <button
-                className="button"
-                onClick={() => changeScreen(ScreenID.Achievements)}
-            >
+            <button onClick={changeScreen(ScreenID.Achievements)}>
                 ACHIEVEMENTS
             </button>
-            <button
-                className="button"
-                onClick={() => changeScreen(ScreenID.Credits)}
-            >
-                CREDITS
-            </button>
+            <button onClick={changeScreen(ScreenID.Credits)}>CREDITS</button>
         </>
     );
 };
