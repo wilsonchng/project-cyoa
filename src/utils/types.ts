@@ -69,8 +69,7 @@ export enum Hobby {
     Gymnast = "Gymnast",
     Baseball = "Baseball",
     Cooking = "Cooking",
-    Scout = "Scout",
-    Angler = "Angler",
+    Fishing = "Fishing",
     Hiking = "Hiking",
 }
 
@@ -86,4 +85,5 @@ export enum ScreenID {
 
 export enum PageNumber {
     Start,
+    FirstZombie,
 }

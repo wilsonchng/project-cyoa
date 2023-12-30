@@ -12,6 +12,7 @@ import Credits from "./components/Credits";
 import DeathScreen from "./components/Death";
 
 export const StoreContext = createContext({} as Store);
+export const GAME_NAME = "ESCAPE KNOX";
 
 const App = () => {
     const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);

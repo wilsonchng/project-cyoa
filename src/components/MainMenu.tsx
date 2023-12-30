@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ScreenID, UpdateType } from "../utils/types";
-import { StoreContext } from "../App";
+import { GAME_NAME, StoreContext } from "../App";
 import Banner from "./Banner";
 
 const MainMenu = () => {
@@ -11,7 +11,7 @@ const MainMenu = () => {
 
     return (
         <>
-            <Banner>CYOA: Outbreak</Banner>
+            <Banner>{GAME_NAME}</Banner>
             <button onClick={changeScreen(ScreenID.CharacterCreation)}>
                 START
             </button>

@@ -17,7 +17,6 @@ const CharacterCreation = () => {
     const [name, setName] = useState<string>("");
     const [backstory, setBackstory] = useState<Backstory | null>(null);
     const [hobby, setHobby] = useState<Hobby | null>(null);
-    const [items, setItems] = useState<Item[]>([]);
 
     const changeScreen = (screen: ScreenID) =>
         store.dispatch({ type: UpdateType.Screen, payload: screen });
@@ -83,17 +82,17 @@ const CharacterCreation = () => {
         const getText = () => {
             switch (backstory) {
                 case Backstory.Burglar:
-                    return "Your day job is a cashier at Greene's Grocery, but it is just a guise. Your real money maker are the planned heists or burglary you commit every once in a while. You are good at breaking into homes, sneaking around, and hotwiring cars.";
+                    return "You were a person of dual identities. By day, you stood behind the cash register, exchanging pleasantries and handling transactions with a smile. However, when the night fell, a different side of you emerged. The shadows become your ally, and the darkness of the night concealed your clandestine activities. As a burglar, you moved with calculated precision, sneaking past watchful eyes. Your fingers, nimble and quick with handling currency during the day, were equally adept at picking locks at night. It was a life of secrets, where the monotony of the day job provided the perfect cover for your nocturnal escapades.";
                 case Backstory.Doctor:
-                    return "You have a medical degree from Louisville State University. After several years at Louisville General, you have settled for the quieter role of local physician at Rosewood Medical. You have extensive knowledge in medicine and first aid.";
+                    return "You were once a respected and skilled doctor, dedicated to the well-being of your patients. Your days were filled with the precision of medical procedures, the compassion of healing, and the tireless pursuit of saving lives. Your hands, once accustomed to the delicate art of surgery, are steady and sure with the scalpel and needle. You are not just a survivor; you are a healer in a world desperately in need of one.";
                 case Backstory.Firefighter:
-                    return "You were an active firefighter in the Rosewood Fire Department. Years of physical training has left you with a fit and strong body.";
+                    return "You were a dedicated firefighter, a hero clad in protective gear with a heart ablaze with courage. You sprint towards danger where others would flee, navigating the chaos of a burning building with calm determination. Your physique is a testament to the rigourous exercises and drills, training for the most demanding of situations. Even amongst your fellow firefighters, your expertise with the axe is unparalleled. Whether it is breaching doors, venting roofs, or overcoming whatever obstacles in the way of your mission, the axe is an extension of your own strength.";
                 case Backstory.PoliceOfficer:
-                    return "You were an officer of the local law enforcement. Rosewood has a larger than normal police force due to the nearby Kentucky State Prison, and your job often includes escorting inmates to the correctional facility. You are proficient with firearms.";
+                    return "The choice to be a police officer was not just a career; it was a calling. As you patrolled the streets, interacted with citizens, and enforced the law, you carried the weight of responsibility on your shoulders, driven by a commitment to uphold justice and protect those you served. Your proficiency with firearms set you apart in the line of duty. Your accuracy and precision with your service weapon a testament to the countless hours of training and practice you dedicated to honing your marksmanship skills.";
                 case Backstory.Veteran:
-                    return "You served two tours in the Vietnam War. Having witnessed firsthand the atrocities committed there you have become desensitized to blood and violence. However, it has also left you with lifelong PTSD, and frequent night terrors. You retain your skill with firearms.";
+                    return "You are a seasoned veteran of the Vietnam War, a person marked by the indelible experience of war. The memories etched in your mind were not picturesque landscapes but the harsh realities. Violence and terror became constant companions, shaping your perception of the world. Desensitization was a coping mechanism that allowed you to navigate the brutalities of war without being overwhelmed by the emotional toll. The war may have ended, but its echoes persist in the shadows of your consciousness.";
                 case Backstory.Unemployed:
-                    return "Times have been hard even before the outbreak, and you were living off social welfare for months. You have no notable skills.";
+                    return "You find yourself in a rough patch, where luck seemed to have turned its back on you. Despite your best efforts, the road to employment appears to be strewn with obstacles, and the job market seems unyielding. Days blend into each other as you send out countless resumes, fill out application forms, and attend interviews, only to face disappointment. Financial strain intensifies, and the bills become a constant reminder of the precariousness of your situation. Little did you know that the difficulties of unemployment would soon pale in comparison to the survival challenges posed by the impending catastrophe.";
                 default:
                     return "";
             }
@@ -109,26 +108,8 @@ const CharacterCreation = () => {
     };
 
     const HobbyChoice = () => {
-        const getStarterItems = (selection: Hobby) => {
-            switch (selection) {
-                case Hobby.Angler:
-                    return [Item.FishingRod];
-                case Hobby.Baseball:
-                    return [Item.BaseballBat];
-                case Hobby.Cooking:
-                    return [Item.KitchenKnife];
-                case Hobby.Hiking:
-                    return [Item.Tent, Item.Campfire];
-                case Hobby.Scout:
-                    return [Item.FirstAid];
-                default:
-                    return [];
-            }
-        };
-
         const onClick = (selection: Hobby) => () => {
             setHobby(selection);
-            setItems(getStarterItems(selection));
             setStage(Stage.HobbyInfo);
         };
 
@@ -149,20 +130,18 @@ const CharacterCreation = () => {
     const HobbyInfo = () => {
         const getText = () => {
             switch (hobby) {
-                case Hobby.Angler:
-                    return "You were an avid angler and participated in several fishing competitions. You start with fishing equipment.";
+                case Hobby.Fishing:
+                    return "In your hands, a fishing rod becomes an extension of your passion. Whether standing alone on a quiet dock or sharing stories with your fellow anglers, the pursuit of that elusive catch brings you both tranquility and excitement. You know how to fish, find bait, and even fashion a makeshift fishing rod. Where there is water, you will not starve.";
                 case Hobby.Baseball:
-                    return "You are a fan of baseball and used to play competitively in college. You start with a baseball bat.";
+                    return "Once a feared competitor on the baseball field, you relish the memories of your days as a player. The echo of cleats on the field, the satisfying thud of a well-connected bat, and the camaraderie with teammates linger in your mind, forever shaping your love for the sport. Though your playing days may be behind you, the muscles in your shoulders and arms carry the memory of powerful drives and precision hits.";
                 case Hobby.Cooking:
-                    return "You have a deep and profound passion for cooking. You've watched all the cooking shows and know all the common recipes. You start with your chef's knife.";
+                    return "For you, cooking is more than a task, its an exploration of tastes and textures. From experimenting with exotic spices to perfecting classic recipes, your culinary repertoire knows no bounds. The kitchen is a canvas, and each dish is a stroke of your culinary artistry. You can turn simple ingredients into delicious, joyous experiences.";
                 case Hobby.Gymnast:
-                    return "You were a gymnast in high school. Having exceptional balance, you are nimble and lightfooted.";
+                    return "You possess a fluidity and elegance in your movements forged by years of training to do flips, spins and stunts. The lightness in your step is matched by a keen awareness of space, a skill once crucial for executing flawless routines on narrow beams and sprung floors. Though the high school gymnastics days may be in the past, the nimble and lightfooted grace remains, a constant reminder of the dedication and artistry that once defined your athletic journey.";
                 case Hobby.Hiking:
-                    return "You love the outdoors and would often camp in the woods during summers. You start with some camping equipment.";
+                    return "Nature is your sanctuary, a place where you feel a profound connection to the Earth. In the wilderness, you are in your element. You easily pick up the subtle signs and patterns of the natural world, allowing you to anticipate changes in weather, track wildlife, and find your way through dense terrain with ease. Your knowledge of edible plants, water sources, and basic survival techniques is impressive. Whether it's starting a fire with rudimentary tools or constructing makeshift shelter, you possess the skills to thrive in the wild.";
                 case Hobby.Runner:
-                    return "You love to run. Years of marathon training have given you with exceptional endurance and the ability to sprint quickly.";
-                case Hobby.Scout:
-                    return "You were a former scout in high school. You know basic first aid and survival skills. You start with a first aid kit.";
+                    return "You are a force of perpetual motion, a person with an insatiable love for running coupled with a boundless reservoir of stamina. Miles disappear beneath your sneakers as you effortlessly cover ground, and the concept of fatigue takes a backseat to the sheer joy of the run. The world unfolds before you in a blur of landscapes, and the wind rushing past becomes your constant companion. Whether it's a solitary sunrise run or a group sprint through the city streets, you relish every moment on the track or trail. ";
                 default:
                     return "";
             }
@@ -187,12 +166,6 @@ const CharacterCreation = () => {
                     hobby: hobby,
                 } as Character,
             });
-            items.forEach((item: Item) => {
-                store.dispatch({
-                    type: UpdateType.AddItem,
-                    payload: item,
-                });
-            });
             changeScreen(ScreenID.Game);
         };
 
@@ -202,7 +175,6 @@ const CharacterCreation = () => {
                 <p>{`Name: ${name}`}</p>
                 <p>{`Backstory: ${backstory}`}</p>
                 <p>{`Hobby: ${hobby}`}</p>
-                <p>{`Starting Items: ${items.join(", ")}`}</p>
                 <button onClick={changeStage(Stage.Name)}>
                     Change selection
                 </button>

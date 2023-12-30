@@ -1,6 +1,9 @@
 import { useContext } from "react";
-import { ScreenID, UpdateType } from "../utils/types";
 import { StoreContext } from "../App";
+import { PageNumber, ScreenID, UpdateType } from "../utils/types";
+import Header from "./Header";
+import { Prologue } from "./DayOne/Prologue";
+import { FirstZombie } from "./DayOne/FirstZombie";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);
@@ -8,10 +11,20 @@ const GameScreen = () => {
     const changeScreen = (screen: ScreenID) => () =>
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
+    const renderPage = () => {
+        switch (store.state.page) {
+            case PageNumber.FirstZombie:
+                return <FirstZombie />;
+            case PageNumber.Start:
+            default:
+                return <Prologue />;
+        }
+    };
+
     return (
         <>
-            <p>test</p>
-            <button onClick={changeScreen(ScreenID.Death)}>Death</button>
+            <Header />
+            {renderPage()}
         </>
     );
 };
