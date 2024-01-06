@@ -1,7 +1,14 @@
 import { createContext, useReducer } from "react";
 import "./root.css";
 
-import { AppState, Health, PageNumber, ScreenID, Store } from "./utils/types";
+import {
+    AppState,
+    ChapterID,
+    Health,
+    PageNumber,
+    ScreenID,
+    Store,
+} from "./utils/types";
 import storeReducer from "./utils/reducer";
 import MainMenu from "./components/MainMenu";
 import Achievements from "./components/Achievements";
@@ -46,6 +53,7 @@ const App = () => {
 
 const INITIAL_STATE: AppState = {
     screen: ScreenID.MainMenu,
+    chapter: ChapterID.DayOne,
     page: PageNumber.Start,
     character: null,
     status: {

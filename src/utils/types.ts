@@ -7,6 +7,7 @@ export interface Store {
 
 export interface AppState {
     screen: ScreenID;
+    chapter: ChapterID;
     page: PageNumber;
     character: Character | null;
     status: Status;
@@ -83,7 +84,12 @@ export enum ScreenID {
     Death,
 }
 
+export enum ChapterID {
+    DayOne = "Day One",
+}
+
 export enum PageNumber {
     Start,
-    FirstZombie,
+    Discovered,
+    StartingItems,
 }

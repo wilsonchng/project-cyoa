@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { PageNumber, ScreenID, UpdateType } from "../utils/types";
 import Header from "./Header";
-import { Prologue } from "./DayOne/Prologue";
-import { FirstZombie } from "./DayOne/FirstZombie";
+import { ChapterID, PageNumber, ScreenID, UpdateType } from "../utils/types";
+import { Discovered, StartingItems, Prologue } from "./DayOne";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);
@@ -12,12 +11,18 @@ const GameScreen = () => {
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     const renderPage = () => {
-        switch (store.state.page) {
-            case PageNumber.FirstZombie:
-                return <FirstZombie />;
-            case PageNumber.Start:
+        switch (store.state.chapter) {
+            case ChapterID.DayOne:
             default:
-                return <Prologue />;
+                switch (store.state.page) {
+                    case PageNumber.Discovered:
+                        return <Discovered />;
+                    case PageNumber.StartingItems:
+                        return <StartingItems />;
+                    case PageNumber.Start:
+                    default:
+                        return <Prologue />;
+                }
         }
     };
 

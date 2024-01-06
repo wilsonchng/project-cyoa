@@ -3,7 +3,7 @@ import { StoreContext } from "../../App";
 import { PageNumber, UpdateType } from "../../utils/types";
 import Banner from "../Banner";
 
-export const Prologue = () => {
+const Prologue = () => {
     const store = useContext(StoreContext);
 
     const gotoPage = (page: PageNumber) => () =>
@@ -11,17 +11,17 @@ export const Prologue = () => {
 
     return (
         <>
-            <Banner>9 July 1993</Banner>
+            <Banner>{store.state.chapter}</Banner>
             <p>
                 You awake in the darkened bedroom of your home, its
                 once-familiar comfort replaced by an eerie silence that hung in
                 the air like a thick fog. Your eyes dart to the only window,
                 breathing a sigh of relief as the planks hastily nailed across
-                it were still intact. The makeshift barricade was the only thing
-                keeping you from those <em>things</em> out there. You glance at
-                your watch, 9:00 AM, just in time for the morning broadcast. You
-                switch on your radio, ensuring its volume has been turned to the
-                minimum as you tune in to the local news frequency.
+                it were still intact. Streaks of daylight filter through the
+                gaps between the makeshift barricade, prompting you to check
+                your digital watch. It displays 9:00 AM, 9 July 1993, time for
+                the morning broadcast. You switch on your radio, tuning in to
+                the local news frequency.
             </p>
             <em>
                 Good morning. You're listening to LBMW.
@@ -65,7 +65,9 @@ export const Prologue = () => {
                 solitude presses upon you, as you grapple with the uncertainty
                 of how long you can remain hidden.
             </p>
-            <button onClick={gotoPage(PageNumber.FirstZombie)}>Continue</button>
+            <button onClick={gotoPage(PageNumber.Discovered)}>Continue</button>
         </>
     );
 };
+
+export default Prologue;
