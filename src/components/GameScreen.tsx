@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import Header from "./Header";
 import { ChapterID, PageNumber, ScreenID, UpdateType } from "../utils/types";
-import { Discovered, StartingItems, Prologue } from "./DayOne";
+import Header from "./Header";
+import * as DayOne from "./DayOne";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);
@@ -15,13 +15,17 @@ const GameScreen = () => {
             case ChapterID.DayOne:
             default:
                 switch (store.state.page) {
-                    case PageNumber.Discovered:
-                        return <Discovered />;
-                    case PageNumber.StartingItems:
-                        return <StartingItems />;
+                    case PageNumber.Encounter:
+                        return <DayOne.Encounter />;
+                    case PageNumber.FirstZombie:
+                        return <DayOne.FirstZombie />;
+                    case PageNumber.Bedroom:
+                        return <DayOne.Bedroom />;
+                    case PageNumber.FirstWeapon:
+                        return <DayOne.FirstWeapon />;
                     case PageNumber.Start:
                     default:
-                        return <Prologue />;
+                        return <DayOne.Prologue />;
                 }
         }
     };

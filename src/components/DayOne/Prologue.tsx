@@ -13,59 +13,24 @@ const Prologue = () => {
         <>
             <Banner>{store.state.chapter}</Banner>
             <p>
-                You awake in the darkened bedroom of your home, its
-                once-familiar comfort replaced by an eerie silence that hung in
-                the air like a thick fog. Your eyes dart to the only window,
-                breathing a sigh of relief as the planks hastily nailed across
-                it were still intact. Streaks of daylight filter through the
-                gaps between the makeshift barricade, prompting you to check
-                your digital watch. It displays 9:00 AM, 9 July 1993, time for
-                the morning broadcast. You switch on your radio, tuning in to
-                the local news frequency.
+                As you slowly awaken from the depths of slumber, the soft
+                morning light greets you through the curtains. The familiar
+                surroundings of your home offering a semblance of security. Yet,
+                as your senses gradually come alive, a feeling of unease creeps
+                over you like a chilling breeze. Today, something is amiss. The
+                air hangs heavy with silence, devoid of the usual hum of life
+                outside.
             </p>
-            <em>
-                Good morning. You're listening to LBMW.
-                <br />
-                Its day three of the Knox evacuation.
-                <br />
-                Still NO official statement on the contagion that has gripped
-                Kentucky.
-                <br />
-                The Exclusion Zone remains in place.
-                <br />
-                Military personnel from the local bases have a HUGE area closed
-                off.
-                <br />
-                Their primary deployment south of Louisville.
-                <br />
-                The Exclusion Zone stretches out below the curve of the Ohio
-                river and contains the small towns of Muldraugh and West Point.
-                <br />
-                We have been told: there will be answers. <br />
-                LBMW understands a press conference will be held this afternoon
-                on the brewing chaos of the last four days.
-                <br />
-                Will the communications black-out be explained?
-                <br />
-                Until then, the only advice for those nearby remains: stay
-                indoors.
-                <br />
-                This is Frank Hemingway for LBMW.
-                <br />
-                <p>*static*</p>
-            </em>
             <p>
-                You sigh as you turn off the radio, still no news of a rescue.
-                Ever since the outbreak first arrived at Rosewood you have
-                hunkered down, boarding up the windows and reinforcing the doors
-                with whatever you could find. Your home has become both
-                sanctuary and prison. Days blend together as you carefully
-                conserve resources, rationing food and water, meanwhile
-                routinely scanning the radio for any updates. The weight of
-                solitude presses upon you, as you grapple with the uncertainty
-                of how long you can remain hidden.
+                A sudden noise shatters the stillness of the moment - a loud
+                crash that echoes through the house. Panic grips your heart as
+                you bolt up, straining to comprehend the source of the
+                disturbance. There is a moment of disbelief, a split second
+                where reality feels suspended. And then it hits you like a
+                thunderbolt: someone, <em>or something</em> just broke into your
+                home!
             </p>
-            <button onClick={gotoPage(PageNumber.Discovered)}>Continue</button>
+            <button onClick={gotoPage(PageNumber.Encounter)}>Continue</button>
         </>
     );
 };

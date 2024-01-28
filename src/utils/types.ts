@@ -90,6 +90,8 @@ export enum ChapterID {
 
 export enum PageNumber {
     Start,
-    Discovered,
-    StartingItems,
+    Encounter,
+    FirstZombie,
+    Bedroom,
+    FirstWeapon,
 }

@@ -1,5 +1,7 @@
 import Prologue from "./Prologue";
-import Discovered from "./Discovered";
-import StartingItems from "./StartingItems";
+import Encounter from "./Encounter";
+import FirstZombie from "./FirstZombie";
+import Bedroom from "./Bedroom";
+import FirstWeapon from "./FirstWeapon";
 
-export { Prologue, Discovered, StartingItems };
+export { Prologue, Encounter, FirstZombie, FirstWeapon, Bedroom };
