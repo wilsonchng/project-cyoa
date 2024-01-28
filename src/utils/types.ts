@@ -80,7 +80,7 @@ export enum Hobby {
     Gymnast = "Gymnast",
     Baseball = "Baseball",
     Scout = "Former Scout",
-    Hunting = "Hunting",
+    Shooting = "Shooting",
     Hiking = "Hiking",
 }
 

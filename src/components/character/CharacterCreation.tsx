@@ -22,7 +22,7 @@ const CharacterCreation = () => {
 
     const [stage, setStage] = useState<Stage>(Stage.Name);
     const [name, setName] = useState<string>("");
-    const [occupation, setoccupation] = useState<Occupation | null>(null);
+    const [occupation, setOccupation] = useState<Occupation | null>(null);
     const [hobby, setHobby] = useState<Hobby | null>(null);
 
     const changeScreen = (screen: ScreenID) =>
@@ -85,7 +85,7 @@ const CharacterCreation = () => {
 
     const OccupationChoice = () => {
         const onClick = (selection: Occupation) => () => {
-            setoccupation(selection);
+            setOccupation(selection);
             setStage(Stage.OccupationInfo);
         };
 
@@ -183,7 +183,7 @@ const CharacterCreation = () => {
 
         const reset = () => {
             setName("");
-            setoccupation(null);
+            setOccupation(null);
             setHobby(null);
             changeStage(Stage.Name)();
         };
@@ -201,8 +201,8 @@ const CharacterCreation = () => {
                 <br />
                 <CharacterDescription character={charData} />
                 <br />
-                <Button onClick={reset}>Change selection</Button>
                 <Button onClick={beginGame}>BEGIN</Button>
+                <Button onClick={reset}>Change selection</Button>
             </>
         );
     };
