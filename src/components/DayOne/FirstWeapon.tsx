@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StoreContext } from "../../App";
 import { PageNumber, UpdateType } from "../../utils/types";
-import Banner from "../Banner";
+import Banner from "../common/Banner";
 
 const FirstWeapon = () => {
     const store = useContext(StoreContext);

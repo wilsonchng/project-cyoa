@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
 import { ScreenID, UpdateType } from "../utils/types";
-import Banner from "./Banner";
+import { Banner, Button } from "./common";
 
 const DeathScreen = () => {
     const store = useContext(StoreContext);
@@ -13,7 +13,7 @@ const DeathScreen = () => {
         <>
             <Banner>YOU DIED</Banner>
             {/* Display of character data, days lived, zombies killed */}
-            <button onClick={() => location.reload()}>Main Menu</button>
+            <Button onClick={() => location.reload()}>Main Menu</Button>
         </>
     );
 };

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
 import { ScreenID, UpdateType } from "../utils/types";
-import Banner from "./Banner";
+import { Banner, Button } from "./common";
 
 const Credits = () => {
     const store = useContext(StoreContext);
@@ -13,7 +13,7 @@ const Credits = () => {
         <>
             <Banner>CREDITS</Banner>
             {/* Credits */}
-            <button onClick={changeScreen(ScreenID.MainMenu)}>Back</button>
+            <Button onClick={changeScreen(ScreenID.MainMenu)}>BACK</Button>
         </>
     );
 };

@@ -12,14 +12,12 @@ import {
 import storeReducer from "./utils/reducer";
 import MainMenu from "./components/MainMenu";
 import Achievements from "./components/Achievements";
-import CharacterCreation from "./components/CharacterCreation";
+import CharacterCreation from "./components/character/CharacterCreation";
 import GameScreen from "./components/GameScreen";
-import CharacterStats from "./components/CharacterStats";
 import Credits from "./components/Credits";
 import DeathScreen from "./components/Death";
 
 export const StoreContext = createContext({} as Store);
-export const GAME_NAME = "ESCAPE KNOX";
 
 const App = () => {
     const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);
@@ -30,8 +28,6 @@ const App = () => {
                 return <Achievements />;
             case ScreenID.CharacterCreation:
                 return <CharacterCreation />;
-            case ScreenID.CharacterStats:
-                return <CharacterStats />;
             case ScreenID.Credits:
                 return <Credits />;
             case ScreenID.Game:

@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
 import { ChapterID, PageNumber, ScreenID, UpdateType } from "../utils/types";
-import Header from "./Header";
 import * as DayOne from "./DayOne";
+import Header from "./common/Header";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);

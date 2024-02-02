@@ -15,8 +15,18 @@ export interface AppState {
 
 export interface Character {
     name: string;
-    backstory: Backstory;
-    hobby: Hobby;
+    occupation: Occupation | null;
+    hobby: Hobby | null;
+    ability: AbilityScore;
+}
+
+export interface AbilityScore {
+    Strength: number;
+    Endurance: number;
+    Firearms: number;
+    Medicine: number;
+    Stealth: number;
+    Survival: number;
 }
 
 export interface Status {
@@ -47,7 +57,6 @@ export enum Health {
 }
 
 export enum Item {
-    FishingRod = "Fishing Rod",
     BaseballBat = "Baseball Bat",
     KitchenKnife = "Kitchen Knife",
     HuntingKnife = "Hunting Knife",
@@ -56,21 +65,22 @@ export enum Item {
     FirstAid = "First Aid Kit",
 }
 
-export enum Backstory {
+export enum Occupation {
     Firefighter = "Firefighter",
     PoliceOfficer = "Police Officer",
+    ParkRanger = "Park Ranger",
+    Construction = "Construction Worker",
     Doctor = "Doctor",
     Burglar = "Burglar",
-    Veteran = "Veteran",
-    Unemployed = "Unemployed",
+    // Unemployed = "Unemployed" (future hardmode)
 }
 
 export enum Hobby {
     Runner = "Runner",
     Gymnast = "Gymnast",
     Baseball = "Baseball",
-    Cooking = "Cooking",
-    Fishing = "Fishing",
+    Scout = "Former Scout",
+    Hunting = "Hunting",
     Hiking = "Hiking",
 }
 

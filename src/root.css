@@ -1,50 +1,91 @@
 .root {
     display: flex;
     flex-direction: column;
-    max-width: 900px;
-    min-height: 100vh;
-    color: white;
-    background-color: black;
     text-align: justify;
     text-justify: inter-word;
     align-items: center;
+    padding: 8px;
+    max-width: 900px;
+    min-height: 100vh;
+    color: whitesmoke;
+    background-color: black;
 }
 
 .banner {
     color: crimson;
-    font-size: calc(10px + 2vmin);
+    font-size: x-large;
     margin: 20px 0px;
 }
 
-form {
-    margin: 20px 0px;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 
-    input {
-        margin: 0px 5px;
+.row {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+
+    label {
+        margin-right: 5px;
     }
+}
 
-    button {
-        width: 100px;
+.error {
+    color: yellow;
+    font-size: small;
+    margin: 0px;
+}
+
+.info-text {
+    color: darkgrey;
+    margin: 0px 6px;
+    text-align: center;
+    font-size: small;
+}
+
+.bonus-text {
+    color: lawngreen;
+    text-align: center;
+    font-size: small;
+}
+
+.text-input {
+    width: 240px;
+    font-size: medium;
+    border-radius: 4px;
+
+    &.invalid {
+        outline: 1px solid red;
+        outline-offset: -1px;
     }
 }
 
 button {
+    padding: 5px;
+    margin: 5px;
     width: 200px;
+    font-size: medium;
     color: white;
     background-color: black;
-    border: 1px solid whitesmoke;
+    border: 1px solid white;
+    border-radius: 4px;
 
     &:hover {
-        color: white;
+        background-color: dimgray;
+    }
+
+    &:active {
         background-color: grey;
     }
 
-    &.selected {
-        color: black;
-        background-color: white;
+    &:disabled {
+        background-color: darkgray;
     }
 }
 
 button + button {
-    margin-top: 10px;
+    margin-top: 12px;
 }
