@@ -1,19 +1,14 @@
 import { useContext, useRef, useState } from "react";
-import {
-    ScreenID,
-    UpdateType,
-    Character,
-    Hobby,
-    Occupation,
-} from "../../utils/types";
 import { StoreContext } from "../../App";
 import { Banner, Button } from "../common";
+import { Occupation, Hobby, ScreenID } from "../../constants";
+import { UpdateType } from "../../store";
 import {
     getOccupationDescription,
     getHobbyDescription,
-    getStarterAbilities,
     getOccupationAbilities,
     getHobbyAbilities,
+    Character,
 } from ".";
 import CharacterDescription from "./CharacterStats";
 
@@ -188,11 +183,25 @@ const CharacterCreation = () => {
             changeStage(Stage.Name)();
         };
 
+        const getStarterAbilities = () => {
+            const skills1 = getOccupationAbilities(occupation);
+            const skills2 = getHobbyAbilities(hobby);
+
+            return {
+                Strength: (skills1.Strength || 0) + (skills2.Strength || 0),
+                Fitness: (skills1.Fitness || 0) + (skills2.Fitness || 0),
+                Firearms: (skills1.Firearms || 0) + (skills2.Firearms || 0),
+                Medicine: (skills1.Medicine || 0) + (skills2.Medicine || 0),
+                Stealth: (skills1.Stealth || 0) + (skills2.Stealth || 0),
+                Survival: (skills1.Survival || 0) + (skills2.Survival || 0),
+            };
+        };
+
         const charData: Character = {
             name: name,
             occupation: occupation,
             hobby: hobby,
-            ability: getStarterAbilities(occupation, hobby),
+            ability: getStarterAbilities(),
         };
 
         return (

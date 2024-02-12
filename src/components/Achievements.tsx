@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { ScreenID, UpdateType } from "../utils/types";
 import { StoreContext } from "../App";
 import { Banner, Button } from "./common";
+import { UpdateType } from "../store";
+import { ScreenID } from "../constants";
 
 const Achievements = () => {
     const store = useContext(StoreContext);

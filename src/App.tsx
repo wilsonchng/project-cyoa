@@ -1,21 +1,16 @@
 import { createContext, useReducer } from "react";
-import "./root.css";
-
 import {
-    AppState,
-    ChapterID,
-    Health,
-    PageNumber,
-    ScreenID,
-    Store,
-} from "./utils/types";
-import storeReducer from "./utils/reducer";
-import MainMenu from "./components/MainMenu";
-import Achievements from "./components/Achievements";
-import CharacterCreation from "./components/character/CharacterCreation";
-import GameScreen from "./components/GameScreen";
-import Credits from "./components/Credits";
-import DeathScreen from "./components/Death";
+    Achievements,
+    CharacterCreation,
+    Credits,
+    GameScreen,
+    DeathScreen,
+    MainMenu,
+} from "./components";
+import { Store, AppState, storeReducer } from "./store";
+import { ChapterID, Damage, Hunger, ScreenID } from "./constants";
+
+import "./root.css";
 
 export const StoreContext = createContext({} as Store);
 
@@ -23,7 +18,7 @@ const App = () => {
     const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);
 
     const renderScreen = () => {
-        switch (state.screen) {
+        switch (state.currentScreen) {
             case ScreenID.Achievements:
                 return <Achievements />;
             case ScreenID.CharacterCreation:
@@ -48,14 +43,16 @@ const App = () => {
 };
 
 const INITIAL_STATE: AppState = {
-    screen: ScreenID.MainMenu,
-    chapter: ChapterID.DayOne,
-    page: PageNumber.Start,
+    currentScreen: ScreenID.MainMenu,
+    currentChapter: ChapterID.Home,
+    currentPage: 0,
     character: null,
     status: {
-        health: Health.Unharmed,
-        inventory: [],
+        health: Damage.Unharmed,
+        hunger: Hunger.Satiated,
     },
+    daysLived: 0,
+    killCount: 0,
 };
 
 export default App;

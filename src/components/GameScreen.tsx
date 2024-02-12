@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { ChapterID, PageNumber, ScreenID, UpdateType } from "../utils/types";
-import * as DayOne from "./DayOne";
-import Header from "./common/Header";
+import { UpdateType } from "../store";
+import { Header, Banner } from "./common";
+import { Home } from "./story/Home";
+import { ChapterID, ScreenID } from "../constants";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);
@@ -11,28 +12,17 @@ const GameScreen = () => {
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     const renderPage = () => {
-        switch (store.state.chapter) {
-            case ChapterID.DayOne:
+        switch (store.state.currentChapter) {
+            case ChapterID.Home:
             default:
-                switch (store.state.page) {
-                    case PageNumber.Encounter:
-                        return <DayOne.Encounter />;
-                    case PageNumber.FirstZombie:
-                        return <DayOne.FirstZombie />;
-                    case PageNumber.Bedroom:
-                        return <DayOne.Bedroom />;
-                    case PageNumber.FirstWeapon:
-                        return <DayOne.FirstWeapon />;
-                    case PageNumber.Start:
-                    default:
-                        return <DayOne.Prologue />;
-                }
+                return <Home />;
         }
     };
 
     return (
         <>
             <Header />
+            <Banner>{store.state.currentChapter}</Banner>
             {renderPage()}
         </>
     );

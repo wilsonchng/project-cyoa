@@ -2,11 +2,10 @@
     display: flex;
     flex-direction: column;
     text-align: justify;
-    text-justify: inter-word;
     align-items: center;
-    padding: 8px;
-    max-width: 900px;
-    min-height: 100vh;
+    overflow-y: scroll;
+    padding: 2vh;
+    height: 96vh;
     color: whitesmoke;
     background-color: black;
 }
@@ -66,7 +65,7 @@
 button {
     padding: 5px;
     margin: 5px;
-    width: 200px;
+    min-width: 200px;
     font-size: medium;
     color: white;
     background-color: black;

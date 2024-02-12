@@ -1,4 +1,67 @@
-import { AbilityScore, Occupation, Hobby } from "../../utils/types";
+import { Occupation, Hobby, Damage } from "../../constants";
+import CharacterCreation from "./CharacterCreation";
+import CharacterDescription from "./CharacterStats";
+
+export { CharacterCreation, CharacterDescription };
+
+export interface Character {
+    name: string;
+    occupation: Occupation | null;
+    hobby: Hobby | null;
+    ability: AbilityScore;
+}
+
+export interface AbilityScore {
+    Strength: number;
+    Fitness: number;
+    Firearms: number;
+    Medicine: number;
+    Stealth: number;
+    Survival: number;
+}
+
+// Balance notes: Combat abilities (Stealth, Firearms, Strength, Endurance) are worth more than non-combat ones (Survival & Medicine)
+export const getOccupationAbilities = (
+    occupation: Occupation | null
+): Partial<AbilityScore> => {
+    switch (occupation) {
+        case Occupation.Firefighter:
+            return { Strength: 1, Fitness: 1 };
+        case Occupation.Construction:
+            return { Strength: 2 };
+        case Occupation.Burglar:
+            return { Stealth: 2 };
+        case Occupation.PoliceOfficer:
+            return { Firearms: 2 };
+        case Occupation.Doctor:
+            return { Medicine: 3 };
+        case Occupation.ParkRanger:
+            return { Survival: 3 };
+        default:
+            return {};
+    }
+};
+
+export const getHobbyAbilities = (
+    hobby: Hobby | null
+): Partial<AbilityScore> => {
+    switch (hobby) {
+        case Hobby.Baseball:
+            return { Strength: 1 };
+        case Hobby.Runner:
+            return { Fitness: 1 };
+        case Hobby.Shooting:
+            return { Firearms: 1 };
+        case Hobby.Gymnast:
+            return { Stealth: 1 };
+        case Hobby.Scout:
+            return { Survival: 1, Medicine: 1 };
+        case Hobby.Hiking:
+            return { Survival: 2 };
+        default:
+            return {};
+    }
+};
 
 export const getOccupationDescription = (occupation: Occupation | null) => {
     switch (occupation) {
@@ -32,65 +95,4 @@ export const getHobbyDescription = (hobby: Hobby | null) => {
         case Hobby.Shooting:
             return "You are someone that enjoys shooting guns as a hobby. For you, the crack of gunfire and the recoil of a well-aimed shot are not just sensations, but sources of exhilaration and joy. Whether you're shooting pistols, rifles, or shotguns, each firearm offers its own unique experience. From the crisp precision of a well-tuned rifle to the satisfying spread of a shotgun blast, you revel in the diversity of shooting sports and the challenges they present.";
     }
-};
-
-// Balance notes: Non-combat abilities (Survival & Medicine) are worth a bit less than Combat ones (Stealth, Firearms, Strength, Endurance)
-
-export const getOccupationAbilities = (
-    occupation: Occupation | null
-): Partial<AbilityScore> => {
-    switch (occupation) {
-        case Occupation.Firefighter:
-            return { Strength: 1, Endurance: 1 };
-        case Occupation.Construction:
-            return { Strength: 2 };
-        case Occupation.Burglar:
-            return { Stealth: 2 };
-        case Occupation.PoliceOfficer:
-            return { Firearms: 2 };
-        case Occupation.Doctor:
-            return { Medicine: 3 };
-        case Occupation.ParkRanger:
-            return { Survival: 3 };
-        default:
-            return {};
-    }
-};
-
-export const getHobbyAbilities = (
-    hobby: Hobby | null
-): Partial<AbilityScore> => {
-    switch (hobby) {
-        case Hobby.Baseball:
-            return { Strength: 1 };
-        case Hobby.Runner:
-            return { Endurance: 1 };
-        case Hobby.Shooting:
-            return { Firearms: 1 };
-        case Hobby.Gymnast:
-            return { Stealth: 1 };
-        case Hobby.Scout:
-            return { Survival: 1, Medicine: 1 };
-        case Hobby.Hiking:
-            return { Survival: 2 };
-        default:
-            return {};
-    }
-};
-
-export const getStarterAbilities = (
-    occupation: Occupation | null,
-    hobby: Hobby | null
-): AbilityScore => {
-    const skills1 = getOccupationAbilities(occupation);
-    const skills2 = getHobbyAbilities(hobby);
-
-    return {
-        Strength: (skills1.Strength || 0) + (skills2.Strength || 0),
-        Endurance: (skills1.Endurance || 0) + (skills2.Endurance || 0),
-        Firearms: (skills1.Firearms || 0) + (skills2.Firearms || 0),
-        Medicine: (skills1.Medicine || 0) + (skills2.Medicine || 0),
-        Stealth: (skills1.Stealth || 0) + (skills2.Stealth || 0),
-        Survival: (skills1.Survival || 0) + (skills2.Survival || 0),
-    };
 };

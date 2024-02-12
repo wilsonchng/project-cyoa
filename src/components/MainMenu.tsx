@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { ScreenID, UpdateType } from "../utils/types";
 import { StoreContext } from "../App";
 import { Banner, Button } from "./common";
+import { UpdateType } from "../store";
+import { ScreenID } from "../constants";
 
 const MainMenu = () => {
     const store = useContext(StoreContext);
@@ -19,6 +20,7 @@ const MainMenu = () => {
                 ACHIEVEMENTS
             </Button>
             <Button onClick={changeScreen(ScreenID.Credits)}>CREDITS</Button>
+            <Button onClick={changeScreen(ScreenID.Game)}>TEST ONLY</Button>
         </>
     );
 };

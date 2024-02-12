@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { ScreenID, UpdateType } from "../utils/types";
 import { Banner, Button } from "./common";
+import { UpdateType } from "../store";
+import { ScreenID } from "../constants";
 
 const Credits = () => {
     const store = useContext(StoreContext);
