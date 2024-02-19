@@ -1,3 +1,14 @@
+export enum UpdateType {
+    Screen,
+    Page,
+    Chapter,
+    Character,
+    Health,
+    Hunger,
+    AddItem,
+    RemoveItem,
+}
+
 export enum ScreenID {
     MainMenu,
     Achievements,
@@ -19,7 +30,6 @@ export enum Occupation {
     Construction = "Construction Worker",
     Doctor = "Doctor",
     Burglar = "Burglar",
-    // Unemployed = "Unemployed" (future hardmode)
 }
 
 export enum Hobby {
@@ -31,9 +41,18 @@ export enum Hobby {
     Hiking = "Hiking",
 }
 
-export enum Damage {
+export enum Ability {
+    Strength = "Strength",
+    Fitness = "Fitness",
+    Firearms = "Firearms",
+    Stealth = "Stealth",
+    Medicine = "Medicine",
+    Survival = "Survival",
+}
+
+export enum Health {
     Unharmed = "Unharmed",
-    Minor = "Minor damage",
+    MinorDamage = "Minor damage",
     Moderate = "Moderate damage",
     Severe = "Severe damage",
     Dead = "Deceased",

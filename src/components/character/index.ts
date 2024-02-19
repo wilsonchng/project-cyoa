@@ -1,24 +1,9 @@
-import { Occupation, Hobby, Damage } from "../../constants";
+import { Occupation, Hobby, Ability } from "../../utils/constants";
+import { AbilityScore } from "../../utils/types";
 import CharacterCreation from "./CharacterCreation";
 import CharacterDescription from "./CharacterStats";
 
 export { CharacterCreation, CharacterDescription };
-
-export interface Character {
-    name: string;
-    occupation: Occupation | null;
-    hobby: Hobby | null;
-    ability: AbilityScore;
-}
-
-export interface AbilityScore {
-    Strength: number;
-    Fitness: number;
-    Firearms: number;
-    Medicine: number;
-    Stealth: number;
-    Survival: number;
-}
 
 // Balance notes: Combat abilities (Stealth, Firearms, Strength, Endurance) are worth more than non-combat ones (Survival & Medicine)
 export const getOccupationAbilities = (
@@ -77,6 +62,8 @@ export const getOccupationDescription = (occupation: Occupation | null) => {
             return "As a park ranger with a deep knowledge of the wilderness, you navigate the rugged terrain with ease, your footsteps guided by years of experience and an intimate understanding of nature's ways. Your senses are finely tuned to the subtlest changes in the environment. You can read the signs of impending weather, foresee the movements of wildlife, and anticipate the ebb and flow of nature's rhythms. Your survival skills are forged through countless hours of training and real-world experience. You know how to find water in the driest of places, how to build a shelter with nothing but the materials at hand, and how to kindle a fire from the barest spark.";
         case Occupation.Construction:
             return "Your impressive physique speaks volumes, sculpted by years of lifting, hauling, and building at construction sites. Your hands, calloused from manual labor, are your most valuable tools. Whether laying bricks, erecting scaffolding, or pouring concrete, you work with precision and skill. The elements are your constant companion. Under the scorching sun or amidst biting winds, you persevere, your determination unwavering as you strive to meet deadlines and exceed expectations. As a construction worker, you are the foundation upon which the future is built.";
+        default:
+            return "";
     }
 };
 
@@ -94,5 +81,26 @@ export const getHobbyDescription = (hobby: Hobby | null) => {
             return "As a former scout leader, you've spent many summers mentoring young scouts through the wilderness. Your years of service have honed your skills in outdoor survival, navigation, and, most importantly, first aid. You've dealt with everything from minor scrapes and bruises to more serious injuries like sprains and fractures. You always carry a well-stocked first aid kit, complete with bandages, antiseptics, splints, and other essential supplies. Whether you're out on a camping trip or simply enjoying the great outdoors, you're ever ready to lend a helping hand in times of trouble.";
         case Hobby.Shooting:
             return "You are someone that enjoys shooting guns as a hobby. For you, the crack of gunfire and the recoil of a well-aimed shot are not just sensations, but sources of exhilaration and joy. Whether you're shooting pistols, rifles, or shotguns, each firearm offers its own unique experience. From the crisp precision of a well-tuned rifle to the satisfying spread of a shotgun blast, you revel in the diversity of shooting sports and the challenges they present.";
+        default:
+            return "";
+    }
+};
+
+export const getAbilityDescription = (ability: Ability | null) => {
+    switch (ability) {
+        case Ability.Strength:
+            return "Strength indicates how strong a character is, affecting melee weapon damage, shoving back zombies, lifting heavy objects or climbing obstacles.";
+        case Ability.Fitness:
+            return "Fitness reflects a character's overall physical abilities, such as how fast they can run, how long they can exert themselves before feeling tired or winded, and speed of reflexes.";
+        case Ability.Firearms:
+            return "Firearms skill determines accuracy, reload speed and knowledge of guns.";
+        case Ability.Stealth:
+            return "Stealth affects how loud a character is when sneaking, and how likely zombies are to spot them.";
+        case Ability.Medicine:
+            return "Medicine skill affects a character's ability to evaluate the severity of injuries and sicknesses, whether they know the appropriate medical actions to take, and recognising states of decay.";
+        case Ability.Survival:
+            return "Survival reflects a character's ability to survive in the wilderness, such as finding shelter, starting a fire, finding food and water, distinguishing edible plants from poisonous ones.";
+        default:
+            return "";
     }
 };

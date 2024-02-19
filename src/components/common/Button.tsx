@@ -3,13 +3,10 @@ const Button = (props: {
     children: React.ReactNode;
     disabled?: boolean;
 }) => {
+    const { onClick, children, disabled } = props;
     return (
-        <button
-            disabled={props.disabled}
-            className="button"
-            onClick={props.onClick}
-        >
-            {props.children}
+        <button disabled={disabled} className="button" onClick={onClick}>
+            {children}
         </button>
     );
 };

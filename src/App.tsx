@@ -7,10 +7,11 @@ import {
     DeathScreen,
     MainMenu,
 } from "./components";
-import { Store, AppState, storeReducer } from "./store";
-import { ChapterID, Damage, Hunger, ScreenID } from "./constants";
 
 import "./root.css";
+import { ScreenID, ChapterID, Health, Hunger } from "./utils/constants";
+import { storeReducer } from "./utils/store";
+import { Store, AppState } from "./utils/types";
 
 export const StoreContext = createContext({} as Store);
 
@@ -47,10 +48,9 @@ const INITIAL_STATE: AppState = {
     currentChapter: ChapterID.Home,
     currentPage: 0,
     character: null,
-    status: {
-        health: Damage.Unharmed,
-        hunger: Hunger.Satiated,
-    },
+    health: Health.Unharmed,
+    hunger: Hunger.Satiated,
+    inventory: [],
     daysLived: 0,
     killCount: 0,
 };

@@ -1,8 +1,14 @@
 import { useContext, useState } from "react";
 import { StoreContext } from "../../App";
-import { UpdateType } from "../../store";
+import { UpdateType } from "../../utils/store";
 import { Button } from "../common";
-import { Damage, Hobby, Item, Occupation, ScreenID } from "../../constants";
+import {
+    Health,
+    Hobby,
+    Item,
+    Occupation,
+    ScreenID,
+} from "../../utils/constants";
 
 enum PageNumber {
     Prologue,
@@ -12,8 +18,11 @@ enum PageNumber {
     WindowEscape,
     BackHome,
     CarKeys,
-    SneakWeapon,
+    StealWeaponChoice,
+    StealWeapon,
+    Reason,
     SneakAttack,
+    SneakFail,
     ThreatenGun,
     WeaponChoice,
     Attack,
@@ -24,7 +33,7 @@ enum PageNumber {
     Aftermath,
 }
 
-export const Home = () => {
+export const Dawn = () => {
     const store = useContext(StoreContext);
     const [weapon, setWeapon] = useState<Item | null>(null);
 
@@ -37,17 +46,22 @@ export const Home = () => {
     const changeScreen = (screen: ScreenID) => () =>
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
-    const updateHealth = (health: Damage) => () =>
+    const updateHealth = (health: Health) => () =>
         store.dispatch({ type: UpdateType.Health, payload: health });
+
+    const addItem = (item: Item) => () =>
+        store.dispatch({ type: UpdateType.AddItem, payload: item });
 
     const carryingGun = weapon === Item.M36Revolver || weapon === Item.M9Pistol;
 
-    const renderPage = () => {
+    const renderPage = (): JSX.Element => {
         switch (store.state.currentPage) {
             case PageNumber.Encounter:
                 return Encounter();
             case PageNumber.FirstZombie:
                 return FirstZombie();
+            case PageNumber.Reason:
+                return Reason();
             case PageNumber.Bedroom:
                 return Bedroom();
             case PageNumber.WindowEscape:
@@ -56,10 +70,14 @@ export const Home = () => {
                 return BackHome();
             case PageNumber.CarKeys:
                 return CarKeys();
-            case PageNumber.SneakWeapon:
-                return SneakWeapon();
+            case PageNumber.StealWeaponChoice:
+                return StealWeaponChoice();
             case PageNumber.SneakAttack:
                 return SneakAttack();
+            case PageNumber.StealWeapon:
+                return StealWeapon();
+            case PageNumber.SneakFail:
+                return SneakFail();
             case PageNumber.ThreatenGun:
                 return ThreatenGun();
             case PageNumber.WeaponChoice:
@@ -85,25 +103,40 @@ export const Home = () => {
     return renderPage();
 
     function Prologue() {
+        const flavorText = () => {
+            switch (occupation) {
+                case Occupation.Burglar:
+                    return "Another mundane day working at the counter of Greene's Grocer, you thought as you slip into your sneakers.";
+                case Occupation.Construction:
+                    return "Another long day laying bricks at the construction yard, you thought as you lace on your workman boots.";
+                case Occupation.Doctor:
+                    return "Another interesting day at the clinic helping the town's patients, you thought as you slip on your loafers.";
+                case Occupation.Firefighter:
+                    return "Another exciting day doing exercises and drills at the station, you thought as you lace on your boots.";
+                case Occupation.ParkRanger:
+                    return "Another quiet day in the woods, you thought as you don your ranger uniform and shoes.";
+                case Occupation.PoliceOfficer:
+                    return "Another uneventful day on patrol duty, you hope as you don your police uniform and shoes.";
+            }
+        };
+
         return (
             <>
                 <p>
-                    As you slowly awaken from the depths of slumber, the soft
-                    morning light greets you through the curtains. The familiar
-                    surroundings of your home offering a semblance of security.
-                    Yet, as your senses gradually come alive, a feeling of
-                    unease creeps over you like a chilling breeze. Today,
-                    something is amiss. The air hangs heavy with silence, devoid
+                    You slowly awaken from the depths of slumber, the soft light
+                    of dawn greeting you through the curtains. You are in the
+                    familiar surroundings of your home. {flavorText()} As you
+                    prepare for the day, a feeling of unease creeps over you.
+                    Something is amiss. The air hangs heavy with silence, devoid
                     of the usual hum of life outside.
                 </p>
                 <p>
                     A sudden noise shatters the stillness of the moment - a loud
-                    crash that echoes through the house. Panic grips your heart
-                    as you bolt up, straining to comprehend the source of the
-                    disturbance. There is a moment of disbelief, a split second
-                    where reality feels suspended. And then it hits you like a
-                    thunderbolt: someone, <em>or something</em> just broke into
-                    your home!
+                    crash that echoes through the house. You tense up, straining
+                    to comprehend the source of the disturbance. There is a
+                    moment of disbelief, a split second where reality feels
+                    suspended. And then it hits you like a thunderbolt: someone,{" "}
+                    <em>or something</em> just broke into your home!
                 </p>
                 <br />
                 <Button onClick={changePage(PageNumber.Encounter)}>
@@ -117,10 +150,10 @@ export const Home = () => {
         return (
             <>
                 <p>
-                    You jump out of bed and race toward the sound, unaware of
-                    what is to come next. Suddenly, a low, guttural growl of
-                    unknown origin echoes through the house. You freeze midway,
-                    a primal instinct warning you of the danger that lies ahead.
+                    You race toward the sound, unaware of what is to come next.
+                    Suddenly, a low, guttural growl of unknown origin echoes
+                    through the house. You freeze midway, a primal instinct
+                    warning you of the danger that lies ahead.
                 </p>
                 <p>
                     Slowly, you creep forward from your living room, only to be
@@ -128,17 +161,19 @@ export const Home = () => {
                     kitchen, is a figure that defies reason.
                 </p>
                 <p>
-                    The intruder is a man with ashen and pallid skin, clad in
-                    the tattered remains of his clothes. His hands and mouth are
-                    covered in crimson, with bits of glass sticking out from his
-                    arms and face. His bloodshot eyes gleam with hunger, as they
+                    The intruder is a tall man with ashen and pallid skin, clad
+                    in the tattered remains of his clothes. Jagged fragments of
+                    the broken window protrude from his body like macabre
+                    spikes. Yet he seemed oblivious to his numerous wounds,
+                    while blood trickled down onto the floorboards. His head
+                    snaps in your direction, eyes gleaming with hunger as they
                     lock onto you with an intensity that sends a shiver down
                     your spine.
                 </p>
                 <p>
                     Time seems to stand still, as your mind struggles to make
                     sense of the nightmare unfolding before you. The abomination
-                    lurches forward with a grunt, its movements jagged and
+                    lurches forward with a grunt, its movements jerky and
                     unnatural, as you realize with a sinking dread this is all
                     too real.
                 </p>
@@ -155,11 +190,12 @@ export const Home = () => {
             <>
                 <p>
                     Adrenaline surges through your veins as the fight or flight
-                    instincts kick into overdrive. You search desperately for an
-                    escape, but the man cuts off your path to the door. Behind
-                    you is your bedroom, which has a door you can put between
-                    yourself and the man. Alternatively, you make your stand
-                    here and fight the approaching horror.
+                    instincts kick into overdrive. This man is dangerous and
+                    quickly closing the distance between the two of you. You can
+                    run back to your bedroom and shut the door on him, locking
+                    him out. Or you can make a stand and try to fight him.
+                    Lastly, you can try to appeal to the man's reason, maybe he
+                    will cease his actions if you understand what he is seeking.
                 </p>
                 <p>You decide to:</p>
                 <br />
@@ -169,6 +205,9 @@ export const Home = () => {
                 <Button onClick={changePage(PageNumber.Bedroom)}>
                     Flee to the bedroom
                 </Button>
+                <Button onClick={changePage(PageNumber.Reason)}>
+                    Try to reason with him
+                </Button>
             </>
         );
     }
@@ -177,12 +216,25 @@ export const Home = () => {
         const getGun = () => {
             if (occupation === Occupation.PoliceOfficer) {
                 setWeapon(Item.M36Revolver);
-                return "Before leaving, you grab your police standard issue M36 revolver from your nightstand drawer.";
+                addItem(Item.M36Revolver);
+                return (
+                    <p>
+                        Before leaving, you grab your police standard issue{" "}
+                        <b>{Item.M36Revolver}</b> from your nightstand drawer.
+                    </p>
+                );
             } else if (hobby === Hobby.Shooting) {
                 setWeapon(Item.M9Pistol);
-                return "Before leaving, you grab your M9 pistol from the gun case tucked in your wardrobe.";
+                addItem(Item.M9Pistol);
+                return (
+                    <p>
+                        Before leaving, you grab your favourite{" "}
+                        <b>{Item.M9Pistol}</b> from the gun case tucked in your
+                        wardrobe.
+                    </p>
+                );
             }
-            return "";
+            return null;
         };
 
         return (
@@ -198,9 +250,9 @@ export const Home = () => {
                     and you do not intend to wait for things to calm down.
                 </p>
                 <p>
-                    {`You draw the bedroom curtains and glance outside: the
+                    You draw the bedroom curtains and glance outside: the
                     backyard appears clear. You decide to climb out the window
-                    and make your escape. ${getGun()}`}
+                    and make your escape.{getGun()}
                 </p>
                 <br />
                 <Button onClick={changePage(PageNumber.WindowEscape)}>
@@ -243,30 +295,28 @@ export const Home = () => {
     }
 
     function BackHome() {
-        const haveGun = weapon === Item.M36Revolver || weapon === Item.M9Pistol;
         return (
             <>
                 <p>
-                    {`You make your way around to the front door, unlocking it
+                    You make your way around to the front door, unlocking it
                     with the spare key hidden under a potted plant. You turn the
                     doorknob and enter cautiously. The intruder is still
                     preoccupied with knocking down the door, and remains
                     oblivious to your entrance. You spot your key ring on the
                     table in the living room, just a few steps away from the
                     man. Alternatively, it might be prudent to prepare for
-                    self-defence. ${
-                        haveGun &&
-                        "Lastly, you could threaten the man with your gun."
-                    }`}
+                    self-defence.{" "}
+                    {carryingGun &&
+                        "Lastly, you could threaten the man with your gun."}
                 </p>
                 <br />
                 <Button onClick={changePage(PageNumber.CarKeys)}>
                     Grab car keys
                 </Button>
-                <Button onClick={changePage(PageNumber.SneakWeapon)}>
+                <Button onClick={changePage(PageNumber.StealWeaponChoice)}>
                     Find a Weapon
                 </Button>
-                {haveGun && (
+                {carryingGun && (
                     <Button onClick={changePage(PageNumber.ThreatenGun)}>
                         Threaten with gun
                     </Button>
@@ -283,17 +333,48 @@ export const Home = () => {
                 <Button onClick={changePage(PageNumber.CarKeys)}>
                     Car keys
                 </Button>
-                <Button onClick={changePage(PageNumber.SneakWeapon)}>
+                <Button onClick={changePage(PageNumber.StealWeaponChoice)}>
                     Weapon
                 </Button>
             </>
         );
     }
 
-    function SneakWeapon() {
+    function StealWeaponChoice() {
         const onClick = (weapon: Item) => () => {
             setWeapon(weapon);
-            changePage(PageNumber.SneakAttack)();
+            addItem(weapon);
+            changePage(PageNumber.StealWeapon)();
+        };
+
+        const getWeaponText = () => {
+            let result: string[] = [];
+
+            switch (occupation) {
+                case Occupation.Construction:
+                    result.push("the hammer in your toolbox from work");
+                    break;
+                case Occupation.ParkRanger:
+                    result.push("the hand axe in your ranger pack");
+                    break;
+                default:
+                    break;
+            }
+
+            switch (hobby) {
+                case Hobby.Baseball:
+                    result.push(
+                        "the signed baseball bat in your trophy cabinet"
+                    );
+                    break;
+                default:
+                    break;
+            }
+
+            if (result.length > 0) {
+                return "Also, " + result.join(", or ").concat(".");
+            }
+            return "";
         };
 
         return (
@@ -304,17 +385,8 @@ export const Home = () => {
                 </p>
                 <p>
                     In the kitchen drawer there is a chef's knife, or the frying
-                    pan on the stovetop.
+                    pan on the stovetop. {getWeaponText()}
                 </p>
-                {occupation === Occupation.Construction && (
-                    <p>The hammer in your toolbox from work.</p>
-                )}
-                {occupation === Occupation.ParkRanger && (
-                    <p>The hand axe in your ranger pack.</p>
-                )}
-                {hobby === Hobby.Baseball && (
-                    <p>The signed baseball bat in your trophy cabinet.</p>
-                )}
                 {carryingGun && (
                     <p>Or you could just threaten the man with your gun.</p>
                 )}
@@ -350,16 +422,36 @@ export const Home = () => {
                 <p>{`You brandish your ${weapon} at the man, demanding that he drops to the ground. Despite the threat of your weapon, the man remains undeterred, pivoting towards you with outstretched arms. After another verbal warning to stop, you realise you have to shoot.`}</p>
                 <br />
                 <p>
-                    Roll <b>[FIREARMS]</b> to determine your outcome
+                    Roll [<b>FIREARMS</b>] to determine your outcome...
                 </p>
                 {/* Add die roll */}
                 <br />
                 <Button onClick={changePage(PageNumber.SuccessHit)}>
-                    Continue
+                    Success
                 </Button>
-                <Button onClick={changePage(PageNumber.FailHit)}>
-                    Continue
+                <Button onClick={changePage(PageNumber.FailHit)}>Fail</Button>
+            </>
+        );
+    }
+
+    function StealWeapon() {
+        return (
+            <>
+                <p>
+                    You inch forward cautiously, your movements deliberate and
+                    calculated, toward the <b>{weapon}</b> lying just a few
+                    steps away. Your heart pounds in your chest as the strange
+                    man continues to pound the door, unaware of your presence.
+                </p>
+                <p>
+                    Roll <b>[STEALTH]</b> to determine your outcome.
+                </p>
+                {/* Add die roll */}
+                <br />
+                <Button onClick={changePage(PageNumber.SneakAttack)}>
+                    Success
                 </Button>
+                <Button onClick={changePage(PageNumber.SneakFail)}>Fail</Button>
             </>
         );
     }
@@ -367,24 +459,28 @@ export const Home = () => {
     function SneakAttack() {
         return (
             <>
-                <p>
-                    You inch forward, your movements deliberate and calculated,
-                    toward the weapon lying just a few feet away. Your heart
-                    pounds in your chest as you pray the zombie remains
-                    oblivious to your presence. Each step is a silent
-                    negotiation with fate, your breath held in anticipation of
-                    any telltale sound that might betray your intentions. With
-                    every passing moment, the weight of the impending danger
-                    hangs heavy in the air, urging you to reach the weapon
-                    before the zombie senses your presence.
-                </p>
+                <p></p>
                 <br />
-                <Button onClick={changePage(PageNumber.CarKeys)}>
-                    Car keys
+                <Button onClick={changePage(PageNumber.Aftermath)}>
+                    Continue
                 </Button>
-                <Button onClick={changePage(PageNumber.SneakWeapon)}>
-                    Weapon
+            </>
+        );
+    }
+
+    function SneakFail() {
+        return (
+            <>
+                <p></p>
+                <p>
+                    Roll <b>[STRENGTH]</b> to determine your outcome
+                </p>
+                {/* Add die roll */}
+                <br />
+                <Button onClick={changePage(PageNumber.SuccessHit)}>
+                    Success
                 </Button>
+                <Button onClick={changePage(PageNumber.FailHit)}>Fail</Button>
             </>
         );
     }
@@ -392,7 +488,48 @@ export const Home = () => {
     function WeaponChoice() {
         const onClick = (weapon: Item) => () => {
             setWeapon(weapon);
+            addItem(weapon);
             changePage(PageNumber.Attack)();
+        };
+
+        const getWeaponText = () => {
+            let result: string[] = [];
+
+            switch (occupation) {
+                case Occupation.PoliceOfficer:
+                    result.push(
+                        "your police standard issue M36 revolver in your nightstand"
+                    );
+                    break;
+                case Occupation.Construction:
+                    result.push("the hammer in your toolbox from work");
+                    break;
+                case Occupation.ParkRanger:
+                    result.push("the hand axe in your ranger pack");
+                    break;
+                default:
+                    break;
+            }
+
+            switch (hobby) {
+                case Hobby.Shooting:
+                    result.push(
+                        "your personal M9 pistol in the bedroom wardrobe"
+                    );
+                    break;
+                case Hobby.Baseball:
+                    result.push(
+                        "the signed baseball bat in your trophy cabinet"
+                    );
+                    break;
+                default:
+                    break;
+            }
+
+            if (result.length > 0) {
+                return "Also, " + result.join(", or ").concat(".");
+            }
+            return "";
         };
 
         return (
@@ -404,26 +541,8 @@ export const Home = () => {
                 </p>
                 <p>
                     In the kitchen drawer there is a chef's knife, or the frying
-                    pan on the stovetop.
+                    pan on the stovetop. {getWeaponText()}
                 </p>
-                {occupation === Occupation.PoliceOfficer && (
-                    <p>
-                        Your police standard issue M36 revolver in your
-                        nightstand
-                    </p>
-                )}
-                {occupation === Occupation.Construction && (
-                    <p>The hammer in your toolbox from work.</p>
-                )}
-                {occupation === Occupation.ParkRanger && (
-                    <p>The hand axe in your ranger pack.</p>
-                )}
-                {hobby === Hobby.Shooting && (
-                    <p>Your favourite M9 pistol in the bedroom wardrobe.</p>
-                )}
-                {hobby === Hobby.Baseball && (
-                    <p>The signed baseball bat in your trophy cabinet.</p>
-                )}
                 <p>
                     Anything is better than nothing. What weapon will you
                     choose?
@@ -460,19 +579,91 @@ export const Home = () => {
         const text = () => {
             switch (weapon) {
                 case Item.KitchenKnife:
-                    return "You dash to the kitchen and retrieve the chef's knife from the drawer, its blade gleaming in the dim light. The man is unfazed by your weapon, and lurches forward at you. With a firm grip on the handle, you steel yourself for the confrontation ahead. Your muscles tense with anticipation, poised to unleash the sharp blade upon the approaching threat...";
+                    return (
+                        <p>
+                            You dash to the kitchen and retrieve the{" "}
+                            <b>{Item.KitchenKnife}</b> from the drawer, its
+                            blade gleaming in the dim light. The man is unfazed
+                            by your weapon, and lurches forward at you. With a
+                            firm grip on the handle, you steel yourself for the
+                            confrontation ahead. Your muscles tense with
+                            anticipation, poised to unleash the sharp blade upon
+                            the approaching threat...
+                        </p>
+                    );
                 case Item.FryingPan:
-                    return "You dash to the kitchen and grab the frying pan. The makeshift club is heavy and unwieldy. The man is unfazed by your weapon, and lurches forward at you. With a firm grip on the metal handle, you adjust your stance, grounding yourself for the impending strike, as you raise the cast iron pan overhead...";
+                    return (
+                        <p>
+                            You dash to the kitchen and grab the{" "}
+                            <b>{Item.FryingPan}</b>. The makeshift club is heavy
+                            and unwieldy. The man is unfazed by your weapon, and
+                            lurches forward at you. With a firm grip on the
+                            metal handle, you adjust your stance, grounding
+                            yourself for the impending strike, as you raise the
+                            cast iron pan overhead...
+                        </p>
+                    );
                 case Item.BaseballBat:
-                    return "You quickly open the cabinet and grab your vintage Louisville slugger, its weight familiar in your hands. The man is unfazed by your weapon, and lurches forward at you. You take your batting stance and your body coils like a spring, gathering energy for the impending strike...";
+                    return (
+                        <p>
+                            You quickly open the cabinet and grab your{" "}
+                            <b>{Item.BaseballBat}</b>, its weight familiar in
+                            your hands. The man is unfazed by your weapon, and
+                            lurches forward at you. You take your batting stance
+                            and your body coils like a spring, gathering energy
+                            for the impending strike...
+                        </p>
+                    );
                 case Item.HandAxe:
-                    return "You hastily grab your ranger backpack stocked with camping supplies and pull out your hand axe. The man is unfazed by your weapon, and lurches forward at you. With a steady grip on the handle, you adjust your stance, planting your feet firmly on the ground, and raise the axe overhead, visualising the arc of the axeblade making its way to the target...";
+                    return (
+                        <p>
+                            You hastily grab your ranger backpack stocked with
+                            camping supplies and pull out your{" "}
+                            <b>{Item.HandAxe}</b>. The man is unfazed by your
+                            weapon, and lurches forward at you. With a steady
+                            grip on the handle, you adjust your stance, planting
+                            your feet firmly on the ground, and raise the axe
+                            overhead, visualising the arc of the axeblade making
+                            its way to the target...
+                        </p>
+                    );
                 case Item.Hammer:
-                    return "You hurriedly reach for your toolbox and retrieve your hammer. The weight of the tool feels reassuring in your grip, its handle worn smooth by countless hours of use. The man is unfazed by your weapon, and lurches forward at you. Your breath quickens as you raise the hammer overhead, its head poised to deliver a devastating blow...";
+                    return (
+                        <p>
+                            You hurriedly reach for your toolbox and retrieve
+                            your <b>{Item.Hammer}</b>. The weight of the tool
+                            feels reassuring in your grip, its handle worn
+                            smooth by countless hours of use. The man is unfazed
+                            by your weapon, and lurches forward at you. Your
+                            breath quickens as you raise the hammer overhead,
+                            its head poised to deliver a devastating blow...
+                        </p>
+                    );
                 case Item.M36Revolver:
-                    return "You dash into the bedroom and retrieve the service weapon from your nightstand, the weight of it in your hand both reassuring and ominous. The man is unfazed, and lurches forward at you. You raise the revolver, its barrel trained on the advancing form. The world falls away, leaving only you and the target in your sights...";
+                    return (
+                        <p>
+                            You dash into the bedroom and retrieve the{" "}
+                            <b>{Item.M36Revolver}</b> from your nightstand, the
+                            weight of it in your hand both reassuring and
+                            ominous. The man is unfazed, and lurches forward at
+                            you. You raise the revolver, its barrel trained on
+                            the advancing form. The world falls away, leaving
+                            only you and the target in your sights...
+                        </p>
+                    );
                 case Item.M9Pistol:
-                    return "You dash into the bedroom and grab the gun case in your wardrobe, flipping it open and retrieving the weapon within. In one fluid motion you insert the loaded magazine and cock the sidearm. The man is unfazed, and lurches forward at you. You raise the pistol, its barrel trained on the advancing form. The world falls away, leaving only you and the target in your sights...";
+                    return (
+                        <p>
+                            You dash into the bedroom and grab the gun case in
+                            your wardrobe, flipping it open and retrieving the{" "}
+                            <b>{Item.M9Pistol}</b> within. In one fluid motion
+                            you insert the loaded magazine and cock the sidearm.
+                            The man is unfazed, and lurches forward at you. You
+                            raise the pistol, its barrel trained on the
+                            advancing form. The world falls away, leaving only
+                            you and the target in your sights...
+                        </p>
+                    );
             }
         };
 
@@ -486,11 +677,9 @@ export const Home = () => {
                 {/* Add die roll */}
                 <br />
                 <Button onClick={changePage(PageNumber.SuccessHit)}>
-                    Continue
+                    Success
                 </Button>
-                <Button onClick={changePage(PageNumber.FailHit)}>
-                    Continue
-                </Button>
+                <Button onClick={changePage(PageNumber.FailHit)}>Fail</Button>
             </>
         );
     }
@@ -501,7 +690,7 @@ export const Home = () => {
                 case Item.KitchenKnife:
                     return "You lunge forward, thrusting the kitchen knife at the man. The blade penetrates his chest, gliding through flesh with a sickening squelch. The man lets out a grunt, but is otherwise unconcerned by the stab wound.";
                 case Item.FryingPan:
-                    return "You swing the frying pan at the man. The metal smacks his face with a loud clang, sending blood and teeth flying onto the tiled floor. The impact reverberates through your bones as the man staggers backward, his movements jerky and uncoordinated. For a moment there is a glimmer of hope, but it was short-lived.";
+                    return "You swing the frying pan at the man. The metal smacks his face with a loud clang, sending blood and teeth flying onto the tiled floor. The impact reverberates through your bones as the man staggers backward. For a moment there is a glimmer of hope, but it was short-lived.";
                 case Item.HandAxe:
                     return "You swing the hand axe at the man. The axe blade lands on the shoulder, biting into flesh and bone with a heavy thud. The man recoils from the impact, but you know that blow was a dud.";
                 case Item.Hammer:
@@ -518,27 +707,28 @@ export const Home = () => {
             <>
                 <p>{`${text()} With an angry growl, the man pounces at you with unexpected speed, grabbing your arms with his cold hands...`}</p>
                 <p>
-                    Roll [<b>STRENGTH</b>] to determine your outcome...
+                    Roll [<b>FITNESS</b>] to determine your outcome...
                 </p>
                 {/* Add die roll */}
                 <br />
                 <Button onClick={changePage(PageNumber.BreakFree)}>
-                    Continue
+                    Success
                 </Button>
-                <Button onClick={changePage(PageNumber.Dead)}>Continue</Button>
+                <Button onClick={changePage(PageNumber.Dead)}>Fail</Button>
             </>
         );
     }
 
     function BreakFree() {
-        updateHealth(Damage.Minor);
+        updateHealth(Health.MinorDamage);
         return (
             <>
-                <p>{`You manage to break free from the vice-like grip, but not without the man's nails tearing your sleeves and digging into your skin. Pain sears up from your arms as you shove the assailant back, before ${
+                <p>{`You manage to break free from the vice-like grip, but not without the man's nails scratching your arms and breaking your skin. Pain shoots up your limbs as you shove the assailant back, before ${
                     carryingGun
                         ? "lining up the barrel for another shot..."
                         : "preparing your weapon for another blow..."
                 }`}</p>
+                <p className="damage-text">Sustained minor damage!</p>
                 <br />
                 <Button onClick={changePage(PageNumber.SuccessHit)}>
                     Continue
@@ -562,7 +752,7 @@ export const Home = () => {
                     return "In one fluid motion, you swing the bat like you have practised a thousand times before. The force of your blow is unstoppable, and its precision undeniable. The man's head snaps back with a sickening crunch, as his body crumples onto the ground in a heap.";
                 case Item.M36Revolver:
                 case Item.M9Pistol:
-                    return "You pull the trigger. With a sharp crack, the gunshot echoes through the room, reverberating off the walls like a thunderclap. Time seems to stand still as the bullet finds its mark, piercing through the man's decaying skull with devastating accuracy. For a moment, there is silence. The man staggers backward, his lifeless gaze fixed on some distant horizon, before finally crumbling to the ground in a heap.";
+                    return "You pull the trigger. With a sharp crack, the gunshot echoes through the room, reverberating off the walls like a thunderclap. Time seems to stand still as the bullet finds its mark, piercing through the man's decaying skull with devastating accuracy. The man staggers backward, his lifeless gaze fixed on some distant horizon, before finally crumbling to the ground in a heap.";
             }
         };
 
@@ -578,20 +768,60 @@ export const Home = () => {
     }
 
     function Aftermath() {
-        const hurt = store.state.status.health !== Damage.Unharmed;
+        const hurt = store.state.health !== Health.Unharmed;
 
-        <>
-            <p>
-                Silence descends as you stand over your fallen adversary, chest
-                heaving with exertion, victory coursing through your veins. The
-                gravity of what you've done settles over you like a shroud.
-                <em>Who was that man? What happened to him?</em> Questions race
-                through your mind.
-            </p>
-            {hurt && <p>You check your wounds, the assailant </p>}
-            <br />
-            <Button onClick={changePage(PageNumber.Aftermath)}>Continue</Button>
-        </>;
+        const text = () => {
+            if (occupation === Occupation.Doctor) {
+                return "Your expertise tells you these scratches could lead to infection if not treated properly. Without your equipment at the clinic, you do your best to clean the cuts with a damp cloth, before concealing them with plasters.";
+            } else if (hobby === Hobby.Scout) {
+                return "Your experience with cuts and wounds tells you these scratches could lead to infection if not treated properly. Thankfully, as a former scout you always have a fully stocked first aid kit at home. You first clean the wound, then apply some antiseptic before covering them with bandages.";
+            } else {
+                return "They are but scratches, you should be fine, you think. You cover the bleeding cuts with plasters.";
+            }
+        };
+
+        return (
+            <>
+                <p>
+                    Silence descends as you stand over your fallen adversary,
+                    chest heaving with exertion, victory coursing through your
+                    veins. The gravity of what you've done settles over you like
+                    a shroud. <em>Who was that man? What happened to him?</em>{" "}
+                    Questions race through your mind as you tried to make sense
+                    of the situation.
+                </p>
+                {hurt && (
+                    <>
+                        <p>
+                            You check your wounds, the assailant has left angry
+                            red streaks running across your arms, some of them
+                            bleeding. {text()}
+                        </p>
+                    </>
+                )}
+                {/* take items, leave home */}
+                <br />
+                <Button onClick={changePage(PageNumber.Aftermath)}>
+                    Continue
+                </Button>
+            </>
+        );
+    }
+
+    function Reason() {
+        return (
+            <>
+                <p>
+                    You raise your palms in peace and call out to the strange
+                    man to stop. But your words fall upon deaf ears, as
+                    approaching figure pays no heed to your desperate pleas.
+                    With a guttural moan, the man lunges forward, its cold hands
+                    seizing you.
+                </p>
+                <br />
+                <Button onClick={changePage(PageNumber.Dead)}>Continue</Button>
+            </>
+        );
     }
 
     function Dead() {
@@ -599,11 +829,11 @@ export const Home = () => {
             <>
                 <p>
                     You try to pull free, but the man has you in a vice-like
-                    grip. Your eyes widen in terror as the zombie sinks its
-                    teeth onto your neck, causing you to cry out in pain. You
-                    try to fight back but it is no use, as your screams are soon
-                    replaced by the sounds of frenzied chewing and slurping.
-                    Darkness slowly envelopes your senses...
+                    grip. Your eyes widen in terror as he sinks his teeth onto
+                    your neck, tearing through skin and sinew. You try to fight
+                    back but it is no use, and your screams are soon replaced by
+                    the sounds of frenzied chewing and slurping. The world fades
+                    to black as you succumb to his relentless hunger...
                 </p>
                 <br />
                 <Button onClick={changeScreen(ScreenID.Death)}>Continue</Button>

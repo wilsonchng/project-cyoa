@@ -1,16 +1,16 @@
 import { useContext, useRef, useState } from "react";
 import { StoreContext } from "../../App";
 import { Banner, Button } from "../common";
-import { Occupation, Hobby, ScreenID } from "../../constants";
-import { UpdateType } from "../../store";
+import { Occupation, Hobby, ScreenID } from "../../utils/constants";
+import { UpdateType } from "../../utils/store";
 import {
     getOccupationDescription,
     getHobbyDescription,
     getOccupationAbilities,
     getHobbyAbilities,
-    Character,
 } from ".";
 import CharacterDescription from "./CharacterStats";
+import { Character } from "../../utils/types";
 
 const CharacterCreation = () => {
     const store = useContext(StoreContext);
@@ -88,16 +88,19 @@ const CharacterCreation = () => {
             <>
                 <Banner>What was your profession?</Banner>
                 <br />
-                {Object.values(Occupation).map((key) => {
+                {Object.values(Occupation).map((key, index) => {
                     return (
-                        <Button onClick={onClick(key as Occupation)}>
+                        <Button
+                            onClick={onClick(key as Occupation)}
+                            key={index}
+                        >
                             {key as string}
                         </Button>
                     );
                 })}
                 <br />
                 <em className="info-text">
-                    Backstories affect starting skills, some provide unique
+                    Occupations affect starting skills, some provide unique
                     abilities, and influence endings
                 </em>
             </>
@@ -133,9 +136,9 @@ const CharacterCreation = () => {
             <>
                 <Banner>What was your hobby?</Banner>
                 <br />
-                {Object.values(Hobby).map((key) => {
+                {Object.values(Hobby).map((key, index) => {
                     return (
-                        <Button onClick={onClick(key as Hobby)}>
+                        <Button onClick={onClick(key as Hobby)} key={index}>
                             {key as string}
                         </Button>
                     );

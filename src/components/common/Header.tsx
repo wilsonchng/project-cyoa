@@ -1,4 +1,14 @@
+import { useContext } from "react";
+
+import { StoreContext } from "../../App";
+import { ScreenID, UpdateType } from "../../utils/constants";
+
 const Header = () => {
+    const store = useContext(StoreContext);
+
+    const changeScreen = (screen: ScreenID) => () =>
+        store.dispatch({ type: UpdateType.Screen, payload: screen });
+
     return (
         <div className="header">
             {/* Link to main menu */}

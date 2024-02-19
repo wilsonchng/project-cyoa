@@ -1,18 +1,43 @@
-import { Character } from ".";
+import { useState } from "react";
+import { Character } from "../../utils/types";
+import { Ability } from "../../utils/constants";
+import { getAbilityDescription } from ".";
+import { Modal } from "../common";
 
 const CharacterDescription = (props: { character: Character }) => {
+    const { character } = props;
+
+    const [open, setOpen] = useState<boolean>(false);
+    const [ability, setAbility] = useState<Ability | null>(null);
+
+    const openHelp = (selected: Ability) => () => {
+        setAbility(selected);
+        setOpen(true);
+    };
+
+    const closeHelp = () => {
+        setAbility(null);
+        setOpen(false);
+    };
+
     return (
         <div className="container">
-            <p>{`NAME: ${props.character.name}`}</p>
-            <p>{`OCCUPATION: ${props.character.occupation}`}</p>
-            <p>{`HOBBY: ${props.character.hobby}`}</p>
+            <p>{`NAME: ${character.name}`}</p>
+            <p>{`OCCUPATION: ${character.occupation}`}</p>
+            <p>{`HOBBY: ${character.hobby}`}</p>
             <br />
-            <p>{`STRENGTH: ${props.character.ability.Strength}`}</p>
-            <p>{`FITNESS: ${props.character.ability.Fitness}`}</p>
-            <p>{`FIREARMS: ${props.character.ability.Firearms}`}</p>
-            <p>{`STEALTH: ${props.character.ability.Stealth}`}</p>
-            <p>{`MEDICINE: ${props.character.ability.Medicine}`}</p>
-            <p>{`SURVIVAL: ${props.character.ability.Survival}`}</p>
+            <Modal open={open} onClose={closeHelp}>
+                <p>{getAbilityDescription(ability)}</p>
+            </Modal>
+            {Object.values(Ability).map((ability) => {
+                return (
+                    <p onClick={openHelp(ability)}>
+                        {`${ability.toUpperCase()}: ${
+                            character.ability[ability]
+                        }`}
+                    </p>
+                );
+            })}
         </div>
     );
 };
