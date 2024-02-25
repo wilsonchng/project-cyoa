@@ -50,6 +50,16 @@ export enum Ability {
     Survival = "Survival",
 }
 
+export enum Conditions {
+    Bleeding = "Bleeding",
+    Fever = "Fever",
+    Fracture = "Fracture",
+    Panic = "Panic",
+    Drunk = "Drunk",
+    Tired = "Tired",
+    Exhausted = "Exhausted",
+}
+
 export enum Health {
     Unharmed = "Unharmed",
     MinorDamage = "Minor damage",
@@ -59,15 +69,16 @@ export enum Health {
 }
 
 export enum Hunger {
+    Stuffed = "Stuffed",
     Satiated = "Satiated",
     Hungry = "Hungry",
-    VeryHungry = "Very Hungry",
     Starving = "Starving",
 }
 
 export enum Item {
     KitchenKnife = "Kitchen Knife",
     FryingPan = "Frying Pan",
+    Broom = "Broom",
     BaseballBat = "Baseball Bat",
     Hammer = "Hammer",
     Screwdriver = "Screwdriver",

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { Header, Banner } from "./common";
+import { Header } from "./common";
 import { Dawn } from "./story/Dawn";
 import { ChapterID } from "../utils/constants";
 
@@ -18,7 +18,6 @@ const GameScreen = () => {
     return (
         <>
             <Header />
-            <Banner>{store.state.currentChapter}</Banner>
             {renderPage()}
         </>
     );

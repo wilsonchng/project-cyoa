@@ -1,3 +1,5 @@
+import "./common.css";
+
 const Button = (props: {
     onClick: () => void;
     children: React.ReactNode;

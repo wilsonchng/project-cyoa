@@ -3,6 +3,8 @@ import { useContext } from "react";
 import { StoreContext } from "../../App";
 import { ScreenID, UpdateType } from "../../utils/constants";
 
+import "./common.css";
+
 const Header = () => {
     const store = useContext(StoreContext);
 

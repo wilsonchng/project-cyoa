@@ -1,0 +1,24 @@
+FLOW 
+
+Background Lore 
+
+The initial airborne variant of Knox infection has spread throughout the county. The military is aware of this and has cut telephone lines, imposed a no-fly zone, and setup a blockade around the Exclusion Zone. Scientists started testing infected citizens within the Zone. The infection can spread via bodily fluids, such as blood and saliva, and renders the sufferer unconscious. After a period of unconsciousness, they are reanimated as zombies. 
+Game begins with the player waking up to the 3rd day of the quarantine in Rosewood. Essential services are still allowed to resume, so the player is getting ready for work. At this point, there were only rumors of an infection, and no confirmed sightings by the player or media. Until one breaks into their home...
+
+
+PART 1 - DAWN
+
+Prologue
+Encounter - Medical check 
+Weapon choice - knife, frying pan, baseball bat, hammer, hand axe, revolver, pistol 
+Attack - die roll (firearms / strength) - success: killZombie, fail: failHit
+KillZombie - aftermath
+FailHit - die roll (fitness) - success: shove, fail: dead
+Shove - knockdown & kill zombie, take damage, aftermath 
+Aftermath 
+ItemChoice - another weapon, food & water, first aid kit, lockpicking tools
+Flee 
+Dead
+
+PART 2 - STATION
+

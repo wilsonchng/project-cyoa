@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import Button from "./Button";
 
+import "./common.css";
+
 const Modal = (props: {
     open: boolean;
     onClose: () => void;

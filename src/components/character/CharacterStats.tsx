@@ -21,7 +21,7 @@ const CharacterDescription = (props: { character: Character }) => {
     };
 
     return (
-        <div className="container">
+        <div className="character-stats">
             <p>{`NAME: ${character.name}`}</p>
             <p>{`OCCUPATION: ${character.occupation}`}</p>
             <p>{`HOBBY: ${character.hobby}`}</p>
@@ -31,7 +31,11 @@ const CharacterDescription = (props: { character: Character }) => {
             </Modal>
             {Object.values(Ability).map((ability) => {
                 return (
-                    <p onClick={openHelp(ability)}>
+                    <p
+                        onClick={openHelp(ability)}
+                        className="ability"
+                        key={ability}
+                    >
                         {`${ability.toUpperCase()}: ${
                             character.ability[ability]
                         }`}

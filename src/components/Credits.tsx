@@ -13,7 +13,6 @@ const Credits = () => {
     return (
         <>
             <Banner>CREDITS</Banner>
-            {/* Credits */}
             <Button onClick={changeScreen(ScreenID.MainMenu)}>BACK</Button>
         </>
     );

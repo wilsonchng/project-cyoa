@@ -7,11 +7,11 @@ import {
     DeathScreen,
     MainMenu,
 } from "./components";
-
-import "./root.css";
 import { ScreenID, ChapterID, Health, Hunger } from "./utils/constants";
 import { storeReducer } from "./utils/store";
 import { Store, AppState } from "./utils/types";
+
+import "./root.css";
 
 export const StoreContext = createContext({} as Store);
 
@@ -19,6 +19,7 @@ const App = () => {
     const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);
 
     const renderScreen = () => {
+        window.scrollTo(0, 0);
         switch (state.currentScreen) {
             case ScreenID.Achievements:
                 return <Achievements />;
@@ -38,7 +39,9 @@ const App = () => {
 
     return (
         <StoreContext.Provider value={{ state, dispatch }}>
-            <div className="root">{renderScreen()}</div>
+            <div className="root">
+                <div className="app">{renderScreen()}</div>
+            </div>
         </StoreContext.Provider>
     );
 };
