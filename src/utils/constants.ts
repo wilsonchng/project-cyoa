@@ -7,6 +7,9 @@ export enum UpdateType {
     Hunger,
     AddItem,
     RemoveItem,
+    AddKill,
+    AddDaysLived,
+    ResetState,
 }
 
 export enum ScreenID {
@@ -14,13 +17,15 @@ export enum ScreenID {
     Achievements,
     Credits,
     Game,
+    Summary,
     CharacterCreation,
-    CharacterStats,
+    CharacterSummary,
     Death,
 }
 
 export enum ChapterID {
-    Home = "HOME",
+    Dawn,
+    FireStation,
 }
 
 export enum Occupation {
@@ -79,14 +84,17 @@ export enum Item {
     KitchenKnife = "Kitchen Knife",
     FryingPan = "Frying Pan",
     Broom = "Broom",
+    Flashlight = "Flashlight",
+    Wallet = "Wallet",
+    Lunchbox = "Lunchbox",
     BaseballBat = "Baseball Bat",
     Hammer = "Hammer",
-    Screwdriver = "Screwdriver",
-    Paperclip = "Paperclip",
-    PipeWrench = "Pipe Wrench",
+    Lockpick = "Lockpick",
+    WalkieTalkie = "Walkie Talkie",
+    FirstAidKit = "First Aid Kit",
     HandAxe = "Hand Axe",
     FireAxe = "Fire Axe",
     M36Revolver = "M36 Revolver",
     M9Pistol = "M9 Pistol",
-    FirstAidKit = "First Aid Kit",
+    HikingBag = "Hiking Bag",
 }

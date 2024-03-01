@@ -1,10 +1,12 @@
 import { Dispatch } from "react";
 import {
+    ChapterID,
     Health,
     Hobby,
     Hunger,
     Item,
     Occupation,
+    ScreenID,
     UpdateType,
 } from "./constants";
 
@@ -15,7 +17,7 @@ export interface Store {
 
 export interface Update {
     type: UpdateType;
-    payload: number | string | Character | Health | Hunger | Item;
+    payload?: number | string | Character | Health | Hunger | Item;
 }
 
 export interface Character {
@@ -35,8 +37,8 @@ export interface AbilityScore {
 }
 
 export interface AppState {
-    currentScreen: number;
-    currentChapter: string;
+    currentScreen: ScreenID;
+    currentChapter: ChapterID;
     currentPage: number;
     character: Character | null;
     health: Health | null;

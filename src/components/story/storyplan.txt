@@ -10,13 +10,14 @@ PART 1 - DAWN
 
 Prologue
 Encounter - Medical check 
-Weapon choice - knife, frying pan, baseball bat, hammer, hand axe, revolver, pistol 
-Attack - die roll (firearms / strength) - success: killZombie, fail: failHit
-KillZombie - aftermath
-FailHit - die roll (fitness) - success: shove, fail: dead
-Shove - knockdown & kill zombie, take damage, aftermath 
-Aftermath 
-ItemChoice - another weapon, food & water, first aid kit, lockpicking tools
+Fight (Weapon Choice) or Reason (Dead)
+Weapon choice - knife, frying pan, broomstick
+Attack - strength check - success: killZombie, fail: failHit
+FailHit - fitness check - success: shove, fail: dead
+KillZombie - Aftermath
+Shove - kill zombie, take damage, aftermath 
+Aftermath - inspect wounds 
+ItemChoice - grab items, zombies approaching
 Flee 
 Dead
 

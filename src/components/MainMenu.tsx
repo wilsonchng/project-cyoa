@@ -1,8 +1,7 @@
 import { useContext } from "react";
-import { StoreContext } from "../App";
+import { GAME_NAME, StoreContext } from "../App";
 import { Banner, Button } from "./common";
-import { UpdateType } from "../utils/store";
-import { ScreenID } from "../utils/constants";
+import { ScreenID, UpdateType } from "../utils/constants";
 
 const MainMenu = () => {
     const store = useContext(StoreContext);
@@ -12,7 +11,8 @@ const MainMenu = () => {
 
     return (
         <>
-            <Banner>ESCAPE: KNOX</Banner>
+            <Banner>{GAME_NAME}</Banner>
+            <br />
             <Button onClick={changeScreen(ScreenID.CharacterCreation)}>
                 START
             </Button>

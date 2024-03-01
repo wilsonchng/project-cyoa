@@ -15,8 +15,6 @@ import { StoreContext } from "../../App";
 import { Ability, Health, Hunger } from "../../utils/constants";
 import { Button } from "./";
 
-import "./common.css";
-
 const DiceRoll = (props: {
     ability: Ability;
     difficulty: number;
@@ -26,7 +24,7 @@ const DiceRoll = (props: {
 }) => {
     const { ability, difficulty, successPage, failPage, changePage } = props;
 
-    const mySound = require("./dice-sound-effect.mp3");
+    const mySound = require("../../assets/sounds/dice-sound-effect.mp3");
     const audio = new Audio(mySound);
 
     const store = useContext(StoreContext);
@@ -77,6 +75,7 @@ const DiceRoll = (props: {
             setRolledNumber(randomNumber);
             setResult(result);
             setRolling(false);
+            window.scrollTo(0, document.body.scrollHeight);
         }, 800);
     };
 

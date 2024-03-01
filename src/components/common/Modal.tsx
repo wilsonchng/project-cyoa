@@ -1,23 +1,46 @@
 import { useEffect, useRef } from "react";
-import Button from "./Button";
-
-import "./common.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Modal = (props: {
     open: boolean;
-    onClose: () => void;
+    header: string;
     children: React.ReactNode;
+    onClose: () => void;
 }) => {
-    const { open, onClose, children } = props;
+    const { open, header, children, onClose } = props;
 
     const ref = useRef<HTMLDialogElement>(null);
 
-    useEffect(() => (open ? ref.current?.showModal() : ref.current?.close()));
+    useEffect(() => {
+        if (ref.current?.open && !open) {
+            ref.current?.close();
+        } else if (!ref.current?.open && open) {
+            ref.current?.showModal();
+        }
+    }, [open]);
+
+    const onClick = (e: any) => {
+        if (e.target.className === "modal") {
+            props.onClose();
+        }
+    };
 
     return (
-        <dialog ref={ref} onCancel={onClose} className="modal">
-            {children}
-            <Button onClick={onClose}>Close</Button>
+        <dialog
+            ref={ref}
+            onCancel={onClose}
+            onClick={onClick}
+            className="modal"
+        >
+            <div className="modal-contents">
+                <span className="row">
+                    <h3>{header}</h3>
+                    <span style={{ flexGrow: 1 }} />
+                    <FontAwesomeIcon icon={faXmark} onClick={onClose} />
+                </span>
+                {children}
+            </div>
         </dialog>
     );
 };

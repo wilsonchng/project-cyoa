@@ -7,7 +7,6 @@ const DeathScreen = () => {
 
     return (
         <>
-            <Header />
             <Banner>YOU DIED</Banner>
             <p>{`You survived for ${store.state.daysLived} days.`}</p>
             <p>{`You killed ${store.state.killCount} zombies.`}</p>

@@ -6,14 +6,19 @@ import {
     GameScreen,
     DeathScreen,
     MainMenu,
+    ChapterSummary,
+    CharacterSummary,
 } from "./components";
-import { ScreenID, ChapterID, Health, Hunger } from "./utils/constants";
-import { storeReducer } from "./utils/store";
-import { Store, AppState } from "./utils/types";
+import { ScreenID } from "./utils/constants";
+import { INITIAL_STATE, storeReducer } from "./utils/store";
+import { Store } from "./utils/types";
+import { Header } from "./components/common";
 
 import "./root.css";
 
 export const StoreContext = createContext({} as Store);
+
+export const GAME_NAME = "KNOX OUTBREAK";
 
 const App = () => {
     const [state, dispatch] = useReducer(storeReducer, INITIAL_STATE);
@@ -25,6 +30,10 @@ const App = () => {
                 return <Achievements />;
             case ScreenID.CharacterCreation:
                 return <CharacterCreation />;
+            case ScreenID.CharacterSummary:
+                return <CharacterSummary />;
+            case ScreenID.Summary:
+                return <ChapterSummary />;
             case ScreenID.Credits:
                 return <Credits />;
             case ScreenID.Game:
@@ -40,22 +49,11 @@ const App = () => {
     return (
         <StoreContext.Provider value={{ state, dispatch }}>
             <div className="root">
+                <Header />
                 <div className="app">{renderScreen()}</div>
             </div>
         </StoreContext.Provider>
     );
-};
-
-const INITIAL_STATE: AppState = {
-    currentScreen: ScreenID.MainMenu,
-    currentChapter: ChapterID.Home,
-    currentPage: 0,
-    character: null,
-    health: Health.Unharmed,
-    hunger: Hunger.Satiated,
-    inventory: [],
-    daysLived: 0,
-    killCount: 0,
 };
 
 export default App;

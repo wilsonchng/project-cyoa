@@ -1,37 +1,43 @@
 import { useContext, useState } from "react";
 import { StoreContext } from "../../App";
-import { UpdateType } from "../../utils/store";
 import { Banner, Button, DiceRoll } from "../common";
 import {
     Ability,
+    ChapterID,
     Health,
     Hobby,
     Item,
     Occupation,
     ScreenID,
+    UpdateType,
 } from "../../utils/constants";
 
 enum PageNumber {
-    Prologue,
+    Start,
     Encounter,
     MedicinePass,
     MedicineFail,
     Reanimation,
     Reason,
-    Bedroom,
     WeaponChoice,
     Attack,
-    KillZombie,
+    Kill,
+    StepKill,
     FailHit,
+    RollSave,
     Shove,
     Aftermath,
+    ItemChoice,
+    SecondItem,
     Flee,
+    End,
     Dead,
 }
 
 export const Dawn = () => {
     const store = useContext(StoreContext);
     const [weapon, setWeapon] = useState<Item | null>(null);
+    const [items, setItems] = useState<Item[]>([]);
 
     const occupation = store.state.character?.occupation;
     const hobby = store.state.character?.hobby;
@@ -42,18 +48,10 @@ export const Dawn = () => {
     const changeScreen = (screen: ScreenID) => () =>
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
-    const updateHealth = (health: Health) => () =>
-        store.dispatch({ type: UpdateType.Health, payload: health });
-
-    const addItem = (item: Item) => () =>
-        store.dispatch({ type: UpdateType.AddItem, payload: item });
-
     const renderPage = (): JSX.Element => {
         switch (store.state.currentPage) {
             case PageNumber.Encounter:
                 return Encounter();
-            case PageNumber.Bedroom:
-                return Bedroom();
             case PageNumber.MedicinePass:
                 return MedicinePass();
             case PageNumber.MedicineFail:
@@ -66,27 +64,44 @@ export const Dawn = () => {
                 return WeaponChoice();
             case PageNumber.Attack:
                 return Attack();
-            case PageNumber.KillZombie:
-                return KillZombie();
+            case PageNumber.Kill:
+                return Kill();
+            case PageNumber.StepKill:
+                return StepKill();
             case PageNumber.FailHit:
                 return FailHit();
+            case PageNumber.RollSave:
+                return RollSave();
             case PageNumber.Shove:
                 return Shove();
             case PageNumber.Aftermath:
                 return Aftermath();
+            case PageNumber.ItemChoice:
+                return ItemChoice();
+            case PageNumber.SecondItem:
+                return SecondItem();
             case PageNumber.Flee:
                 return Flee();
             case PageNumber.Dead:
                 return Dead();
-            case PageNumber.Prologue:
+            case PageNumber.End:
+                return End();
+            case PageNumber.Start:
             default:
-                return Prologue();
+                return Start();
         }
     };
 
     return renderPage();
 
-    function Prologue() {
+    function Start() {
+        const flavorText = () => {
+            switch (occupation) {
+                default:
+                    return "";
+            }
+        };
+
         return (
             <>
                 <Banner>9 July 1993</Banner>
@@ -95,17 +110,17 @@ export const Dawn = () => {
                     the curtains, casting a soft glow across the room. Blinking
                     away the remnants of sleep, you sit up, the events of the
                     last few days still lingering in your mind. It is the third
-                    day of the government issued quarantine here in Rosewood.
-                    Schools and businesses closed, a curfew is imposed on all
-                    residents, and only essential services are allowed to
-                    resume. To make matters worse, the phone lines have been
-                    down for at least a week, preventing people from making
-                    contact with the outside world.
+                    day of the county-wide quarantine here in Rosewood. Radio
+                    and TV broadcasts have been urging everyone to stay indoors.
+                    The air is heavy with a strange, sour smell, like a mix of
+                    dampness and decay. To make matters worse, the phone lines
+                    have been down for at least a week, preventing you and
+                    others within the Zone from making contact with the outside
+                    world.
                 </p>
                 <p>
-                    As you prepare your morning coffee in the kitchen, you
-                    switch on the radio, which is the only communications still
-                    working:
+                    As you prepare your morning coffee in the kitchen, you tune
+                    into the radio, checking if there are any updates:
                 </p>
                 <i>
                     "You're on the NNR Network. The end of another troubled day
@@ -123,6 +138,7 @@ export const Dawn = () => {
                     tomorrow. It's there that we'll be asking the questions you
                     want answered. Tomorrow, all day. On NNR."
                 </i>
+                <p>{flavorText()}</p>
                 <br />
                 <Button onClick={changePage(PageNumber.Encounter)}>
                     Continue
@@ -254,9 +270,6 @@ export const Dawn = () => {
                 <Button onClick={changePage(PageNumber.WeaponChoice)}>
                     Grab a weapon and defend yourself
                 </Button>
-                <Button onClick={changePage(PageNumber.Bedroom)}>
-                    Run to the bedroom and hide
-                </Button>
             </>
         );
     }
@@ -274,20 +287,6 @@ export const Dawn = () => {
         );
     }
 
-    function Bedroom() {
-        return (
-            <>
-                <p>
-                    The flight instinct takes over, as you turn and bolt into
-                    your bedroom, slamming the door behind you.
-                </p>
-                <p></p>
-                <br />
-                <Button onClick={console.log}>Escape!</Button>
-            </>
-        );
-    }
-
     function WeaponChoice() {
         const onClick = (weapon: Item) => () => {
             setWeapon(weapon);
@@ -298,8 +297,8 @@ export const Dawn = () => {
             <>
                 <p>
                     Your eyes dart around the kitchen, scanning for potential
-                    weapons. The <b>{Item.KitchenKnife}</b> hanging on the
-                    kitchen rack comes into view, as well as the{" "}
+                    weapons. The <b>{Item.KitchenKnife}</b> on the kitchen
+                    utensil holder comes into view, as well as the{" "}
                     <b>{Item.FryingPan}</b> on the stovetop, and the{" "}
                     <b>{Item.Broom}</b> in the corner.
                 </p>
@@ -323,37 +322,36 @@ export const Dawn = () => {
                 case Item.KitchenKnife:
                     return (
                         <p>
-                            You grab the <b>{Item.KitchenKnife}</b> from the
-                            rack, its blade gleaming in the dim light. The man
-                            is unfazed by your weapon, and lurches forward at
-                            you. With a firm grip on the handle, you steel
-                            yourself for the confrontation ahead. Your muscles
-                            tense with anticipation, poised to unleash the sharp
-                            blade upon the approaching threat...
+                            You grab the chef's knife from the rack, its blade
+                            gleaming in the dim light. The man is unfazed by
+                            your weapon, and lurches forward at you. With a firm
+                            grip on the handle, you steel yourself for the
+                            confrontation ahead. Your muscles tense with
+                            anticipation, poised to unleash the sharp blade upon
+                            the approaching threat...
                         </p>
                     );
                 case Item.FryingPan:
                     return (
                         <p>
-                            You grab the <b>{Item.FryingPan}</b> from the
-                            stovetop. It is heavy and unwieldy, but can serve as
-                            a makeshift club. The man is unfazed by your weapon,
-                            and lurches forward at you. With a firm grip on the
-                            metal handle, you adjust your stance, grounding
-                            yourself for the impending strike, as you raise the
-                            cast iron pan overhead...
+                            You grab the cast iron pan from the stovetop. It is
+                            heavy and unwieldy, but can serve as a makeshift
+                            club. The man is unfazed by your weapon, and lurches
+                            forward at you. With a firm grip on the metal
+                            handle, you adjust your stance, grounding yourself
+                            for the impending strike, as you raise the cast iron
+                            pan overhead...
                         </p>
                     );
                 case Item.Broom:
                     return (
                         <p>
-                            You grab the <b>{Item.Broom}</b> from the corner, it
+                            You grab the long, slender broom from the corner, it
                             feels too lightweight and flimsy to be a weapon, but
                             it is all you got. The man is unfazed by your
                             weapon, and lurches forward at you. With a firm grip
-                            on the handle, you widen your stance and point the
-                            brush end towards the approaching threat like a
-                            spear...
+                            on the handle, you widen your stance and bring the
+                            broom over your shoulder like a baseball bat...
                         </p>
                     );
             }
@@ -364,11 +362,37 @@ export const Dawn = () => {
                 <p>{text()}</p>
                 <DiceRoll
                     ability={Ability.Strength}
-                    difficulty={getWeaponDifficulty(weapon)}
-                    successPage={PageNumber.KillZombie}
+                    difficulty={4}
+                    successPage={PageNumber.Kill}
                     failPage={PageNumber.FailHit}
                     changePage={changePage}
                 />
+            </>
+        );
+    }
+
+    function Kill() {
+        const onClick = () => {
+            changePage(PageNumber.Aftermath)();
+            store.dispatch({ type: UpdateType.AddKill });
+        };
+
+        const text = () => {
+            switch (weapon) {
+                case Item.KitchenKnife:
+                    return "You lunge forward with the knife, aiming directly for the head. In a blur of motion, the blade pierces through the air, before finding its mark with chilling accuracy. The knife sinks deep into the man's skull. His hungry eyes widen briefly in a final, vacant stare before slumping to the floor at your feet.";
+                case Item.FryingPan:
+                    return "You swing the frying pan with all your might. The metal connects with the man's head a resounding clang, splitting the skull open with a burst of blood. The impact reverberates through your bones as the man staggers from the blow before crashing onto the ground. Seizing the opportunity, you raise your makeshift weapon and deliver several more blows on the collapsed creature, until its head is a mess of blood and gore on the floor.";
+                case Item.Broom:
+                    return "You swing the broomstick in a sweeping arc like a baseball bat. The head of the broom connects with the man's temple with a loud smack. The impact reverberates through your bones as the man staggers from the blow before crashing onto the ground. Seizing the opportunity, you raise your makeshift weapon and deliver several more blows on the collapsed creature, until its head is a mess of blood and gore on the floor. ";
+            }
+        };
+
+        return (
+            <>
+                <p>{text()}</p>
+                <br />
+                <Button onClick={onClick}>Continue</Button>
             </>
         );
     }
@@ -379,22 +403,27 @@ export const Dawn = () => {
                 case Item.KitchenKnife:
                     return "You lunge forward, thrusting the kitchen knife at the man. The blade penetrates his chest, gliding through flesh with a sickening squelch. The man lets out a grunt, but is otherwise unconcerned by the stab wound.";
                 case Item.FryingPan:
-                    return "You swing the frying pan at the man. The metal smacks his face with a loud clang, sending blood and teeth flying onto the tiled floor. The impact reverberates through your bones as the man staggers backward. For a moment there is a glimmer of hope, but it was short-lived.";
-                case Item.HandAxe:
-                    return "You swing the hand axe at the man. The axe blade lands on the shoulder, biting into flesh and bone with a heavy thud. The man recoils from the impact, but you know that blow was a dud.";
-                case Item.Hammer:
-                    return "You swing the hammer down at the man. The metal head misses the head, landing on the shoulder with a heavy thud. The man recoils from the impact, but you know that blow was a dud.";
-                case Item.BaseballBat:
-                    return "As the man steps into range you unleash the stored energy in a practised swing of your baseball bat. The crack of wood meeting bone echoes throughout the room as the bat connects with his shoulder, sending the man staggering backwards. For a moment there is a glimmer of hope, but it was short-lived.";
-                case Item.M36Revolver:
-                case Item.M9Pistol:
-                    return "You squeeze the trigger. The crack of gunfire echoes through the confined space as the handgun erupts in a deafening roar, the muzzle flash momentarily illuminating the room with a blinding intensity. Somehow, the bullet misses the target, finding its mark on the wall behind instead in a splash of plaster.";
+                    return "You swing the frying pan at the man. The metal smacks his face with a loud clang, sending blood and teeth flying onto the tiled floor. The man staggers backward briefly, but is otherwise unbothered by the head blow.";
+                case Item.Broom:
+                    return "You swing broomstick in a sweeping arc like a baseball bat. To your dismay, it glances off the top of the head of your target. The man staggers backward briefly, but is otherwise unbothered by the head blow.";
             }
         };
 
         return (
             <>
-                <p>{`${text()} With an angry growl, the man pounces at you with unexpected speed, grabbing your arms with his cold hands...`}</p>
+                <p>{`${text()} Before you could prepare another strike, the man pounces at you with unexpected speed, grabbing your arms with his cold hands...`}</p>
+                <br />
+                <Button onClick={changePage(PageNumber.RollSave)}>
+                    Continue
+                </Button>
+            </>
+        );
+    }
+
+    function RollSave() {
+        return (
+            <>
+                <p>You try to fend yourself from the man's deadly embrace...</p>
                 <DiceRoll
                     ability={Ability.Fitness}
                     difficulty={4}
@@ -407,32 +436,38 @@ export const Dawn = () => {
     }
 
     function Shove() {
-        updateHealth(Health.MinorDamage);
+        const nextPage = () => {
+            store.dispatch({
+                type: UpdateType.Health,
+                payload: Health.MinorDamage,
+            });
+            changePage(PageNumber.StepKill)();
+        };
+
         return (
             <>
-                <p>{`You manage to break free from the vice-like grip, but not without the man's nails scratching your arms and breaking your skin. Pain shoots up your limbs as you shove the assailant back, before ${
-                    true
-                        ? "lining up the barrel for another shot..."
-                        : "preparing your weapon for another blow..."
-                }`}</p>
+                <p>{`You manage to break free from the vice-like grip, but not without his nails clawing your arms and breaking your skin. Survival instinct kicks in and you shove the assailant back, causing him to lose balance and fall on its back.`}</p>
                 <p className="damage-text">Sustained minor damage!</p>
                 <br />
-                <Button onClick={changePage(PageNumber.KillZombie)}>
-                    Continue
-                </Button>
+                <Button onClick={nextPage}>Continue</Button>
             </>
         );
     }
 
-    function KillZombie() {
+    function StepKill() {
+        const onClick = () => {
+            changePage(PageNumber.Aftermath)();
+            store.dispatch({ type: UpdateType.AddKill });
+        };
+
         const text = () => {
             switch (weapon) {
                 case Item.KitchenKnife:
-                    return "You lunge forward, aiming directly for the head. In a blur of motion, the blade pierces through the air, before finding its mark with chilling accuracy. The knife sinks deep into the man's skull. His hungry eyes widen briefly in a final, vacant stare before crumpling to the floor at your feet.";
+                    return "You step over the man with your knife raised overhead. In a blur of motion, the blade pierces through the air, before sinking deep into the man's skull. His hungry eyes widen briefly in a final, vacant stare before slumping to the floor at your feet.";
                 case Item.FryingPan:
-                    return "You swing the frying pan with all your might. The metal connects with the man's head a resounding clang, splitting the skull open with a burst of blood. The man staggers from the blow before crashing onto the ground. Seizing the opportunity, you raise your makeshift weapon and deliver several more blows on the collapsed pile, splattering blood and gore all over the floor.";
+                    return "You step over the man with the frying pan raised overhead. In a blur of motion, the heavy metal splits open skull with a burst of blood. You raise your makeshift weapon and deliver several more blows on the collapsed creature, until its head is a mess of blood and gore on the floor.";
                 case Item.Broom:
-                    return "";
+                    return "You step over the man with the broom raised overhead. In a blur of motion, the wooden handle splits open skull with a burst of blood. You raise your makeshift weapon and deliver several more blows on the collapsed creature, until its head is a mess of blood and gore on the floor. ";
             }
         };
 
@@ -440,9 +475,85 @@ export const Dawn = () => {
             <>
                 <p>{text()}</p>
                 <br />
-                <Button onClick={changePage(PageNumber.Aftermath)}>
-                    Continue
-                </Button>
+                <Button onClick={onClick}>Continue</Button>
+            </>
+        );
+    }
+
+    function Aftermath() {
+        const onClick = () => {
+            setItems(getStarterItems(occupation, hobby));
+            changePage(PageNumber.ItemChoice)();
+        };
+
+        const text = () => {
+            if (store.state.health !== Health.Unharmed) {
+                return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, some yours, some his. It will be difficult to explain to anyone in this state. As the adrenaline wears off a stinging pain rises up your arms. You remove your T-shirt and notice angry red streaks across the skin of your arms where you were grabbed earlier, some of them oozing blood. You gingerly clean the scratches under running water and cover them with plasters found in your bathroom cabinet, before changing into a set of fresh clothes.";
+            } else {
+                return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, not yours. It will be difficult to explain to anyone in this state. You wash your hands and face thoroughly before changing into a set of fresh clothes.";
+            }
+        };
+
+        return (
+            <>
+                <p>
+                    Silence descends as you stand over your fallen adversary,
+                    chest heaving with exertion, victory coursing through your
+                    veins. The gravity of what you've done settles over you like
+                    a shroud. <em>Did you just commit murder?</em> You remind
+                    yourself that it was an act of self-defence, this person had
+                    entered your house and tried to assault you. Suddenly you
+                    recalled the news today morning that sufferers of the
+                    infection regaining motor functions after being unconscious.
+                    However, the man was clearly dead! You decide its best to
+                    head to the police station to report the incident.
+                </p>
+                <p>{text()}</p>
+                <br />
+                <Button onClick={onClick}>Continue</Button>
+            </>
+        );
+    }
+
+    function ItemChoice() {
+        const takeItem = (item: Item) => () => {
+            store.dispatch({ type: UpdateType.AddItem, payload: item });
+            setItems(items.filter((i) => i !== item));
+            changePage(PageNumber.SecondItem)();
+        };
+
+        return (
+            <>
+                <p>
+                    As you are getting ready you consider that if the situation
+                    is this bad a few items might come in handy should you need
+                    to defend yourself or leave town. You decide it is best to
+                    take your...
+                </p>
+                <br />
+                {items.map((item) => {
+                    return <Button onClick={takeItem(item)}>{item}</Button>;
+                })}
+            </>
+        );
+    }
+
+    function SecondItem() {
+        const takeItem = (item: Item) => () => {
+            store.dispatch({ type: UpdateType.AddItem, payload: item });
+            setItems(items.filter((i) => i !== item));
+            changePage(PageNumber.Flee)();
+        };
+
+        return (
+            <>
+                <p>
+                    {pickedItemText(store.state.inventory[0])} You can only take
+                    one more thing, so you grab your...
+                </p>
+                {items.map((item) => {
+                    return <Button onClick={takeItem(item)}>{item}</Button>;
+                })}
             </>
         );
     }
@@ -450,17 +561,40 @@ export const Dawn = () => {
     function Flee() {
         return (
             <>
-                <p></p>
+                <p>
+                    {pickedItemText(store.state.inventory[1])} As you pack your
+                    things, the air thickens with an eerie tension. The usual
+                    sounds of the morning has been replaced by a haunting
+                    silence, broken only by distant moans and shuffling
+                    footsteps. Panic rises up your throat as you see them -
+                    several figures approaching, their movements erratic and
+                    unnatural just like the man before...
+                </p>
                 <br />
+                <Button onClick={changePage(PageNumber.End)}>Continue</Button>
             </>
         );
     }
 
-    function Aftermath() {
+    function End() {
         return (
             <>
-                <p></p>
+                <p>
+                    Your heart races as you quickly sprint towards your car,
+                    parked just outside. You fumble for your keys, hands shaking
+                    as you unlock the car door. The growls draw closer, spurring
+                    you into action. You jump into the driver's seat, the engine
+                    roaring to life as you peel out of the driveway.
+                </p>
+                <p>
+                    You glance in the rearview mirror, watching as the figures
+                    grow smaller and smaller, swallowed by the distance. You've
+                    escaped, for now.
+                </p>
                 <br />
+                <Button onClick={changeScreen(ScreenID.Summary)}>
+                    Summary
+                </Button>
             </>
         );
     }
@@ -484,15 +618,88 @@ export const Dawn = () => {
         );
     }
 
-    function getWeaponDifficulty(weapon: Item | null): number {
-        switch (weapon) {
-            case Item.KitchenKnife:
-            case Item.FryingPan:
-                return 5;
-            case Item.Broom:
-                return 4;
+    function getStarterItems(
+        occupation?: Occupation | null,
+        hobby?: Hobby | null
+    ): Item[] {
+        let items = new Set([
+            Item.KitchenKnife,
+            Item.Flashlight,
+            Item.Wallet,
+            Item.Lunchbox,
+        ]);
+
+        switch (occupation) {
+            case Occupation.Burglar:
+                items.add(Item.Lockpick);
+                break;
+            case Occupation.Construction:
+                items.add(Item.Hammer);
+                break;
+            case Occupation.Doctor:
+                items.add(Item.FirstAidKit);
+                break;
+            case Occupation.ParkRanger:
+            case Occupation.Firefighter:
+                items.add(Item.WalkieTalkie);
+                break;
+            case Occupation.PoliceOfficer:
+                items.add(Item.M36Revolver);
+                break;
             default:
-                return 6;
+                break;
+        }
+
+        switch (hobby) {
+            case Hobby.Baseball:
+                items.add(Item.BaseballBat);
+                break;
+            case Hobby.Hiking:
+                items.add(Item.HikingBag);
+                break;
+            case Hobby.Scout:
+                items.add(Item.FirstAidKit);
+                break;
+            case Hobby.Shooting:
+                items.add(Item.M9Pistol);
+                break;
+            default:
+                break;
+        }
+
+        return Array.from(items);
+    }
+
+    function pickedItemText(picked: Item): string {
+        switch (picked) {
+            case Item.KitchenKnife:
+                return weapon === Item.KitchenKnife
+                    ? "You grab the bloodied knife from the dead body and wipe off the blood and grime."
+                    : "You grab the chef's knife from the rack, its blade gleaming from the sunlight.";
+            case Item.Wallet:
+                return "You grab your leather wallet containing some cash and your ID.";
+            case Item.Flashlight:
+                return "You grab your yellow flashlight and spare batteries.";
+            case Item.Lunchbox:
+                return "You grab your lunchbox packed with a peanut butter sandwich, apple and water.";
+            case Item.BaseballBat:
+                return "You grab your autographed Louisville slugger from the trophy cabinet, its weight familiar in your hands.";
+            case Item.FirstAidKit:
+                return "You grab your fully stocked first aid kit from the bathroom cabinet.";
+            case Item.M36Revolver:
+                return "You grab your standard issue police revolver and a box of .38 special bullets.";
+            case Item.M9Pistol:
+                return "You grab your licensed personal handgun from a guncase tucked under your bed and a box of 9mm rounds.";
+            case Item.Lockpick:
+                return "You grab your set of lockpicks and other tools from a hidden box in your wardrobe.";
+            case Item.WalkieTalkie:
+                return "You grab your walkie talkie used at work and spare batteries.";
+            case Item.HikingBag:
+                return "You grab your hiking bag stocked with fire starting tools, a rolled up tent kit, and other survival amenities.";
+            case Item.Hammer:
+                return "You grab your hammer used for work, its handle worn from use.";
+            default:
+                return "";
         }
     }
 };
