@@ -1,160 +1,172 @@
 .root {
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
     color: whitesmoke;
     user-select: none;
+
+    .header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        height: 42px;
+        width: 100%;
+        background-color: crimson;
+        font-size: larger;
+
+        span {
+            padding-left: 1rem;
+        }
+
+        svg {
+            padding-right: 1rem;
+        }
+    }
 
     .app {
         display: flex;
         flex-direction: column;
         text-align: justify;
         align-items: center;
-        padding: 10px;
-    }
+        padding: 12px;
+        margin-top: 42px;
 
-    .character-stats {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
 
-        .ability {
-            cursor: pointer;
-        }
-
-        span + span {
-            margin-top: 6px;
-        }
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        height: 42px;
-        padding: 0px 12px;
-        background-color: crimson;
-        font-size: larger;
-
-        svg + svg {
-            padding-left: 10px;
-        }
-    }
-
-    .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        margin: 10px 0px;
-    }
-
-    .error {
-        color: yellow;
-        font-size: small;
-        margin: 0px;
-    }
-
-    .info-text {
-        color: darkgrey;
-        margin: 0px 6px;
-        text-align: center;
-        font-size: small;
-    }
-
-    .bonus-text {
-        color: lawngreen;
-        text-align: center;
-        font-size: small;
-    }
-
-    .damage-text {
-        color: red;
-        text-align: center;
-        font-size: small;
-    }
-
-    .text-input {
-        width: 240px;
-        font-size: medium;
-        border-radius: 4px;
-
-        &.invalid {
-            outline: 1px solid red;
-            outline-offset: -1px;
-        }
-    }
-
-    .banner {
-        color: crimson;
-        font-size: x-large;
-        font-weight: bold;
-        margin: 20px 0px;
-    }
-
-    .modal {
-        padding: 0px;
-        overflow: scroll;
-        border-color: dimgrey;
-        background-color: black;
-        color: white;
-        user-select: none;
-        ::backdrop {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-contents {
-            padding: 1rem;
-        }
-    }
-
-    label {
-        margin-right: 5px;
-    }
-
-    button {
-        padding: 5px;
-        margin: 5px;
-        width: 200px;
-        overflow: hidden;
-        font-size: medium;
-        color: white;
-        background-color: black;
-        border: 1px solid white;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: dimgray;
-        }
-
-        &:active {
-            background-color: grey;
-        }
-
-        &:disabled {
-            background-color: darkgray;
-            cursor: default;
-        }
-    }
-
-    button + button {
-        margin-top: 12px;
-    }
-
-    .roller {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .die {
-            font-size: 84px;
-            cursor: grab;
-
-            &.rolling {
-                animation: shake 0.8s;
-                cursor: wait;
+            span {
+                display: flex;
+                align-items: center;
             }
 
-            &.rolled {
+            span + span {
+                margin-top: 6px;
+            }
+        }
+
+        .row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 10px 0px;
+        }
+
+        .error {
+            color: yellow;
+            font-size: small;
+            margin: 0px;
+        }
+
+        .info-text {
+            color: darkgrey;
+            margin: 0px 6px;
+            text-align: center;
+            font-size: small;
+        }
+
+        .bonus-text {
+            color: lawngreen;
+            text-align: center;
+            font-size: small;
+        }
+
+        .damage-text {
+            color: red;
+            text-align: center;
+            font-size: small;
+        }
+
+        .text-input {
+            width: 240px;
+            font-size: medium;
+            border-radius: 4px;
+
+            &.invalid {
+                outline: 1px solid red;
+                outline-offset: -1px;
+            }
+        }
+
+        .banner {
+            color: crimson;
+            font-size: x-large;
+            font-weight: bold;
+            margin: 20px 0px;
+        }
+
+        .modal {
+            padding: 0px;
+            overflow: auto;
+            border-color: dimgrey;
+            background-color: black;
+            color: white;
+            user-select: none;
+            ::backdrop {
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-contents {
+                padding: 1rem;
+            }
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 5px;
+            margin: 5px;
+            width: 200px;
+            overflow: hidden;
+            font-size: medium;
+            color: white;
+            background-color: black;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: dimgray;
+            }
+
+            &:active {
+                background-color: grey;
+            }
+
+            &:disabled {
+                background-color: darkgray;
                 cursor: default;
+            }
+        }
+
+        button + button {
+            margin-top: 12px;
+        }
+
+        .roller {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .die {
+                font-size: 84px;
+                cursor: grab;
+
+                &.rolling {
+                    animation: shake 0.8s;
+                    cursor: wait;
+                }
+
+                &.rolled {
+                    cursor: default;
+                }
             }
         }
     }

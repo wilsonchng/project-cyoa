@@ -7,9 +7,9 @@ import {
     DeathScreen,
     MainMenu,
     ChapterSummary,
-    CharacterSummary,
+    CharacterScreen,
 } from "./components";
-import { ScreenID } from "./utils/constants";
+import { Screen } from "./utils/constants";
 import { INITIAL_STATE, storeReducer } from "./utils/store";
 import { Store } from "./utils/types";
 import { Header } from "./components/common";
@@ -26,21 +26,21 @@ const App = () => {
     const renderScreen = () => {
         window.scrollTo(0, 0);
         switch (state.currentScreen) {
-            case ScreenID.Achievements:
+            case Screen.Achievements:
                 return <Achievements />;
-            case ScreenID.CharacterCreation:
+            case Screen.Creation:
                 return <CharacterCreation />;
-            case ScreenID.CharacterSummary:
-                return <CharacterSummary />;
-            case ScreenID.Summary:
+            case Screen.Character:
+                return <CharacterScreen />;
+            case Screen.Summary:
                 return <ChapterSummary />;
-            case ScreenID.Credits:
+            case Screen.Credits:
                 return <Credits />;
-            case ScreenID.Game:
+            case Screen.Game:
                 return <GameScreen />;
-            case ScreenID.Death:
+            case Screen.Death:
                 return <DeathScreen />;
-            case ScreenID.MainMenu:
+            case Screen.MainMenu:
             default:
                 return <MainMenu />;
         }

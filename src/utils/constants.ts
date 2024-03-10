@@ -1,9 +1,9 @@
 export enum UpdateType {
     Screen,
     Page,
-    Chapter,
+    NextChapter,
     Character,
-    Health,
+    TakeDamage,
     Hunger,
     AddItem,
     RemoveItem,
@@ -12,29 +12,30 @@ export enum UpdateType {
     ResetState,
 }
 
-export enum ScreenID {
+export enum Screen {
     MainMenu,
     Achievements,
     Credits,
     Game,
     Summary,
-    CharacterCreation,
-    CharacterSummary,
+    Creation,
+    Character,
     Death,
 }
 
-export enum ChapterID {
+export enum Chapter {
     Dawn,
-    FireStation,
+    PrisonBus,
 }
 
 export enum Occupation {
     Firefighter = "Firefighter",
     PoliceOfficer = "Police Officer",
     ParkRanger = "Park Ranger",
-    Construction = "Construction Worker",
+    Lumberjack = "Lumberjack",
     Doctor = "Doctor",
-    Burglar = "Burglar",
+    Burglar = "Burglar", // to be locked until completion of game
+    // future classes: nurse, veteran, unemployed
 }
 
 export enum Hobby {
@@ -42,8 +43,9 @@ export enum Hobby {
     Gymnast = "Gymnast",
     Baseball = "Baseball",
     Scout = "Former Scout",
-    Shooting = "Shooting",
-    Hiking = "Hiking",
+    Marksman = "Marksman",
+    Hiker = "Hiker",
+    // future hobby: hunter
 }
 
 export enum Ability {
@@ -66,17 +68,20 @@ export enum Conditions {
 }
 
 export enum Health {
-    Unharmed = "Unharmed",
-    MinorDamage = "Minor damage",
-    Moderate = "Moderate damage",
-    Severe = "Severe damage",
-    Dead = "Deceased",
+    Unharmed = "Unharmed", // 100
+    Slight = "Slight damage", // 80-99
+    Minor = "Minor damage", // 60-79
+    Moderate = "Moderate damage", // 40-59
+    Severe = "Severe damage", // 20-39
+    Critical = "Critical damage", // 1-19
+    Dead = "Deceased", // 0
 }
 
 export enum Hunger {
     Stuffed = "Stuffed",
     Satiated = "Satiated",
     Hungry = "Hungry",
+    VeryHungry = "Very Hungry",
     Starving = "Starving",
 }
 
@@ -88,7 +93,6 @@ export enum Item {
     Wallet = "Wallet",
     Lunchbox = "Lunchbox",
     BaseballBat = "Baseball Bat",
-    Hammer = "Hammer",
     Lockpick = "Lockpick",
     WalkieTalkie = "Walkie Talkie",
     FirstAidKit = "First Aid Kit",

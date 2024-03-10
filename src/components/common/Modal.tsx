@@ -11,11 +11,15 @@ const Modal = (props: {
     const { open, header, children, onClose } = props;
 
     const ref = useRef<HTMLDialogElement>(null);
+    const mySound = require("../../assets/sounds/page-turn-sound-effect.mp3");
+    const audio = new Audio(mySound);
 
     useEffect(() => {
         if (ref.current?.open && !open) {
+            audio.play();
             ref.current?.close();
         } else if (!ref.current?.open && open) {
+            audio.play();
             ref.current?.showModal();
         }
     }, [open]);

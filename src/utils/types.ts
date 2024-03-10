@@ -1,12 +1,12 @@
 import { Dispatch } from "react";
 import {
-    ChapterID,
+    Chapter,
     Health,
     Hobby,
     Hunger,
     Item,
     Occupation,
-    ScreenID,
+    Screen,
     UpdateType,
 } from "./constants";
 
@@ -37,12 +37,13 @@ export interface AbilityScore {
 }
 
 export interface AppState {
-    currentScreen: ScreenID;
-    currentChapter: ChapterID;
+    currentScreen: Screen;
+    lastScreen: Screen;
+    currentChapter: Chapter;
     currentPage: number;
     character: Character | null;
-    health: Health | null;
-    hunger: Hunger | null;
+    health: number;
+    hunger: Hunger;
     inventory: Item[];
     killCount: number;
     daysLived: number;

@@ -3,16 +3,15 @@ import { StoreContext } from "../../App";
 import { Banner, Button, DiceRoll } from "../common";
 import {
     Ability,
-    ChapterID,
     Health,
     Hobby,
     Item,
     Occupation,
-    ScreenID,
+    Screen,
     UpdateType,
 } from "../../utils/constants";
 
-enum PageNumber {
+enum Page {
     Start,
     Encounter,
     MedicinePass,
@@ -30,11 +29,19 @@ enum PageNumber {
     ItemChoice,
     SecondItem,
     Flee,
+    Dash,
+    Through,
+    Trip,
+    Sneak,
+    SneakPass,
+    SneakFail,
+    Run,
+    Car,
     End,
     Dead,
 }
 
-export const Dawn = () => {
+const Dawn = () => {
     const store = useContext(StoreContext);
     const [weapon, setWeapon] = useState<Item | null>(null);
     const [items, setItems] = useState<Item[]>([]);
@@ -45,50 +52,66 @@ export const Dawn = () => {
     const changePage = (pageNumber: number) => () =>
         store.dispatch({ type: UpdateType.Page, payload: pageNumber });
 
-    const changeScreen = (screen: ScreenID) => () =>
+    const changeScreen = (screen: Screen) => () =>
         store.dispatch({ type: UpdateType.Screen, payload: screen });
 
     const renderPage = (): JSX.Element => {
         switch (store.state.currentPage) {
-            case PageNumber.Encounter:
-                return Encounter();
-            case PageNumber.MedicinePass:
-                return MedicinePass();
-            case PageNumber.MedicineFail:
-                return MedicineFail();
-            case PageNumber.Reanimation:
-                return Reanimation();
-            case PageNumber.Reason:
-                return Reason();
-            case PageNumber.WeaponChoice:
-                return WeaponChoice();
-            case PageNumber.Attack:
-                return Attack();
-            case PageNumber.Kill:
-                return Kill();
-            case PageNumber.StepKill:
-                return StepKill();
-            case PageNumber.FailHit:
-                return FailHit();
-            case PageNumber.RollSave:
-                return RollSave();
-            case PageNumber.Shove:
-                return Shove();
-            case PageNumber.Aftermath:
-                return Aftermath();
-            case PageNumber.ItemChoice:
-                return ItemChoice();
-            case PageNumber.SecondItem:
-                return SecondItem();
-            case PageNumber.Flee:
-                return Flee();
-            case PageNumber.Dead:
-                return Dead();
-            case PageNumber.End:
-                return End();
-            case PageNumber.Start:
+            case Page.Start:
             default:
                 return Start();
+            case Page.Encounter:
+                return Encounter();
+            case Page.MedicinePass:
+                return MedicinePass();
+            case Page.MedicineFail:
+                return MedicineFail();
+            case Page.Reanimation:
+                return Reanimation();
+            case Page.Reason:
+                return Reason();
+            case Page.WeaponChoice:
+                return WeaponChoice();
+            case Page.Attack:
+                return Attack();
+            case Page.Kill:
+                return Kill();
+            case Page.StepKill:
+                return StepKill();
+            case Page.FailHit:
+                return FailHit();
+            case Page.RollSave:
+                return RollSave();
+            case Page.Shove:
+                return Shove();
+            case Page.Aftermath:
+                return Aftermath();
+            case Page.ItemChoice:
+                return ItemChoice();
+            case Page.SecondItem:
+                return SecondItem();
+            case Page.Flee:
+                return Flee();
+            case Page.Dash:
+                return Dash();
+            case Page.Through:
+                return Through();
+            case Page.Trip:
+                return Trip();
+            case Page.Sneak:
+                return Sneak();
+            case Page.SneakPass:
+                return SneakPass();
+            case Page.SneakFail:
+                return SneakFail();
+            case Page.Run:
+                return Run();
+            case Page.Car:
+                return Car();
+            case Page.Dead:
+                return Dead();
+            case Page.End:
+                return End();
         }
     };
 
@@ -97,6 +120,18 @@ export const Dawn = () => {
     function Start() {
         const flavorText = () => {
             switch (occupation) {
+                case Occupation.Burglar:
+                    return "Another boring day at home, with the quarantine in full effect, it might be best to lay low for a while before you resume any illicit operations.";
+                case Occupation.Doctor:
+                    return "Another long day at the clinic. Ever since the quarantine there has been more and more people reporting sick from the outbreak, when will the government send more medical staff to help treat the epidemic?";
+                case Occupation.Firefighter:
+                    return "Another busy day at the fire station. Despite the quarantine emergency services like the fire department resumes, and your job is only made more difficult with the military blockades and cut phone lines.";
+                case Occupation.Lumberjack:
+                    return "Another lazy day at home, since the logging operations have been disrupted by the quarantine. Maybe you will do some practise swings at the backyard today with your personal hand axe.";
+                case Occupation.ParkRanger:
+                    return "Another quiet day at home, since the quarantine the parks have been closed to all. All rangers were recalled home save for a few left at Deerhead Lake to monitor for wildfires.";
+                case Occupation.PoliceOfficer:
+                    return "Another hectic day at the police station. Over the last two days the military has enlisted the help of the local law enforcement to assist in the blockades and routine check-ups of inhabitants here in Rosewood.";
                 default:
                     return "";
             }
@@ -110,13 +145,14 @@ export const Dawn = () => {
                     the curtains, casting a soft glow across the room. Blinking
                     away the remnants of sleep, you sit up, the events of the
                     last few days still lingering in your mind. It is the third
-                    day of the county-wide quarantine here in Rosewood. Radio
+                    day of the county-wide quarantine here at Rosewood. Radio
                     and TV broadcasts have been urging everyone to stay indoors.
-                    The air is heavy with a strange, sour smell, like a mix of
-                    dampness and decay. To make matters worse, the phone lines
-                    have been down for at least a week, preventing you and
-                    others within the Zone from making contact with the outside
-                    world.
+                    The military has airdropped thousands of leaflets, reminding
+                    inhabitants to avoid contact with the infected. The air is
+                    heavy with a strange, sour smell, like a mix of dampness and
+                    decay. To make matters worse, the phone lines have been down
+                    for at least a week, preventing you and others within the
+                    Zone from making contact with the outside world.
                 </p>
                 <p>
                     As you prepare your morning coffee in the kitchen, you tune
@@ -138,11 +174,12 @@ export const Dawn = () => {
                     tomorrow. It's there that we'll be asking the questions you
                     want answered. Tomorrow, all day. On NNR."
                 </i>
-                <p>{flavorText()}</p>
+                <p>
+                    You switch off the radio, and slump onto the couch.{" "}
+                    {flavorText()}
+                </p>
                 <br />
-                <Button onClick={changePage(PageNumber.Encounter)}>
-                    Continue
-                </Button>
+                <Button onClick={changePage(Page.Encounter)}>Continue</Button>
             </>
         );
     }
@@ -174,8 +211,8 @@ export const Dawn = () => {
                 <DiceRoll
                     ability={Ability.Medicine}
                     difficulty={4}
-                    successPage={PageNumber.MedicinePass}
-                    failPage={PageNumber.MedicineFail}
+                    successPage={Page.MedicinePass}
+                    failPage={Page.MedicineFail}
                     changePage={changePage}
                 />
             </>
@@ -192,15 +229,13 @@ export const Dawn = () => {
                     you do. You come to the grim realisation this man is gone.
                 </p>
                 <p>
-                    You do what you can to east the man's suffering, holding his
+                    You do what you can to ease the man's suffering, holding his
                     hand and telling him its going to be okay. After a period of
                     agony, the man sighs and goes limp, his eyes close and face
                     softens. You confirm from his pulse that he is dead.
                 </p>
                 <br />
-                <Button onClick={changePage(PageNumber.Reanimation)}>
-                    Continue
-                </Button>
+                <Button onClick={changePage(Page.Reanimation)}>Continue</Button>
             </>
         );
     }
@@ -223,9 +258,7 @@ export const Dawn = () => {
                     softens.
                 </p>
                 <br />
-                <Button onClick={changePage(PageNumber.Reanimation)}>
-                    Continue
-                </Button>
+                <Button onClick={changePage(Page.Reanimation)}>Continue</Button>
             </>
         );
     }
@@ -243,31 +276,24 @@ export const Dawn = () => {
                 <p>
                     A low guttural moan snaps you out of your thoughts, and
                     sends a chill down your spine. You turn your head towards
-                    the sound - and see the man sitting upright and staring
-                    straight at you. His vacant eyes gleaming with... hunger?
+                    the sound - and see the unexpected visitor sitting upright
+                    and staring straight at you with vacant eyes. His skin has
+                    turned pallid with dark veins stretching from his neck
+                    across his face like a black spiderweb.
                 </p>
                 <p>
-                    You stay frozen in place, the words from the radio echoing
-                    in your head:{" "}
-                    <i>
-                        "...disease that renders the afflicted unconscious...
-                        after a period of illness sufferers regain motor
-                        functions..."
-                    </i>{" "}
-                    But the man was clearly dead, not merely unconscious!
-                </p>
-                <p>
-                    None of this makes sense, but the unexpected visitor is now
-                    standing and walking towards you in uncoordinated, jerky
-                    movements, with arms outstretched and fingers curled as if
-                    to grab you.
+                    You watch frozen in horror as the man suddenly bolts upright
+                    in a jerky motion, struggling to balance. He shambles
+                    towards you in awkward, uncoordinated movements, knocking
+                    over the coffee table, with arms outstretched and fingers
+                    curled as if trying to grab you.
                 </p>
                 <p>What do you do?</p>
                 <br />
-                <Button onClick={changePage(PageNumber.Reason)}>
+                <Button onClick={changePage(Page.Reason)}>
                     Try to reason with him
                 </Button>
-                <Button onClick={changePage(PageNumber.WeaponChoice)}>
+                <Button onClick={changePage(Page.WeaponChoice)}>
                     Grab a weapon and defend yourself
                 </Button>
             </>
@@ -282,7 +308,7 @@ export const Dawn = () => {
                     voice, but your pleas fall upon deaf ears. The man lurches
                     forward, grabbing you with his cold hands...
                 </p>
-                <Button onClick={changePage(PageNumber.Dead)}>Continue</Button>
+                <Button onClick={changePage(Page.Dead)}>Continue</Button>
             </>
         );
     }
@@ -290,7 +316,7 @@ export const Dawn = () => {
     function WeaponChoice() {
         const onClick = (weapon: Item) => () => {
             setWeapon(weapon);
-            changePage(PageNumber.Attack)();
+            changePage(Page.Attack)();
         };
 
         return (
@@ -363,8 +389,8 @@ export const Dawn = () => {
                 <DiceRoll
                     ability={Ability.Strength}
                     difficulty={4}
-                    successPage={PageNumber.Kill}
-                    failPage={PageNumber.FailHit}
+                    successPage={Page.Kill}
+                    failPage={Page.FailHit}
                     changePage={changePage}
                 />
             </>
@@ -373,7 +399,7 @@ export const Dawn = () => {
 
     function Kill() {
         const onClick = () => {
-            changePage(PageNumber.Aftermath)();
+            changePage(Page.Aftermath)();
             store.dispatch({ type: UpdateType.AddKill });
         };
 
@@ -413,9 +439,7 @@ export const Dawn = () => {
             <>
                 <p>{`${text()} Before you could prepare another strike, the man pounces at you with unexpected speed, grabbing your arms with his cold hands...`}</p>
                 <br />
-                <Button onClick={changePage(PageNumber.RollSave)}>
-                    Continue
-                </Button>
+                <Button onClick={changePage(Page.RollSave)}>Continue</Button>
             </>
         );
     }
@@ -427,8 +451,8 @@ export const Dawn = () => {
                 <DiceRoll
                     ability={Ability.Fitness}
                     difficulty={4}
-                    successPage={PageNumber.Shove}
-                    failPage={PageNumber.Dead}
+                    successPage={Page.Shove}
+                    failPage={Page.Dead}
                     changePage={changePage}
                 />
             </>
@@ -438,15 +462,15 @@ export const Dawn = () => {
     function Shove() {
         const nextPage = () => {
             store.dispatch({
-                type: UpdateType.Health,
-                payload: Health.MinorDamage,
+                type: UpdateType.TakeDamage,
+                payload: 20,
             });
-            changePage(PageNumber.StepKill)();
+            changePage(Page.StepKill)();
         };
 
         return (
             <>
-                <p>{`You manage to break free from the vice-like grip, but not without his nails clawing your arms and breaking your skin. Survival instinct kicks in and you shove the assailant back, causing him to lose balance and fall on its back.`}</p>
+                <p>{`You manage to break free from the vice-like grip, but not without his nails clawing your arms and breaking your skin. Panic kicks in and you shove the assailant back, causing him to lose balance and fall on its back.`}</p>
                 <p className="damage-text">Sustained minor damage!</p>
                 <br />
                 <Button onClick={nextPage}>Continue</Button>
@@ -456,7 +480,7 @@ export const Dawn = () => {
 
     function StepKill() {
         const onClick = () => {
-            changePage(PageNumber.Aftermath)();
+            changePage(Page.Aftermath)();
             store.dispatch({ type: UpdateType.AddKill });
         };
 
@@ -483,14 +507,14 @@ export const Dawn = () => {
     function Aftermath() {
         const onClick = () => {
             setItems(getStarterItems(occupation, hobby));
-            changePage(PageNumber.ItemChoice)();
+            changePage(Page.ItemChoice)();
         };
 
         const text = () => {
-            if (store.state.health !== Health.Unharmed) {
-                return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, some yours, some his. It will be difficult to explain to anyone in this state. As the adrenaline wears off a stinging pain rises up your arms. You remove your T-shirt and notice angry red streaks across the skin of your arms where you were grabbed earlier, some of them oozing blood. You gingerly clean the scratches under running water and cover them with plasters found in your bathroom cabinet, before changing into a set of fresh clothes.";
-            } else {
+            if (store.state.health === 100) {
                 return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, not yours. It will be difficult to explain to anyone in this state. You wash your hands and face thoroughly before changing into a set of fresh clothes.";
+            } else {
+                return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, some yours, some his. It will be difficult to explain to anyone in this state. As the adrenaline wears off a stinging pain rises up your arms. You remove your T-shirt and notice angry red streaks across the skin of your arms where you were grabbed earlier, some of them oozing blood. You gingerly clean the scratches under running water and cover them with plasters found in your bathroom cabinet, before changing into a set of fresh clothes.";
             }
         };
 
@@ -500,13 +524,19 @@ export const Dawn = () => {
                     Silence descends as you stand over your fallen adversary,
                     chest heaving with exertion, victory coursing through your
                     veins. The gravity of what you've done settles over you like
-                    a shroud. <em>Did you just commit murder?</em> You remind
-                    yourself that it was an act of self-defence, this person had
-                    entered your house and tried to assault you. Suddenly you
-                    recalled the news today morning that sufferers of the
-                    infection regaining motor functions after being unconscious.
-                    However, the man was clearly dead! You decide its best to
-                    head to the police station to report the incident.
+                    a shroud. <em>Did you just commit murder?</em>
+                </p>
+                <p>
+                    You stare at the corpse for the longest time, processing the
+                    whole ordeal. You recognise the symptoms as what the radio
+                    described just moments before... The man must have been
+                    afflicted with the Knox infection. A sudden dread creeps up
+                    on you as you realise the government have not been
+                    forthcoming with the true nature of the outbreak.
+                </p>
+                <p>
+                    You decide to take this to the local authorities, you cannot
+                    just stay at home with the body, what if it rises again?
                 </p>
                 <p>{text()}</p>
                 <br />
@@ -519,7 +549,7 @@ export const Dawn = () => {
         const takeItem = (item: Item) => () => {
             store.dispatch({ type: UpdateType.AddItem, payload: item });
             setItems(items.filter((i) => i !== item));
-            changePage(PageNumber.SecondItem)();
+            changePage(Page.SecondItem)();
         };
 
         return (
@@ -542,7 +572,7 @@ export const Dawn = () => {
         const takeItem = (item: Item) => () => {
             store.dispatch({ type: UpdateType.AddItem, payload: item });
             setItems(items.filter((i) => i !== item));
-            changePage(PageNumber.Flee)();
+            changePage(Page.Flee)();
         };
 
         return (
@@ -568,10 +598,222 @@ export const Dawn = () => {
                     silence, broken only by distant moans and shuffling
                     footsteps. Panic rises up your throat as you see them -
                     several figures approaching, their movements erratic and
-                    unnatural just like the man before...
+                    unnatural. They are coming straight towards you, they know
+                    you are here!
+                </p>
+                <p>
+                    Your instincts tell you that you need to leave immediately.
+                    Your car is parked out in front on the driveway. You could
+                    try make a dash for it, or try sneaking around from the
+                    backdoor.
                 </p>
                 <br />
-                <Button onClick={changePage(PageNumber.End)}>Continue</Button>
+                <Button onClick={changePage(Page.Dash)}>Dash</Button>
+                <Button onClick={changePage(Page.Sneak)}>Sneak</Button>
+            </>
+        );
+    }
+
+    function Sneak() {
+        return (
+            <>
+                <p>
+                    You creep out the backdoor, there are at least five, no, six
+                    of them, men and women, all with pale skin and dark veins
+                    and various degrees of wounds. With hollow eyes transfixed
+                    on your home, they advance in a slow, ominous march. Their
+                    moans and groans fill the air, as you patiently wait for
+                    them to arrive at your doorstep. They poke and prod the door
+                    and windows, trying to find an entry. With their attention
+                    focused solely on the house, you can slowly sneak behind
+                    their backs towards your car.
+                </p>
+                <br />
+                <DiceRoll
+                    ability={Ability.Stealth}
+                    difficulty={4}
+                    successPage={Page.SneakPass}
+                    failPage={Page.SneakFail}
+                    changePage={changePage}
+                />
+            </>
+        );
+    }
+
+    function SneakPass() {
+        return (
+            <>
+                <p>
+                    You chart your path around the horde to your car. First, you
+                    will crouch low and follow along the length of your picket
+                    fence. Then, under cover of the shadow of a tree, you will
+                    make it around the edge of the fence to your car parked on
+                    the driveway.
+                </p>
+                <p>
+                    With nerves of steel, you inch forward, your movements slow
+                    and deliberate, each step a silent prayer. The grass
+                    whispers beneath your feet, threatening to betray your
+                    presence, but you press on, determined to defy the odds
+                    stacked against you. Each second feels like an eternity as
+                    you navigate the path, and your movements go unnoticed.
+                </p>
+                <p>
+                    As you near your goal, one of the infected, a woman with
+                    half her head wrapped in soiled bandages, spots you coming
+                    around the back. Your heart skips a beat as she lets out an
+                    unearthly shriek that alerts the others to you. You abandon
+                    stealth and sprint towards the car, who remains just a few
+                    steps away.
+                </p>
+                <br />
+                <Button onClick={changePage(Page.Car)}>Continue</Button>
+            </>
+        );
+    }
+
+    function SneakFail() {
+        return (
+            <>
+                <p>
+                    You chart your path around the horde to your car. First, you
+                    will crouch low and follow along the length of your picket
+                    fence. Then, under cover of the shadow of a tree, you will
+                    make it around the edge of the fence to your car parked on
+                    the driveway.
+                </p>
+                <p>
+                    With nerves of steel, you inch forward, your movements slow
+                    and deliberate, each step a silent prayer. The grass
+                    whispers beneath your feet, threatening to betray your
+                    presence, but you press on, determined to defy the odds
+                    stacked against you. Each second feels like an eternity as
+                    you navigate the path, and your movements go unnoticed.
+                </p>
+                <p>
+                    As you are making your way, your foot accidentally lands on
+                    a dry twig tucked between the grass. Your heart sinks as you
+                    hear and feel a loud snap from underfoot, followed by an
+                    unearthly shriek coming from the horde.
+                </p>
+                <br />
+                <Button onClick={changePage(Page.Run)}>Run!</Button>
+            </>
+        );
+    }
+
+    function Run() {
+        const nextPage = () => {
+            store.dispatch({
+                type: UpdateType.TakeDamage,
+                payload: 20,
+            });
+            changePage(Page.Car)();
+        };
+
+        return (
+            <>
+                <p>
+                    Abandoning stealth, you vault over the fence and break into
+                    a sprint towards your car. However, one of the infected
+                    intercepts your path, you attempt to duck under his grasping
+                    hands, but an unseen obstacle catches your foot, causing you
+                    to stumble and lose your balance. With a sharp thud you hit
+                    the ground, feeling the rough texture of gravel scraping
+                    your knees as you struggle to regain your footing amidst the
+                    chaos. You quickly pick yourself up and rush to the car
+                    before the rest could reach you.
+                </p>
+                <p className="damage-text">Sustained minor damage!</p>
+                <br />
+                <Button onClick={nextPage}>Continue</Button>
+            </>
+        );
+    }
+
+    function Dash() {
+        return (
+            <>
+                <p>
+                    You open the front door, there are at least five, no, six of
+                    them, men and women, all with pale skin and dark veins and
+                    various degrees of wounds. Their moans transform into
+                    frenzied growls at the sight of you, as they pick up the
+                    pace and close in on you from all sides. You sprint toward
+                    your car as they begin closing in onto your position from
+                    all angles. Two of them block your path, but you gather your
+                    resolve and try to maneuver past them...
+                </p>
+                <br />
+                <DiceRoll
+                    ability={Ability.Fitness}
+                    difficulty={4}
+                    successPage={Page.Through}
+                    failPage={Page.Trip}
+                    changePage={changePage}
+                />
+            </>
+        );
+    }
+
+    function Through() {
+        return (
+            <>
+                <p>
+                    The creatures reach out, their fingers brushing your
+                    clothes, but you slip through their grasps like a wisp of
+                    smoke. Adrenaline surges through your body as you dart and
+                    weave, narrowly avoiding their clumsy attempts to ensare
+                    you. In a heart pounding moment, you break free from the
+                    blockade, the cool metal of the car door within reach.
+                </p>
+                <br />
+                <Button onClick={changePage(Page.Car)}>Continue</Button>
+            </>
+        );
+    }
+
+    function Trip() {
+        const nextPage = () => {
+            store.dispatch({
+                type: UpdateType.TakeDamage,
+                payload: 20,
+            });
+            changePage(Page.Car)();
+        };
+
+        return (
+            <>
+                <p>
+                    As you attempt to duck and weave through their grasping
+                    hands, a sudden obstacle catches your foot, causing you to
+                    stumble and lose your balance. With a sharp thud you hit the
+                    ground, feeling the rough texture of gravel scraping your
+                    knees as you struggle to regain your footing amidst the
+                    chaos. You quickly pick yourself up and rush to the car
+                    before they could reach you.
+                </p>
+                <p className="damage-text">Sustained minor damage!</p>
+                <br />
+                <Button onClick={nextPage}>Continue</Button>
+            </>
+        );
+    }
+
+    function Car() {
+        return (
+            <>
+                <p>
+                    Your heart races as you fumble for your keys, hands shaking
+                    as you unlock the car door. The growls draw closer, spurring
+                    you into action. You jump into the driver's seat, and with
+                    the first twist, the ignition finds purchase. The roar of
+                    the engine instantly drowns out the cacophony of approaching
+                    danger. With tires screeching against asphalt, you tear away
+                    from the driveway and onto the road downtown.
+                </p>
+                <br />
+                <Button onClick={changePage(Page.End)}>Continue</Button>
             </>
         );
     }
@@ -580,26 +822,27 @@ export const Dawn = () => {
         return (
             <>
                 <p>
-                    Your heart races as you quickly sprint towards your car,
-                    parked just outside. You fumble for your keys, hands shaking
-                    as you unlock the car door. The growls draw closer, spurring
-                    you into action. You jump into the driver's seat, the engine
-                    roaring to life as you peel out of the driveway.
-                </p>
-                <p>
                     You glance in the rearview mirror, watching as the figures
-                    grow smaller and smaller, swallowed by the distance. You've
-                    escaped, for now.
+                    grow smaller and smaller, fading into the distance. Sweat
+                    beads on your brow, your hands still gripping the wheel with
+                    white-knuckled intensity, but a sense of relief washes over
+                    you. You've escaped, for now.
                 </p>
                 <br />
-                <Button onClick={changeScreen(ScreenID.Summary)}>
-                    Summary
-                </Button>
+                <Button onClick={changeScreen(Screen.Summary)}>Summary</Button>
             </>
         );
     }
 
     function Dead() {
+        const gameOver = () => {
+            store.dispatch({
+                type: UpdateType.TakeDamage,
+                payload: Health.Dead,
+            });
+            changeScreen(Screen.Death)();
+        };
+
         return (
             <>
                 <p>
@@ -611,9 +854,7 @@ export const Dawn = () => {
                     to black as you succumb to your wounds...
                 </p>
                 <br />
-                <Button onClick={changeScreen(ScreenID.Death)}>
-                    Game Over
-                </Button>
+                <Button onClick={gameOver}>Game Over</Button>
             </>
         );
     }
@@ -633,13 +874,15 @@ export const Dawn = () => {
             case Occupation.Burglar:
                 items.add(Item.Lockpick);
                 break;
-            case Occupation.Construction:
-                items.add(Item.Hammer);
+            case Occupation.Lumberjack:
+                items.add(Item.HandAxe);
                 break;
             case Occupation.Doctor:
                 items.add(Item.FirstAidKit);
                 break;
             case Occupation.ParkRanger:
+                items.add(Item.HikingBag);
+                break;
             case Occupation.Firefighter:
                 items.add(Item.WalkieTalkie);
                 break;
@@ -654,13 +897,13 @@ export const Dawn = () => {
             case Hobby.Baseball:
                 items.add(Item.BaseballBat);
                 break;
-            case Hobby.Hiking:
+            case Hobby.Hiker:
                 items.add(Item.HikingBag);
                 break;
             case Hobby.Scout:
                 items.add(Item.FirstAidKit);
                 break;
-            case Hobby.Shooting:
+            case Hobby.Marksman:
                 items.add(Item.M9Pistol);
                 break;
             default:
@@ -696,10 +939,12 @@ export const Dawn = () => {
                 return "You grab your walkie talkie used at work and spare batteries.";
             case Item.HikingBag:
                 return "You grab your hiking bag stocked with fire starting tools, a rolled up tent kit, and other survival amenities.";
-            case Item.Hammer:
-                return "You grab your hammer used for work, its handle worn from use.";
+            case Item.HandAxe:
+                return "You grab your personal hand axe used for light woodchopping.";
             default:
                 return "";
         }
     }
 };
+
+export default Dawn;

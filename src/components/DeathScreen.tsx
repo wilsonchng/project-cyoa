@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Banner, Button, Header } from "./common";
+import { Banner, Button } from "./common";
 import { StoreContext } from "../App";
 
 const DeathScreen = () => {

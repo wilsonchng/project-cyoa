@@ -1,19 +1,13 @@
 import { AppState, Update, Character } from "./types";
-import {
-    UpdateType,
-    Health,
-    Hunger,
-    Item,
-    ScreenID,
-    ChapterID,
-} from "./constants";
+import { UpdateType, Hunger, Item, Screen, Chapter } from "./constants";
 
 export const INITIAL_STATE: AppState = {
-    currentScreen: ScreenID.MainMenu,
-    currentChapter: ChapterID.Dawn,
+    currentScreen: Screen.MainMenu,
+    lastScreen: Screen.MainMenu,
+    currentChapter: Chapter.Dawn,
     currentPage: 0,
     character: null,
-    health: Health.Unharmed,
+    health: 100,
     hunger: Hunger.Satiated,
     inventory: [],
     daysLived: 0,
@@ -23,20 +17,24 @@ export const INITIAL_STATE: AppState = {
 export function storeReducer(state: AppState, update: Update): AppState {
     switch (update.type) {
         case UpdateType.Screen:
-            return { ...state, currentScreen: update.payload as ScreenID };
+            return {
+                ...state,
+                currentScreen: update.payload as Screen,
+                lastScreen: state.currentScreen,
+            };
         case UpdateType.Page:
             return { ...state, currentPage: update.payload as number };
-        case UpdateType.Chapter:
-            return { ...state, currentChapter: update.payload as ChapterID };
+        case UpdateType.NextChapter:
+            return { ...state, currentChapter: state.currentChapter++ };
         case UpdateType.Character:
             return {
                 ...state,
                 character: update.payload as Character,
             };
-        case UpdateType.Health:
+        case UpdateType.TakeDamage:
             return {
                 ...state,
-                health: update.payload as Health,
+                health: state.health - (update.payload as number),
             };
         case UpdateType.Hunger:
             return {

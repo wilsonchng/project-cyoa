@@ -1,9 +1,9 @@
-FLOW 
+STORYLINE
 
 Background Lore 
 
 The initial airborne variant of Knox infection has spread throughout the county. The military is aware of this and has cut telephone lines, imposed a no-fly zone, and setup a blockade around the Exclusion Zone. Scientists started testing infected citizens within the Zone. The infection can spread via bodily fluids, such as blood and saliva, and renders the sufferer unconscious. After a period of unconsciousness, they are reanimated as zombies. 
-Game begins with the player waking up to the 3rd day of the quarantine in Rosewood. Essential services are still allowed to resume, so the player is getting ready for work. At this point, there were only rumors of an infection, and no confirmed sightings by the player or media. Until one breaks into their home...
+Game begins with the player waking up to the 3rd day of the quarantine in Rosewood. Essential services are still allowed to resume, so depending on the player occupation they may be getting ready for work. At this point, there were only rumors of an infection, and no confirmed sightings by the player or media. Until one breaks into their home...
 
 
 PART 1 - DAWN
@@ -18,7 +18,11 @@ KillZombie - Aftermath
 Shove - kill zombie, take damage, aftermath 
 Aftermath - inspect wounds 
 ItemChoice - grab items, zombies approaching
-Flee 
+Flee - dash or sneak
+Dash - fitness check - success: car, fail: trip
+Trip - take damage, car 
+Sneak - success: car, fail: dash  
+End
 Dead
 
 PART 2 - STATION

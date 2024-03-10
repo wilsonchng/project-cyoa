@@ -130,7 +130,7 @@ const DiceRoll = (props: {
             <br />
             <p className="bonus-text">{`Bonuses: ${bonusText()}`}</p>
             <p className="damage-text">{`Penalties: ${penaltyText()}`}</p>
-            {rolledNumber && <h4>{`RESULT: ${result}`}</h4>}
+            <h4>{`RESULT: ${result || 0}`}</h4>
             <Button onClick={changePage(successPage)} disabled={disablePass}>
                 SUCCESS
             </Button>
@@ -148,15 +148,10 @@ function getPenalties(
     let result = [];
 
     if (ability === Ability.Fitness || ability === Ability.Strength) {
-        switch (state.health) {
-            case Health.Moderate:
-                result.push({ Wounded: 1 });
-                break;
-            case Health.Severe:
-                result.push({ Debilitated: 2 });
-                break;
-            default:
-                break;
+        if (state.health >= 40 && state.health < 60) {
+            result.push({ Wounded: 1 });
+        } else if (state.health > 0 && state.health < 40) {
+            result.push({ Injured: 2 });
         }
 
         switch (state.hunger) {

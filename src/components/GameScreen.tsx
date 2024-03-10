@@ -1,17 +1,18 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { Dawn } from "./story/Dawn";
-import { ChapterID } from "../utils/constants";
+import { Dawn, PrisonBus } from "./story";
+import { Chapter } from "../utils/constants";
 
 const GameScreen = () => {
     const store = useContext(StoreContext);
 
     const renderPage = () => {
         switch (store.state.currentChapter) {
-            case ChapterID.FireStation:
-            case ChapterID.Dawn:
+            case Chapter.Dawn:
             default:
                 return <Dawn />;
+            case Chapter.PrisonBus:
+                return <PrisonBus />;
         }
     };
 
