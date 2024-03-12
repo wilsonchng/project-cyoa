@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/project-cyoa/static/css/main.a40dcf9c.css",
+    "main.js": "/project-cyoa/static/js/main.3108f9b9.js",
+    "static/js/787.bac31fd9.chunk.js": "/project-cyoa/static/js/787.bac31fd9.chunk.js",
+    "service-worker.js": "/project-cyoa/service-worker.js",
+    "static/media/page-turn-sound-effect.mp3": "/project-cyoa/static/media/page-turn-sound-effect.14bbba637a548f272794.mp3",
+    "static/media/click-button-sound-effect.mp3": "/project-cyoa/static/media/click-button-sound-effect.b070217cc3ec9826fd89.mp3",
+    "static/media/dice-sound-effect.mp3": "/project-cyoa/static/media/dice-sound-effect.6e65a853550d3bb710a1.mp3",
+    "index.html": "/project-cyoa/index.html",
+    "main.a40dcf9c.css.map": "/project-cyoa/static/css/main.a40dcf9c.css.map",
+    "main.3108f9b9.js.map": "/project-cyoa/static/js/main.3108f9b9.js.map",
+    "787.bac31fd9.chunk.js.map": "/project-cyoa/static/js/787.bac31fd9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a40dcf9c.css",
+    "static/js/main.3108f9b9.js"
+  ]
+}
