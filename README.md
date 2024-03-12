@@ -2,7 +2,8 @@ ESCAPE KNOX is an interactive text-based game inspired by the [Choose Your Own A
 
 Feature plan:
 
--   Player login to track progress & Achievements
+-   Player authentication to track progress
+-   Achievements
 -   Locked classes (unless complete playthrough)
--   Additinal classes (Unemployed & Veteran)
+-   Additional classes (Unemployed & Veteran)
 -   Additional chapters (leading up to Louisville)
