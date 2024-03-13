@@ -4,7 +4,7 @@ import { UpdateType, Hunger, Item, Screen, Chapter } from "./constants";
 export const INITIAL_STATE: AppState = {
     currentScreen: Screen.MainMenu,
     lastScreen: Screen.MainMenu,
-    currentChapter: Chapter.Dawn,
+    currentChapter: Chapter.FireStation,
     currentPage: 0,
     character: null,
     health: 100,

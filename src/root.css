@@ -1,6 +1,7 @@
 .root {
     display: flex;
     flex-direction: column;
+    align-items: center;
     color: whitesmoke;
     user-select: none;
 
@@ -18,6 +19,7 @@
         }
 
         svg {
+            cursor: pointer;
             padding-right: 1rem;
         }
     }
@@ -29,6 +31,29 @@
         align-items: center;
         padding: 12px;
         margin-top: 42px;
+        max-width: 1000px;
+        min-width: 320px;
+
+        p {
+            align-self: flex-start;
+        }
+
+        b {
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            cursor: zoom-in;
+
+            &.zoomed {
+                cursor: zoom-out;
+                transform: scale(1.5);
+                background-color: black;
+                box-shadow: 0 0 8px 8px black;
+            }
+        }
 
         .container {
             width: 100%;
@@ -44,6 +69,10 @@
 
             span + span {
                 margin-top: 6px;
+            }
+
+            .ability {
+                cursor: pointer;
             }
         }
 
@@ -62,6 +91,7 @@
         }
 
         .info-text {
+            align-self: center;
             color: darkgrey;
             margin: 0px 6px;
             text-align: center;
@@ -69,12 +99,14 @@
         }
 
         .bonus-text {
+            align-self: center;
             color: lawngreen;
             text-align: center;
             font-size: small;
         }
 
         .damage-text {
+            align-self: center;
             color: red;
             text-align: center;
             font-size: small;
@@ -92,6 +124,7 @@
         }
 
         .banner {
+            text-align: center;
             color: crimson;
             font-size: x-large;
             font-weight: bold;

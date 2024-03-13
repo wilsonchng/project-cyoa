@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { Dawn, PrisonBus } from "./story";
+import { Dawn, FireStation } from "./story";
 import { Chapter } from "../utils/constants";
 
 const GameScreen = () => {
@@ -11,8 +11,8 @@ const GameScreen = () => {
             case Chapter.Dawn:
             default:
                 return <Dawn />;
-            case Chapter.PrisonBus:
-                return <PrisonBus />;
+            case Chapter.FireStation:
+                return <FireStation />;
         }
     };
 

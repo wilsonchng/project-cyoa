@@ -22,11 +22,12 @@ const ChapterSummary = () => {
                 <Stats health={health} hunger={hunger} inventory={inventory} />
                 <br />
             </div>
-            {/* game tooltips */}
+            <p className="info-text">
+                Progress is not saved (yet), if you leave this page you will
+                have to restart the game!
+            </p>
             <br />
-            <p>Congratulations, you've completed the tutorial</p>
-            <Button onClick={() => location.reload()}>Main Menu</Button>
-            {/* <Button onClick={nextChapter}>Next Chapter</Button> */}
+            <Button onClick={nextChapter}>Next Chapter</Button>
         </>
     );
 };

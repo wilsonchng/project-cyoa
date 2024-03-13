@@ -180,12 +180,14 @@ function getBonuses(
 
     if (skillBonus && skillBonus > 0) result.push({ [ability]: skillBonus });
 
-    switch (state.hunger) {
-        case Hunger.Stuffed:
-            result.push({ Stuffed: 1 });
-            break;
-        default:
-            break;
+    if (ability === Ability.Fitness || ability === Ability.Strength) {
+        switch (state.hunger) {
+            case Hunger.Stuffed:
+                result.push({ Stuffed: 1 });
+                break;
+            default:
+                break;
+        }
     }
 
     return result;

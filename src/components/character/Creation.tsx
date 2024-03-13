@@ -59,6 +59,7 @@ const CharacterCreation = () => {
                         minLength={1}
                         maxLength={24}
                         onChange={onChange}
+                        defaultValue={"test"} // todo: remove before commit
                     />
                     {/* <button onClick={randomName}>Random!</button> */}
                 </div>

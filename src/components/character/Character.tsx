@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Character } from "../../utils/types";
 import { Ability, Health, Hunger, Item } from "../../utils/constants";
-import { Modal } from "../common";
+import { Image, Modal } from "../common";
 import { StoreContext } from "../../App";
 
 export const CharacterScreen = () => {
@@ -37,12 +37,6 @@ export const Stats = (props: {
 
 export const Background = (props: { character: Character }) => {
     const { character } = props;
-    const occupationUrl = require(
-        `../../assets/images/${props.character.occupation?.toLowerCase()}.png`
-    );
-    const hobbyUrl = require(
-        `../../assets/images/${props.character.hobby?.toLowerCase()}.png`
-    );
 
     return (
         <div className="row">
@@ -51,19 +45,15 @@ export const Background = (props: { character: Character }) => {
                 <span>{`Occupation: ${character.occupation}`}</span>
                 <span>
                     {`Hobby: ${character.hobby}`}
-                    <img
-                        src={hobbyUrl}
-                        width={18}
-                        height={18}
+                    <Image
+                        fileName={`${props.character.hobby}.png`}
                         style={{ paddingLeft: "5px" }}
                     />
                 </span>
             </div>
-            <img
-                src={occupationUrl}
+            <Image
+                fileName={`${props.character.occupation}.png`}
                 style={{ padding: "5px" }}
-                width={64}
-                height={64}
             />
         </div>
     );

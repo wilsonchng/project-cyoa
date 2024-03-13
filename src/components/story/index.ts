@@ -1,4 +1,4 @@
 import Dawn from "./Dawn";
-import PrisonBus from "./PrisonBus";
+import FireStation from "./FireStation";
 
-export { Dawn, PrisonBus };
+export { Dawn, FireStation };

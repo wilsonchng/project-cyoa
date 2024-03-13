@@ -141,13 +141,13 @@ const Dawn = () => {
             <>
                 <Banner>9 July 1993</Banner>
                 <p>
-                    You slowly open your eyes, the morning light filters through
-                    the curtains, casting a soft glow across the room. Blinking
-                    away the remnants of sleep, you sit up, the events of the
-                    last few days still lingering in your mind. It is the third
-                    day of the county-wide quarantine here at Rosewood. Radio
-                    and TV broadcasts have been urging everyone to stay indoors.
-                    The military has airdropped thousands of leaflets, reminding
+                    You slowly open your eyes, pale light filters through the
+                    curtains, casting a soft glow across the room. Blinking away
+                    the remnants of sleep, you sit up, the events of the last
+                    few days still lingering in your mind. It is the third day
+                    of the county-wide quarantine here at Rosewood. Radio and TV
+                    broadcasts have been urging everyone to stay indoors. The
+                    military has airdropped thousands of leaflets, reminding
                     inhabitants to avoid contact with the infected. The air is
                     heavy with a strange, sour smell, like a mix of dampness and
                     decay. To make matters worse, the phone lines have been down
@@ -198,9 +198,10 @@ const Dawn = () => {
                     You swing open the door to come face to face with a tall man
                     you have never met before. A thin film of sweat covers his
                     face, and presses a bloody towel against his neck. He mouths
-                    the words "help me" before collapsing into your arms. You
-                    just barely catch him as he stumbles, and help him onto your
-                    couch.
+                    the words "help me" before collapsing into your arms. There
+                    is a thick scent of his cologne and body odour, mixed with
+                    the metallic tang of blood. You just barely catch him as he
+                    stumbles, and help him onto your couch.
                 </p>
                 <p>
                     The man is barely conscious, burning up and bleeding
@@ -810,7 +811,7 @@ const Dawn = () => {
                     the first twist, the ignition finds purchase. The roar of
                     the engine instantly drowns out the cacophony of approaching
                     danger. With tires screeching against asphalt, you tear away
-                    from the driveway and onto the road downtown.
+                    from the driveway and onto the road.
                 </p>
                 <br />
                 <Button onClick={changePage(Page.End)}>Continue</Button>
@@ -865,14 +866,14 @@ const Dawn = () => {
     ): Item[] {
         let items = new Set([
             Item.KitchenKnife,
-            Item.Flashlight,
+            Item.Torchlight,
             Item.Wallet,
             Item.Lunchbox,
         ]);
 
         switch (occupation) {
             case Occupation.Burglar:
-                items.add(Item.Lockpick);
+                items.add(Item.LockpickingTools);
                 break;
             case Occupation.Lumberjack:
                 items.add(Item.HandAxe);
@@ -882,9 +883,6 @@ const Dawn = () => {
                 break;
             case Occupation.ParkRanger:
                 items.add(Item.HikingBag);
-                break;
-            case Occupation.Firefighter:
-                items.add(Item.WalkieTalkie);
                 break;
             case Occupation.PoliceOfficer:
                 items.add(Item.M36Revolver);
@@ -917,26 +915,24 @@ const Dawn = () => {
         switch (picked) {
             case Item.KitchenKnife:
                 return weapon === Item.KitchenKnife
-                    ? "You grab the bloodied knife from the dead body and wipe off the blood and grime."
-                    : "You grab the chef's knife from the rack, its blade gleaming from the sunlight.";
+                    ? "You grab the bloodied knife from the dead body and wipe off the blood and grime. It has served well as a makeshift weapon, and you feel like you will need it again soon."
+                    : "You grab the chef's knife from the rack, its blade gleaming from the sunlight. It will serve as a makeshift weapon, something you feel like you might need soon.";
             case Item.Wallet:
-                return "You grab your leather wallet containing some cash and your ID.";
-            case Item.Flashlight:
-                return "You grab your yellow flashlight and spare batteries.";
+                return "You grab your leather wallet containing some cash and your ID. It might be important to have those on hand in emergency situations.";
+            case Item.Torchlight:
+                return "You grab your torchlight, flicking it on ensuring that the batteries still have juice. Having a light source might be useful when it turns dark.";
             case Item.Lunchbox:
-                return "You grab your lunchbox packed with a peanut butter sandwich, apple and water.";
+                return "You grab your lunchbox already packed this morning with a peanut butter sandwich, an apple and a bottle of water.";
             case Item.BaseballBat:
                 return "You grab your autographed Louisville slugger from the trophy cabinet, its weight familiar in your hands.";
             case Item.FirstAidKit:
-                return "You grab your fully stocked first aid kit from the bathroom cabinet.";
+                return "You grab your first aid kit fully stocked with bandages, alcohol wipes, disinfectant, painkillers and a cold pack from the bathroom cabinet.";
             case Item.M36Revolver:
-                return "You grab your standard issue police revolver and a box of .38 special bullets.";
+                return "You grab your standard issue police revolver and a box of accompanying .38 special bullets.";
             case Item.M9Pistol:
                 return "You grab your licensed personal handgun from a guncase tucked under your bed and a box of 9mm rounds.";
-            case Item.Lockpick:
-                return "You grab your set of lockpicks and other tools from a hidden box in your wardrobe.";
-            case Item.WalkieTalkie:
-                return "You grab your walkie talkie used at work and spare batteries.";
+            case Item.LockpickingTools:
+                return "You grab a box of paperclips and a screwdriver, your preferred choice of tools for lockpicking.";
             case Item.HikingBag:
                 return "You grab your hiking bag stocked with fire starting tools, a rolled up tent kit, and other survival amenities.";
             case Item.HandAxe:

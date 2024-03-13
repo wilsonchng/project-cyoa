@@ -25,7 +25,7 @@ export enum Screen {
 
 export enum Chapter {
     Dawn,
-    PrisonBus,
+    FireStation,
 }
 
 export enum Occupation {
@@ -89,11 +89,11 @@ export enum Item {
     KitchenKnife = "Kitchen Knife",
     FryingPan = "Frying Pan",
     Broom = "Broom",
-    Flashlight = "Flashlight",
+    Torchlight = "Flashlight",
     Wallet = "Wallet",
     Lunchbox = "Lunchbox",
     BaseballBat = "Baseball Bat",
-    Lockpick = "Lockpick",
+    LockpickingTools = "Lockpicking Tools",
     WalkieTalkie = "Walkie Talkie",
     FirstAidKit = "First Aid Kit",
     HandAxe = "Hand Axe",
