@@ -1,9 +1,9 @@
 {
-    "short_name": "Escape KNOX",
-    "name": "Escape KNOX interactive text game",
-    "icons": [],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "crimson",
-    "background_color": "black"
+  "short_name": "Escape KNOX",
+  "name": "Escape KNOX interactive text game",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "crimson",
+  "background_color": "black"
 }

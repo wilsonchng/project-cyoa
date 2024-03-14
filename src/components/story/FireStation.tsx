@@ -1,6 +1,12 @@
 import { useContext } from "react";
 import { StoreContext } from "../../App";
-import { UpdateType, Screen, Item, Hunger } from "../../utils/constants";
+import {
+  UpdateType,
+  Screen,
+  Item,
+  Hunger,
+  Occupation,
+} from "../../utils/constants";
 import { Banner, Button, Image } from "../common";
 
 enum Page {
@@ -134,6 +140,12 @@ const FireStation = () => {
   }
 
   function PoliceStation() {
+    const flavorText = () => {
+      return occupation === Occupation.PoliceOfficer
+        ? "a sob catches in your throat as you the depth of the tragedy sinks in. Your colleagues, once your brothers and sisters in blue, have been transformed by the outbreak."
+        : "you can't help but feel a pang of despair, that the whole town is probably overrun.";
+    };
+
     return (
       <>
         <p>
@@ -168,7 +180,8 @@ const FireStation = () => {
         <p>
           There is only one thing to do for now: run. You quickly shift your
           gear into reverse and retreat from the scene, before maneuvering a
-          hasty three point turn to drive the way from which you came.
+          hasty three point turn to drive the way from which you came. As you
+          speed off into the distance, {flavorText()}
         </p>
         <br />
         <Button onClick={changePage(Page.FireStation)}>Continue</Button>
@@ -179,7 +192,7 @@ const FireStation = () => {
   function FireStation() {
     return (
       <>
-        <p>test</p>
+        <p>Driving around the corner, the red </p>
         <br />
         <Button onClick={changePage(Page.FireStation)}>Continue</Button>
       </>

@@ -1,242 +1,242 @@
 .root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: whitesmoke;
+  user-select: none;
+
+  .header {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    width: 100%;
+    background-color: crimson;
+    font-size: larger;
+
+    span {
+      padding-left: 1rem;
+    }
+
+    svg {
+      cursor: pointer;
+      padding-right: 1rem;
+    }
+  }
+
+  .app {
     display: flex;
     flex-direction: column;
+    text-align: justify;
     align-items: center;
-    color: whitesmoke;
-    user-select: none;
+    padding: 12px;
+    margin-top: 42px;
+    max-width: 1000px;
+    min-width: 320px;
 
-    .header {
-        position: fixed;
-        display: flex;
-        align-items: center;
-        height: 42px;
-        width: 100%;
-        background-color: crimson;
-        font-size: larger;
-
-        span {
-            padding-left: 1rem;
-        }
-
-        svg {
-            cursor: pointer;
-            padding-right: 1rem;
-        }
+    p {
+      align-self: flex-start;
     }
 
-    .app {
-        display: flex;
-        flex-direction: column;
-        text-align: justify;
-        align-items: center;
-        padding: 12px;
-        margin-top: 42px;
-        max-width: 1000px;
-        min-width: 320px;
-
-        p {
-            align-self: flex-start;
-        }
-
-        b {
-            text-align: center;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            cursor: zoom-in;
-
-            &.zoomed {
-                cursor: zoom-out;
-                transform: scale(1.5);
-                background-color: black;
-                box-shadow: 0 0 8px 8px black;
-            }
-        }
-
-        .container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-
-            span {
-                display: flex;
-                align-items: center;
-            }
-
-            span + span {
-                margin-top: 6px;
-            }
-
-            .ability {
-                cursor: pointer;
-            }
-        }
-
-        .row {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            margin: 10px 0px;
-        }
-
-        .error {
-            color: yellow;
-            font-size: small;
-            margin: 0px;
-        }
-
-        .info-text {
-            align-self: center;
-            color: darkgrey;
-            margin: 0px 6px;
-            text-align: center;
-            font-size: small;
-        }
-
-        .bonus-text {
-            align-self: center;
-            color: lawngreen;
-            text-align: center;
-            font-size: small;
-        }
-
-        .damage-text {
-            align-self: center;
-            color: red;
-            text-align: center;
-            font-size: small;
-        }
-
-        .text-input {
-            width: 240px;
-            font-size: medium;
-            border-radius: 4px;
-
-            &.invalid {
-                outline: 1px solid red;
-                outline-offset: -1px;
-            }
-        }
-
-        .banner {
-            text-align: center;
-            color: crimson;
-            font-size: x-large;
-            font-weight: bold;
-            margin: 20px 0px;
-        }
-
-        .modal {
-            padding: 0px;
-            overflow: auto;
-            border-color: dimgrey;
-            background-color: black;
-            color: white;
-            user-select: none;
-            ::backdrop {
-                background: rgba(0, 0, 0, 0.5);
-            }
-
-            .modal-contents {
-                padding: 1rem;
-            }
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-            margin-right: 5px;
-        }
-
-        button {
-            padding: 5px;
-            margin: 5px;
-            width: 200px;
-            overflow: hidden;
-            font-size: medium;
-            color: white;
-            background-color: black;
-            border: 1px solid white;
-            border-radius: 4px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: dimgray;
-            }
-
-            &:active {
-                background-color: grey;
-            }
-
-            &:disabled {
-                background-color: darkgray;
-                cursor: default;
-            }
-        }
-
-        button + button {
-            margin-top: 12px;
-        }
-
-        .roller {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            .die {
-                font-size: 84px;
-                cursor: grab;
-
-                &.rolling {
-                    animation: shake 0.8s;
-                    cursor: wait;
-                }
-
-                &.rolled {
-                    cursor: default;
-                }
-            }
-        }
+    b {
+      text-align: center;
     }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      cursor: zoom-in;
+
+      &.zoomed {
+        cursor: zoom-out;
+        transform: scale(1.5);
+        background-color: black;
+        box-shadow: 0 0 8px 8px black;
+      }
+    }
+
+    .container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+
+      span + span {
+        margin-top: 6px;
+      }
+
+      .ability {
+        cursor: pointer;
+      }
+    }
+
+    .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 10px 0px;
+    }
+
+    .error {
+      color: yellow;
+      font-size: small;
+      margin: 0px;
+    }
+
+    .info-text {
+      align-self: center;
+      color: darkgrey;
+      margin: 0px 6px;
+      text-align: center;
+      font-size: small;
+    }
+
+    .bonus-text {
+      align-self: center;
+      color: lawngreen;
+      text-align: center;
+      font-size: small;
+    }
+
+    .damage-text {
+      align-self: center;
+      color: red;
+      text-align: center;
+      font-size: small;
+    }
+
+    .text-input {
+      width: 240px;
+      font-size: medium;
+      border-radius: 4px;
+
+      &.invalid {
+        outline: 1px solid red;
+        outline-offset: -1px;
+      }
+    }
+
+    .banner {
+      text-align: center;
+      color: crimson;
+      font-size: x-large;
+      font-weight: bold;
+      margin: 20px 0px;
+    }
+
+    .modal {
+      padding: 0px;
+      overflow: auto;
+      border-color: dimgrey;
+      background-color: black;
+      color: white;
+      user-select: none;
+      ::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-contents {
+        padding: 1rem;
+      }
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      margin-right: 5px;
+    }
+
+    button {
+      padding: 5px;
+      margin: 5px;
+      width: 200px;
+      overflow: hidden;
+      font-size: medium;
+      color: white;
+      background-color: black;
+      border: 1px solid white;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: dimgray;
+      }
+
+      &:active {
+        background-color: grey;
+      }
+
+      &:disabled {
+        background-color: darkgray;
+        cursor: default;
+      }
+    }
+
+    button + button {
+      margin-top: 12px;
+    }
+
+    .roller {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .die {
+        font-size: 84px;
+        cursor: grab;
+
+        &.rolling {
+          animation: shake 0.8s;
+          cursor: wait;
+        }
+
+        &.rolled {
+          cursor: default;
+        }
+      }
+    }
+  }
 }
 
 @keyframes shake {
-    0% {
-        transform: translate(1px, 1px) rotate(0deg);
-    }
-    10% {
-        transform: translate(-1px, -2px) rotate(-2deg);
-    }
-    20% {
-        transform: translate(-3px, 0px) rotate(1deg);
-    }
-    30% {
-        transform: translate(3px, 2px) rotate(0deg);
-    }
-    40% {
-        transform: translate(1px, -1px) rotate(2deg);
-    }
-    50% {
-        transform: translate(-1px, 2px) rotate(-1deg);
-    }
-    60% {
-        transform: translate(-3px, 1px) rotate(0deg);
-    }
-    70% {
-        transform: translate(3px, 1px) rotate(-1deg);
-    }
-    80% {
-        transform: translate(-1px, -1px) rotate(2deg);
-    }
-    90% {
-        transform: translate(1px, 2px) rotate(1deg);
-    }
-    100% {
-        transform: translate(1px, -2px) rotate(-1deg);
-    }
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-2deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(2deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(2deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(1deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
 }

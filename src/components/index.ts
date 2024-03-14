@@ -9,13 +9,13 @@ import CharacterCreation from "./character/Creation";
 import CharacterScreen from "./character/Character";
 
 export {
-    Common,
-    MainMenu,
-    Achievements,
-    Credits,
-    CharacterCreation,
-    CharacterScreen,
-    ChapterSummary,
-    GameScreen,
-    DeathScreen,
+  Common,
+  MainMenu,
+  Achievements,
+  Credits,
+  CharacterCreation,
+  CharacterScreen,
+  ChapterSummary,
+  GameScreen,
+  DeathScreen,
 };
