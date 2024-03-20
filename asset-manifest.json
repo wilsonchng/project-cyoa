@@ -1,19 +1,22 @@
 {
   "files": {
-    "main.css": "/project-cyoa/static/css/main.a40dcf9c.css",
-    "main.js": "/project-cyoa/static/js/main.3108f9b9.js",
+    "main.css": "/project-cyoa/static/css/main.ec15a5a5.css",
+    "main.js": "/project-cyoa/static/js/main.aacc4a0e.js",
     "static/js/787.bac31fd9.chunk.js": "/project-cyoa/static/js/787.bac31fd9.chunk.js",
+    "static/media/patrols.png": "/project-cyoa/static/media/patrols.c48fd5dedb631d056049.png",
+    "static/media/freefire.png": "/project-cyoa/static/media/freefire.c484a8e1e8ac68cb6dc0.png",
+    "static/media/advisory.png": "/project-cyoa/static/media/advisory.0afae8499f5feab529fd.png",
     "service-worker.js": "/project-cyoa/service-worker.js",
     "static/media/page-turn-sound-effect.mp3": "/project-cyoa/static/media/page-turn-sound-effect.14bbba637a548f272794.mp3",
     "static/media/click-button-sound-effect.mp3": "/project-cyoa/static/media/click-button-sound-effect.b070217cc3ec9826fd89.mp3",
     "static/media/dice-sound-effect.mp3": "/project-cyoa/static/media/dice-sound-effect.6e65a853550d3bb710a1.mp3",
     "index.html": "/project-cyoa/index.html",
-    "main.a40dcf9c.css.map": "/project-cyoa/static/css/main.a40dcf9c.css.map",
-    "main.3108f9b9.js.map": "/project-cyoa/static/js/main.3108f9b9.js.map",
+    "main.ec15a5a5.css.map": "/project-cyoa/static/css/main.ec15a5a5.css.map",
+    "main.aacc4a0e.js.map": "/project-cyoa/static/js/main.aacc4a0e.js.map",
     "787.bac31fd9.chunk.js.map": "/project-cyoa/static/js/787.bac31fd9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a40dcf9c.css",
-    "static/js/main.3108f9b9.js"
+    "static/css/main.ec15a5a5.css",
+    "static/js/main.aacc4a0e.js"
   ]
 }
