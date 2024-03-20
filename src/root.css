@@ -4,6 +4,26 @@
   align-items: center;
   color: whitesmoke;
   user-select: none;
+  padding: 0px 12px 24px 12px;
+
+  a {
+    color: aquamarine;
+    &:active,
+    &:focus {
+      color: dodgerblue;
+    }
+  }
+
+  svg {
+    cursor: pointer;
+    padding-right: 1rem;
+  }
+
+  .footer {
+    color: darkgray;
+    font-size: small;
+    text-justify: center;
+  }
 
   .header {
     position: fixed;
@@ -17,11 +37,85 @@
     span {
       padding-left: 1rem;
     }
+  }
 
-    svg {
-      cursor: pointer;
-      padding-right: 1rem;
+  .modal {
+    padding: 0px;
+    overflow: auto;
+    border-color: dimgrey;
+    background-color: black;
+    color: white;
+    user-select: none;
+    ::backdrop {
+      background: rgba(0, 0, 0, 0.5);
     }
+
+    h3 {
+      margin: 0px;
+    }
+
+    .modal-contents {
+      padding: 1rem;
+    }
+  }
+
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+
+    span + span {
+      margin-top: 6px;
+    }
+
+    .ability {
+      cursor: pointer;
+    }
+  }
+
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px 0px;
+  }
+
+  button {
+    display: "flex";
+    padding: 5px;
+    margin: 5px;
+    min-width: 200px;
+    font-size: medium;
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: dimgray;
+    }
+
+    &:active {
+      background-color: grey;
+    }
+
+    &:disabled {
+      background-color: darkgray;
+      cursor: default;
+    }
+  }
+
+  button + button {
+    margin-top: 12px;
   }
 
   .app {
@@ -29,7 +123,6 @@
     flex-direction: column;
     text-align: justify;
     align-items: center;
-    padding: 12px;
     margin-top: 42px;
     max-width: 1000px;
     min-width: 320px;
@@ -55,39 +148,15 @@
       }
     }
 
-    .container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-
-      span {
-        display: flex;
-        align-items: center;
-      }
-
-      span + span {
-        margin-top: 6px;
-      }
-
-      .ability {
-        cursor: pointer;
-      }
-    }
-
-    .row {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      margin: 10px 0px;
-    }
-
     .error {
       color: yellow;
       font-size: small;
       margin: 0px;
+    }
+
+    .center-text {
+      align-self: center;
+      font-size: large;
     }
 
     .info-text {
@@ -131,56 +200,10 @@
       margin: 20px 0px;
     }
 
-    .modal {
-      padding: 0px;
-      overflow: auto;
-      border-color: dimgrey;
-      background-color: black;
-      color: white;
-      user-select: none;
-      ::backdrop {
-        background: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-contents {
-        padding: 1rem;
-      }
-    }
-
     label {
       display: flex;
       align-items: center;
       margin-right: 5px;
-    }
-
-    button {
-      padding: 5px;
-      margin: 5px;
-      width: 200px;
-      overflow: hidden;
-      font-size: medium;
-      color: white;
-      background-color: black;
-      border: 1px solid white;
-      border-radius: 4px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: dimgray;
-      }
-
-      &:active {
-        background-color: grey;
-      }
-
-      &:disabled {
-        background-color: darkgray;
-        cursor: default;
-      }
-    }
-
-    button + button {
-      margin-top: 12px;
     }
 
     .roller {

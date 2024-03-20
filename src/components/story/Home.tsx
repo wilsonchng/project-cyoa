@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { StoreContext } from "../../App";
 import { Banner, Button, DiceRoll } from "../common";
 import {
@@ -23,7 +23,6 @@ enum Page {
   Kill,
   StepKill,
   FailHit,
-  RollSave,
   Shove,
   Aftermath,
   ItemChoice,
@@ -41,13 +40,8 @@ enum Page {
   Dead,
 }
 
-const Dawn = () => {
+const Home = () => {
   const store = useContext(StoreContext);
-  const [weapon, setWeapon] = useState<Item | null>(null);
-  const [items, setItems] = useState<Item[]>([]);
-
-  const occupation = store.state.character?.occupation;
-  const hobby = store.state.character?.hobby;
 
   const changePage = (pageNumber: number) => () =>
     store.dispatch({ type: UpdateType.Page, payload: pageNumber });
@@ -80,8 +74,6 @@ const Dawn = () => {
         return StepKill();
       case Page.FailHit:
         return FailHit();
-      case Page.RollSave:
-        return RollSave();
       case Page.Shove:
         return Shove();
       case Page.Aftermath:
@@ -119,7 +111,7 @@ const Dawn = () => {
 
   function Start() {
     const flavorText = () => {
-      switch (occupation) {
+      switch (store.state.character?.occupation) {
         case Occupation.Burglar:
           return "Another boring day at home, with the quarantine in full effect, it might be best to lay low for a while before you resume any illicit operations.";
         case Occupation.Doctor:
@@ -305,7 +297,7 @@ const Dawn = () => {
 
   function WeaponChoice() {
     const onClick = (weapon: Item) => () => {
-      setWeapon(weapon);
+      store.dispatch({ type: UpdateType.Weapon, payload: weapon });
       changePage(Page.Attack)();
     };
 
@@ -328,7 +320,7 @@ const Dawn = () => {
 
   function Attack() {
     const text = () => {
-      switch (weapon) {
+      switch (store.state.weapon) {
         case Item.KitchenKnife:
           return (
             <p>
@@ -367,7 +359,7 @@ const Dawn = () => {
         <p>{text()}</p>
         <DiceRoll
           ability={Ability.Strength}
-          difficulty={4}
+          difficulty={getWeaponDifficulty(store.state.weapon)}
           successPage={Page.Kill}
           failPage={Page.FailHit}
           changePage={changePage}
@@ -383,7 +375,7 @@ const Dawn = () => {
     };
 
     const text = () => {
-      switch (weapon) {
+      switch (store.state.weapon) {
         case Item.KitchenKnife:
           return "You lunge forward with the knife, aiming directly for the head. In a blur of motion, the blade pierces through the air, before finding its mark with chilling accuracy. The knife sinks deep into the man's skull. His hungry eyes widen briefly in a final, vacant stare before slumping to the floor at your feet.";
         case Item.FryingPan:
@@ -404,7 +396,7 @@ const Dawn = () => {
 
   function FailHit() {
     const text = () => {
-      switch (weapon) {
+      switch (store.state.weapon) {
         case Item.KitchenKnife:
           return "You lunge forward, thrusting the kitchen knife at the man. The blade penetrates his chest, gliding through flesh with a sickening squelch. The man lets out a grunt, but is otherwise unconcerned by the stab wound.";
         case Item.FryingPan:
@@ -418,15 +410,6 @@ const Dawn = () => {
       <>
         <p>{`${text()} Before you could prepare another strike, the man pounces at you with unexpected speed, grabbing your arms with his cold hands...`}</p>
         <br />
-        <Button onClick={changePage(Page.RollSave)}>Continue</Button>
-      </>
-    );
-  }
-
-  function RollSave() {
-    return (
-      <>
-        <p>You try to fend yourself from the man's deadly embrace...</p>
         <DiceRoll
           ability={Ability.Fitness}
           difficulty={4}
@@ -464,7 +447,7 @@ const Dawn = () => {
     };
 
     const text = () => {
-      switch (weapon) {
+      switch (store.state.weapon) {
         case Item.KitchenKnife:
           return "You step over the man with your knife raised overhead. In a blur of motion, the blade pierces through the air, before sinking deep into the man's skull. His hungry eyes widen briefly in a final, vacant stare before slumping to the floor at your feet.";
         case Item.FryingPan:
@@ -484,11 +467,6 @@ const Dawn = () => {
   }
 
   function Aftermath() {
-    const onClick = () => {
-      setItems(getStarterItems(occupation, hobby));
-      changePage(Page.ItemChoice)();
-    };
-
     const text = () => {
       if (store.state.health === 100) {
         return "You steal a glance at yourself in the bathroom mirror, you're covered in blood, not yours. It will be difficult to explain to anyone in this state. You wash your hands and face thoroughly before changing into a set of fresh clothes.";
@@ -519,15 +497,19 @@ const Dawn = () => {
         </p>
         <p>{text()}</p>
         <br />
-        <Button onClick={onClick}>Continue</Button>
+        <Button onClick={changePage(Page.ItemChoice)}>Continue</Button>
       </>
     );
   }
 
   function ItemChoice() {
+    const items = getStarterItems(
+      store.state.character?.occupation,
+      store.state.character?.hobby
+    );
+
     const takeItem = (item: Item) => () => {
       store.dispatch({ type: UpdateType.AddItem, payload: item });
-      setItems(items.filter((i) => i !== item));
       changePage(Page.SecondItem)();
     };
 
@@ -547,9 +529,13 @@ const Dawn = () => {
   }
 
   function SecondItem() {
+    const items = getStarterItems(
+      store.state.character?.occupation,
+      store.state.character?.hobby
+    ).filter((i) => !store.state.inventory.includes(i));
+
     const takeItem = (item: Item) => () => {
       store.dispatch({ type: UpdateType.AddItem, payload: item });
-      setItems(items.filter((i) => i !== item));
       changePage(Page.Flee)();
     };
 
@@ -584,8 +570,10 @@ const Dawn = () => {
           it, or try sneaking around from the backdoor.
         </p>
         <br />
-        <Button onClick={changePage(Page.Dash)}>Dash</Button>
-        <Button onClick={changePage(Page.Sneak)}>Sneak</Button>
+        <Button onClick={changePage(Page.Dash)}>Make a run for it</Button>
+        <Button onClick={changePage(Page.Sneak)}>
+          Sneak around from the back
+        </Button>
       </>
     );
   }
@@ -827,11 +815,11 @@ const Dawn = () => {
 
   function getStarterItems(
     occupation?: Occupation | null,
-    hobby?: Hobby | null,
+    hobby?: Hobby | null
   ): Item[] {
     let items = new Set([
       Item.KitchenKnife,
-      Item.Torchlight,
+      Item.Flashlight,
       Item.Wallet,
       Item.Lunchbox,
     ]);
@@ -876,15 +864,26 @@ const Dawn = () => {
     return Array.from(items);
   }
 
+  function getWeaponDifficulty(weapon: Item | null): number {
+    switch (weapon) {
+      default:
+      case Item.KitchenKnife:
+        return 5; // 33% base success rate
+      case Item.FryingPan:
+      case Item.Broom:
+        return 4; // 50% base success rate
+    }
+  }
+
   function pickedItemText(picked: Item): string {
     switch (picked) {
       case Item.KitchenKnife:
-        return weapon === Item.KitchenKnife
+        return store.state.weapon === Item.KitchenKnife
           ? "You grab the bloodied knife from the dead body and wipe off the blood and grime. It has served well as a makeshift weapon, and you feel like you will need it again soon."
           : "You grab the chef's knife from the rack, its blade gleaming from the sunlight. It will serve as a makeshift weapon, something you feel like you might need soon.";
       case Item.Wallet:
         return "You grab your leather wallet containing some cash and your ID. It might be important to have those on hand in emergency situations.";
-      case Item.Torchlight:
+      case Item.Flashlight:
         return "You grab your torchlight, flicking it on ensuring that the batteries still have juice. Having a light source might be useful when it turns dark.";
       case Item.Lunchbox:
         return "You grab your lunchbox already packed this morning with a peanut butter sandwich, an apple and a bottle of water.";
@@ -908,4 +907,4 @@ const Dawn = () => {
   }
 };
 
-export default Dawn;
+export default Home;

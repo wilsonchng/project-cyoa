@@ -5,6 +5,7 @@ export enum UpdateType {
   Character,
   TakeDamage,
   Hunger,
+  Weapon,
   AddItem,
   RemoveItem,
   AddKill,
@@ -24,8 +25,8 @@ export enum Screen {
 }
 
 export enum Chapter {
-  Dawn,
-  FireStation,
+  Home,
+  PoliceStation,
 }
 
 export enum Occupation {
@@ -89,16 +90,17 @@ export enum Item {
   KitchenKnife = "Kitchen Knife",
   FryingPan = "Frying Pan",
   Broom = "Broom",
-  Torchlight = "Flashlight",
+  Flashlight = "Flashlight",
   Wallet = "Wallet",
   Lunchbox = "Lunchbox",
   BaseballBat = "Baseball Bat",
   LockpickingTools = "Lockpicking Tools",
   WalkieTalkie = "Walkie Talkie",
   FirstAidKit = "First Aid Kit",
+  HikingBag = "Hiking Bag",
   HandAxe = "Hand Axe",
   FireAxe = "Fire Axe",
   M36Revolver = "M36 Revolver",
   M9Pistol = "M9 Pistol",
-  HikingBag = "Hiking Bag",
+  Shotgun = "Shotgun",
 }

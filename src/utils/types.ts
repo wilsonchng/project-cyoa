@@ -1,7 +1,6 @@
 import { Dispatch } from "react";
 import {
   Chapter,
-  Health,
   Hobby,
   Hunger,
   Item,
@@ -17,7 +16,7 @@ export interface Store {
 
 export interface Update {
   type: UpdateType;
-  payload?: number | string | Character | Health | Hunger | Item;
+  payload?: any;
 }
 
 export interface Character {
@@ -44,6 +43,7 @@ export interface AppState {
   character: Character | null;
   health: number;
   hunger: Hunger;
+  weapon: Item | null;
   inventory: Item[];
   killCount: number;
   daysLived: number;

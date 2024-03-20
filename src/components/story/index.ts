@@ -1,4 +1,4 @@
-import Dawn from "./Dawn";
-import FireStation from "./FireStation";
+import Home from "./Home";
+import PoliceStation from "./Police";
 
-export { Dawn, FireStation };
+export { Home, PoliceStation };

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { StoreContext } from "../App";
-import { Dawn, FireStation } from "./story";
+import { Home, PoliceStation } from "./story";
 import { Chapter } from "../utils/constants";
 
 const GameScreen = () => {
@@ -8,11 +8,11 @@ const GameScreen = () => {
 
   const renderPage = () => {
     switch (store.state.currentChapter) {
-      case Chapter.Dawn:
+      case Chapter.Home:
       default:
-        return <Dawn />;
-      case Chapter.FireStation:
-        return <FireStation />;
+        return <Home />;
+      case Chapter.PoliceStation:
+        return <PoliceStation />;
     }
   };
 

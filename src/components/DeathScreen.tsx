@@ -8,8 +8,10 @@ const DeathScreen = () => {
   return (
     <>
       <Banner>YOU DIED</Banner>
-      <p>{`You survived for ${store.state.daysLived} days.`}</p>
-      <p>{`You killed ${store.state.killCount} zombies.`}</p>
+      {/* todo: add cause of death */}
+      <p className="center-text">{`You survived for ${store.state.daysLived} days.`}</p>
+      <p className="center-text">{`You killed ${store.state.killCount} zombies.`}</p>
+      <br />
       <Button onClick={() => location.reload()}>Main Menu</Button>
     </>
   );

@@ -243,7 +243,7 @@ const enum Stage {
 
 // Balance notes: Combat abilities (Stealth, Firearms, Strength, Endurance) are worth more than non-combat ones (Survival & Medicine)
 const getOccupationAbilities = (
-  occupation: Occupation | null,
+  occupation: Occupation | null
 ): Partial<AbilityScore> => {
   switch (occupation) {
     case Occupation.Firefighter:

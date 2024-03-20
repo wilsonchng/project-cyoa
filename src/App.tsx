@@ -51,6 +51,10 @@ const App = () => {
       <div className="root">
         <Header />
         <div className="app">{renderScreen()}</div>
+        <br />
+        <div className="footer">
+          Copyright © 2024 Wilson Chng. All rights reserved.
+        </div>
       </div>
     </StoreContext.Provider>
   );

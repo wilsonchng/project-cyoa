@@ -1,32 +1,33 @@
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGear,
+  faHome,
   faUserCircle,
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { GAME_NAME, StoreContext } from "../../App";
 import { Screen, UpdateType } from "../../utils/constants";
+import Modal from "./Modal";
+import Button from "./Button";
 
 const Header = () => {
   const store = useContext(StoreContext);
   const [showStats, setShowStats] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const mySound = require("../../assets/sounds/page-turn-sound-effect.mp3");
   const audio = new Audio(mySound);
-
-  const openSettings = () => {
-    // opens modal containing settings panel
-    // settings options: main menu, theme
-    store.dispatch({ type: UpdateType.ResetState });
-    changeScreen(Screen.MainMenu);
-  };
 
   const switchToStats = () => {
     audio.play();
     setShowStats(true);
     changeScreen(Screen.Character);
+  };
+
+  const returnToMenu = () => {
+    setShowSettings(false);
+    changeScreen(Screen.MainMenu);
   };
 
   const changeScreen = (screen: Screen) =>
@@ -42,25 +43,44 @@ const Header = () => {
   };
 
   // add event listener for "back" pressed on mobile
+  const getContents = () => {
+    if (showStats)
+      return <FontAwesomeIcon icon={faArrowRight} onClick={back} />;
 
-  if (showStats) {
+    const notOnMenu = store.state.currentScreen !== Screen.MainMenu;
+
     return (
-      <div className="header">
-        <span>Character Stats</span>
-        <span style={{ flexGrow: 1 }} />
-        <FontAwesomeIcon icon={faArrowRight} onClick={back} />
-      </div>
+      <>
+        {store.state.character && notOnMenu && (
+          <FontAwesomeIcon icon={faUserCircle} onClick={switchToStats} />
+        )}
+        {notOnMenu && (
+          <FontAwesomeIcon
+            icon={faHome}
+            onClick={() => setShowSettings(true)}
+          />
+        )}
+      </>
     );
-  }
+  };
 
   return (
     <div className="header">
-      <span>{GAME_NAME}</span>
+      <span>{showStats ? "Character Stats" : GAME_NAME}</span>
       <span style={{ flexGrow: 1 }} />
-      {store.state.character && (
-        <FontAwesomeIcon icon={faUserCircle} onClick={switchToStats} />
-      )}
-      <FontAwesomeIcon icon={faGear} onClick={openSettings} />
+      {getContents()}
+      <Modal
+        header="Return to Menu"
+        open={showSettings}
+        onClose={() => setShowSettings(false)}
+      >
+        <div className="container">
+          <p>Do you want to return to the main menu?</p>
+          <Button style={{ alignSelf: "flex-end" }} onClick={returnToMenu}>
+            Confirm
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

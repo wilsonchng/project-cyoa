@@ -2,8 +2,10 @@ const Button = (props: {
   onClick: () => void;
   children: React.ReactNode;
   disabled?: boolean;
+  title?: string;
+  style?: any;
 }) => {
-  const { onClick, children, disabled } = props;
+  const { onClick, children, disabled, style } = props;
 
   const mySound = require("../../assets/sounds/click-button-sound-effect.mp3");
   const audio = new Audio(mySound);
@@ -14,7 +16,13 @@ const Button = (props: {
   };
 
   return (
-    <button disabled={disabled} className="button" onClick={clickFunc}>
+    <button
+      title={props.title}
+      disabled={disabled}
+      className="button"
+      onClick={clickFunc}
+      style={style}
+    >
       {children}
     </button>
   );

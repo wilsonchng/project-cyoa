@@ -13,6 +13,11 @@ const ChapterSummary = () => {
     store.dispatch({ type: UpdateType.Screen, payload: Screen.Game });
   };
 
+  const returnToMenu = () => {
+    store.dispatch({ type: UpdateType.ResetState });
+    store.dispatch({ type: UpdateType.Screen, payload: Screen.MainMenu });
+  };
+
   return (
     <>
       <Banner>Summary</Banner>
@@ -23,11 +28,12 @@ const ChapterSummary = () => {
         <br />
       </div>
       <p className="info-text">
-        Progress is not saved (yet), if you leave this page you will have to
-        restart the game!
+        Thank you for playing! This was the tutorial, more chapters to come
+        soon!
       </p>
       <br />
-      <Button onClick={nextChapter}>Next Chapter</Button>
+      <Button onClick={returnToMenu}>Return to Menu</Button>
+      {/* <Button onClick={nextChapter}>Next Chapter</Button> */}
     </>
   );
 };

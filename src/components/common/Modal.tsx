@@ -33,11 +33,11 @@ const Modal = (props: {
   return (
     <dialog ref={ref} onCancel={onClose} onClick={onClick} className="modal">
       <div className="modal-contents">
-        <span className="row">
+        <div className="row">
           <h3>{header}</h3>
           <span style={{ flexGrow: 1 }} />
           <FontAwesomeIcon icon={faXmark} onClick={onClose} />
-        </span>
+        </div>
         {children}
       </div>
     </dialog>
