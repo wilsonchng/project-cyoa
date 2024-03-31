@@ -4,60 +4,9 @@
   align-items: center;
   color: whitesmoke;
   user-select: none;
-  padding: 0px 12px 24px 12px;
-
-  a {
-    color: aquamarine;
-    &:active,
-    &:focus {
-      color: dodgerblue;
-    }
-  }
-
-  svg {
-    cursor: pointer;
-    padding-right: 1rem;
-  }
-
-  .footer {
-    color: darkgray;
-    font-size: small;
-    text-justify: center;
-  }
-
-  .header {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    height: 42px;
-    width: 100%;
-    background-color: crimson;
-    font-size: larger;
-
-    span {
-      padding-left: 1rem;
-    }
-  }
-
-  .modal {
-    padding: 0px;
-    overflow: auto;
-    border-color: dimgrey;
-    background-color: black;
-    color: white;
-    user-select: none;
-    ::backdrop {
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    h3 {
-      margin: 0px;
-    }
-
-    .modal-contents {
-      padding: 1rem;
-    }
-  }
+  padding: 0px 12px;
+  box-sizing: border-box;
+  height: 100vh;
 
   .container {
     width: 100%;
@@ -83,39 +32,9 @@
   .row {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    align-items: center;
     margin: 10px 0px;
-  }
-
-  button {
-    display: "flex";
-    padding: 5px;
-    margin: 5px;
-    min-width: 200px;
-    font-size: medium;
-    color: white;
-    background-color: black;
-    border: 1px solid white;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: dimgray;
-    }
-
-    &:active {
-      background-color: grey;
-    }
-
-    &:disabled {
-      background-color: darkgray;
-      cursor: default;
-    }
-  }
-
-  button + button {
-    margin-top: 12px;
+    gap: 5px;
   }
 
   .app {
@@ -133,19 +52,6 @@
 
     b {
       text-align: center;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      cursor: zoom-in;
-
-      &.zoomed {
-        cursor: zoom-out;
-        transform: scale(1.5);
-        background-color: black;
-        box-shadow: 0 0 8px 8px black;
-      }
     }
 
     .error {
@@ -181,85 +87,17 @@
       font-size: small;
     }
 
-    .text-input {
-      width: 240px;
-      font-size: medium;
-      border-radius: 4px;
-
-      &.invalid {
-        outline: 1px solid red;
-        outline-offset: -1px;
-      }
-    }
-
-    .banner {
-      text-align: center;
-      color: crimson;
-      font-size: x-large;
-      font-weight: bold;
-      margin: 20px 0px;
-    }
-
     label {
       display: flex;
       align-items: center;
-      margin-right: 5px;
     }
 
-    .roller {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .die {
-        font-size: 84px;
-        cursor: grab;
-
-        &.rolling {
-          animation: shake 0.8s;
-          cursor: wait;
-        }
-
-        &.rolled {
-          cursor: default;
-        }
+    a {
+      color: aquamarine;
+      &:active,
+      &:focus {
+        color: dodgerblue;
       }
     }
-  }
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-2deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(2deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(2deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(1deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
   }
 }

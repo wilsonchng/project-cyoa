@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
-import { GAME_NAME, StoreContext } from "../App";
-import { Banner, Button, Modal } from "./common";
-import { Screen, UpdateType } from "../utils/constants";
+import { GAME_NAME, StoreContext } from "../../App";
+import { Banner, Button, Modal } from "../common";
+import { Screen } from "../../utils/constants";
+import { UpdateType } from "../../utils/store";
 
 const MainMenu = () => {
   const store = useContext(StoreContext);
   const [open, setOpen] = useState<boolean>(false);
-  const hasExistingSave = !!store.state.character;
+  const hasExistingSave = !!store.state.playthrough;
 
   const changeScreen = (screen: Screen) => () =>
     store.dispatch({ type: UpdateType.Screen, payload: screen });
@@ -28,18 +29,17 @@ const MainMenu = () => {
     <>
       <Banner>{GAME_NAME}</Banner>
       <br />
-      <Button onClick={newGame}>NEW GAME</Button>
+      <Button text="NEW GAME" onClick={newGame} />
       {hasExistingSave && (
-        <Button onClick={changeScreen(Screen.Game)}>CONTINUE</Button>
+        <Button text="CONTINUE" onClick={changeScreen(Screen.Game)} />
       )}
-      <Button onClick={changeScreen(Screen.Credits)}>CREDITS</Button>
+      <Button text="CREDITS" onClick={changeScreen(Screen.Credits)} />
       <Button
+        text="ACHIEVEMENTS"
         title="Coming soon!"
         disabled={true}
         onClick={changeScreen(Screen.Achievements)}
-      >
-        ACHIEVEMENTS
-      </Button>
+      />
       <Modal
         header="Override Existing Game"
         open={open}
@@ -50,9 +50,7 @@ const MainMenu = () => {
             You have an existing character, if you start a new game it will
             override your current playthrough.
           </p>
-          <Button style={{ alignSelf: "flex-end" }} onClick={overrideExisting}>
-            Confirm
-          </Button>
+          <Button text="Confirm" onClick={overrideExisting} />
         </div>
       </Modal>
     </>

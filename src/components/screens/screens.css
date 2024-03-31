@@ -1,0 +1,59 @@
+.text-input {
+  width: 240px;
+  font-size: medium;
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+
+  &.invalid {
+    outline: 1px solid red;
+    outline-offset: -1px;
+  }
+}
+
+.gender-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin: 5px;
+  min-width: 120px;
+
+  font-size: medium;
+  color: ivory;
+  background-color: black;
+  border: 1px solid whitesmoke;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 10px;
+
+  svg {
+    font-size: x-large;
+  }
+
+  &.male {
+    &:active,
+    &:hover {
+      background-color: cornflowerblue;
+    }
+
+    &:disabled {
+      background-color: royalblue;
+    }
+  }
+
+  &.female {
+    &:active,
+    &:hover {
+      background-color: lightpink;
+    }
+
+    &:disabled {
+      background-color: hotpink;
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}

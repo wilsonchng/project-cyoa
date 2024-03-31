@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { StoreContext } from "../App";
-import { Banner, Button } from "./common";
-import { Screen, UpdateType } from "../utils/constants";
+import { StoreContext } from "../../App";
+import { Banner, Button } from "../common";
+import { Screen } from "../../utils/constants";
+import { UpdateType } from "../../utils/store";
 
 const Achievements = () => {
   const store = useContext(StoreContext);
@@ -13,7 +14,7 @@ const Achievements = () => {
     <>
       <Banner>ACHIEVEMENTS</Banner>
       {/* Todo: Have tracking of achievements, or past characters */}
-      <Button onClick={changeScreen(Screen.MainMenu)}>BACK</Button>
+      <Button text="BACK" onClick={changeScreen(Screen.MainMenu)} />
     </>
   );
 };

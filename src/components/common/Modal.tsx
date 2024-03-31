@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
+import "./common.css";
+
 const Modal = (props: {
   open: boolean;
   header: string;
@@ -11,7 +13,7 @@ const Modal = (props: {
   const { open, header, children, onClose } = props;
 
   const ref = useRef<HTMLDialogElement>(null);
-  const mySound = require("../../assets/sounds/page-turn-sound-effect.mp3");
+  const mySound = require("../../assets/sounds/pageTurn.mp3");
   const audio = new Audio(mySound);
 
   useEffect(() => {

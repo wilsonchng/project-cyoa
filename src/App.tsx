@@ -1,19 +1,18 @@
 import { createContext, useReducer } from "react";
-import {
-  Achievements,
-  CharacterCreation,
-  Credits,
-  GameScreen,
-  DeathScreen,
-  MainMenu,
-  ChapterSummary,
-  CharacterScreen,
-} from "./components";
 import { Screen } from "./utils/constants";
 import { INITIAL_STATE, storeReducer } from "./utils/store";
 import { Store } from "./utils/types";
-import { Header } from "./components/common";
-
+import { Footer, Header } from "./components/common";
+import {
+  MainMenu,
+  Achievements,
+  CharacterCreation,
+  Credits,
+  CharacterSheet,
+  Summary,
+  Death,
+  Game,
+} from "./components/screens";
 import "./root.css";
 
 export const StoreContext = createContext({} as Store);
@@ -26,23 +25,23 @@ const App = () => {
   const renderScreen = () => {
     window.scrollTo(0, 0);
     switch (state.currentScreen) {
+      case Screen.MainMenu:
+      default:
+        return <MainMenu />;
       case Screen.Achievements:
         return <Achievements />;
       case Screen.Creation:
         return <CharacterCreation />;
       case Screen.Character:
-        return <CharacterScreen />;
+        return <CharacterSheet />;
       case Screen.Summary:
-        return <ChapterSummary />;
+        return <Summary />;
       case Screen.Credits:
         return <Credits />;
       case Screen.Game:
-        return <GameScreen />;
+        return <Game />;
       case Screen.Death:
-        return <DeathScreen />;
-      case Screen.MainMenu:
-      default:
-        return <MainMenu />;
+        return <Death />;
     }
   };
 
@@ -51,10 +50,7 @@ const App = () => {
       <div className="root">
         <Header />
         <div className="app">{renderScreen()}</div>
-        <br />
-        <div className="footer">
-          Copyright © 2024 Wilson Chng. All rights reserved.
-        </div>
+        <Footer />
       </div>
     </StoreContext.Provider>
   );

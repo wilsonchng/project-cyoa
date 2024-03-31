@@ -1,13 +1,6 @@
 import { Dispatch } from "react";
-import {
-  Chapter,
-  Hobby,
-  Hunger,
-  Item,
-  Occupation,
-  Screen,
-  UpdateType,
-} from "./constants";
+import { UpdateType } from "./store";
+import { Chapter, Hunger, ItemType, Occupation, Screen } from "./constants";
 
 export interface Store {
   state: AppState;
@@ -19,32 +12,25 @@ export interface Update {
   payload?: any;
 }
 
-export interface Character {
+export interface Playthrough {
   name: string;
-  occupation: Occupation | null;
-  hobby: Hobby | null;
-  ability: AbilityScore;
-}
-
-export interface AbilityScore {
-  Strength: number;
-  Fitness: number;
-  Firearms: number;
-  Medicine: number;
-  Stealth: number;
-  Survival: number;
-}
-
-export interface AppState {
-  currentScreen: Screen;
-  lastScreen: Screen;
-  currentChapter: Chapter;
-  currentPage: number;
-  character: Character | null;
+  occupation: Occupation;
+  chapter: Chapter;
   health: number;
   hunger: Hunger;
   weapon: Item | null;
   inventory: Item[];
   killCount: number;
   daysLived: number;
+}
+
+export interface AppState {
+  currentScreen: Screen;
+  lastScreen: Screen;
+  playthrough: Playthrough | null;
+}
+
+export interface Item {
+  id: string;
+  type: ItemType;
 }

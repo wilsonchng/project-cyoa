@@ -1,0 +1,148 @@
+.banner {
+  text-align: center;
+  color: crimson;
+  font-size: x-large;
+  font-weight: bold;
+  margin: 40px 0px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding: 24px 0px;
+  height: 2.5rem;
+  color: darkgray;
+  font-size: small;
+}
+
+.header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  height: 42px;
+  width: 100%;
+  background-color: crimson;
+  font-size: larger;
+
+  svg,
+  span {
+    padding: 0px 1rem;
+  }
+}
+
+.modal {
+  padding: 0px;
+  overflow: auto;
+  border-color: dimgrey;
+  background-color: black;
+  color: ivory;
+  user-select: none;
+  ::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  h3 {
+    margin: 0px;
+  }
+
+  .modal-contents {
+    padding: 1rem;
+  }
+}
+
+.dropdown {
+  z-index: 10000;
+  position: relative;
+
+  .dropdown-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding: 10px;
+    min-width: 200px;
+    width: auto;
+    background-color: black;
+    border: 1px solid whitesmoke;
+    border-radius: 4px;
+    font-weight: lighter;
+  }
+
+  .dropdown-content {
+    cursor: pointer;
+
+    .option {
+      padding: 8px;
+
+      &:hover {
+        background-color: dimgray;
+      }
+
+      &.selected,
+      &:active {
+        background-color: grey;
+      }
+    }
+  }
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  cursor: zoom-in;
+
+  &.zoomed {
+    cursor: zoom-out;
+    transform: scale(1.5);
+    background-color: black;
+    box-shadow: 0 0 8px 8px black;
+  }
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin: 5px;
+  min-width: 200px;
+  font-size: medium;
+  color: ivory;
+  background-color: black;
+  border: 1px solid whitesmoke;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 10px;
+
+  svg {
+    font-size: x-large;
+  }
+
+  &:hover {
+    background-color: dimgray;
+  }
+
+  &:active {
+    background-color: grey;
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: darkgrey;
+  }
+}
+
+.icon-button {
+  cursor: pointer;
+  font-size: large;
+
+  &:hover {
+    transform: scale(1.25);
+  }
+
+  &:active {
+    transform: scale(1.5);
+  }
+}

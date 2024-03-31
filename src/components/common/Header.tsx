@@ -7,16 +7,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { GAME_NAME, StoreContext } from "../../App";
-import { Screen, UpdateType } from "../../utils/constants";
+import { Screen } from "../../utils/constants";
 import Modal from "./Modal";
 import Button from "./Button";
+import { UpdateType } from "../../utils/store";
+
+import "./common.css";
 
 const Header = () => {
   const store = useContext(StoreContext);
   const [showStats, setShowStats] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
-  const mySound = require("../../assets/sounds/page-turn-sound-effect.mp3");
+  const mySound = require("../../assets/sounds/pageTurn.mp3");
   const audio = new Audio(mySound);
 
   const switchToStats = () => {
@@ -51,7 +54,7 @@ const Header = () => {
 
     return (
       <>
-        {store.state.character && notOnMenu && (
+        {store.state.playthrough && notOnMenu && (
           <FontAwesomeIcon icon={faUserCircle} onClick={switchToStats} />
         )}
         {notOnMenu && (
@@ -76,9 +79,7 @@ const Header = () => {
       >
         <div className="container">
           <p>Do you want to return to the main menu?</p>
-          <Button style={{ alignSelf: "flex-end" }} onClick={returnToMenu}>
-            Confirm
-          </Button>
+          <Button text="Confirm" onClick={returnToMenu} />
         </div>
       </Modal>
     </div>

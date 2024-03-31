@@ -1,13 +1,19 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+
+import "./common.css";
+
 const Button = (props: {
   onClick: () => void;
-  children: React.ReactNode;
+  text: string;
+  icon?: IconProp;
+  sound?: string;
   disabled?: boolean;
   title?: string;
-  style?: any;
 }) => {
-  const { onClick, children, disabled, style } = props;
+  const { onClick, text, icon, sound, disabled, title } = props;
 
-  const mySound = require("../../assets/sounds/click-button-sound-effect.mp3");
+  const mySound = require(`../../assets/sounds/${sound ? sound : "click"}.mp3`);
   const audio = new Audio(mySound);
 
   const clickFunc = () => {
@@ -16,15 +22,17 @@ const Button = (props: {
   };
 
   return (
-    <button
-      title={props.title}
-      disabled={disabled}
-      className="button"
-      onClick={clickFunc}
-      style={style}
-    >
-      {children}
-    </button>
+    <div>
+      <button
+        title={title ? title : text}
+        disabled={disabled}
+        className="button"
+        onMouseDown={clickFunc}
+      >
+        {text}
+        {icon && <FontAwesomeIcon icon={icon} />}
+      </button>
+    </div>
   );
 };
 
