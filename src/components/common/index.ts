@@ -6,5 +6,16 @@ import Modal from "./Modal";
 import Image from "./Image";
 import Dropdown from "./Dropdown";
 import IconButton from "./IconButton";
+import HealthBar from "./HealthBar";
 
-export { Button, IconButton, Banner, Header, Footer, Modal, Image, Dropdown };
+export {
+  Button,
+  IconButton,
+  Banner,
+  Header,
+  Footer,
+  Modal,
+  Image,
+  Dropdown,
+  HealthBar,
+};

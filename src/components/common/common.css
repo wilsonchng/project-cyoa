@@ -24,10 +24,18 @@
   width: 100%;
   background-color: crimson;
   font-size: larger;
+  justify-content: space-between;
 
-  svg,
-  span {
-    padding: 0px 1rem;
+  .header-text {
+    margin-left: 12px;
+  }
+
+  .header-icons {
+    margin-right: 12px;
+
+    .icon-button + .icon-button {
+      padding-left: 12px;
+    }
   }
 }
 
@@ -52,7 +60,6 @@
 }
 
 .dropdown {
-  z-index: 10000;
   position: relative;
 
   .dropdown-btn {
@@ -61,9 +68,8 @@
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
-    padding: 10px;
-    min-width: 200px;
-    width: auto;
+    padding: 8px;
+    width: 200px;
     background-color: black;
     border: 1px solid whitesmoke;
     border-radius: 4px;
@@ -71,10 +77,23 @@
   }
 
   .dropdown-content {
+    position: absolute;
+    z-index: 9999;
+    width: 200px;
     cursor: pointer;
+    border: 1px solid whitesmoke;
+    background-color: black;
+    border-top: none;
+    border-radius: 2px;
 
     .option {
+      display: flex;
+      justify-content: space-between;
       padding: 8px;
+
+      svg {
+        font-size: large;
+      }
 
       &:hover {
         background-color: dimgray;
@@ -137,6 +156,7 @@
 .icon-button {
   cursor: pointer;
   font-size: large;
+  padding: 2px;
 
   &:hover {
     transform: scale(1.25);
@@ -144,5 +164,17 @@
 
   &:active {
     transform: scale(1.5);
+  }
+}
+
+.healthbar {
+  width: 240px;
+  background-color: white;
+  border-radius: 10px;
+
+  .health {
+    color: white;
+    text-align: center;
+    border-radius: 10px;
   }
 }

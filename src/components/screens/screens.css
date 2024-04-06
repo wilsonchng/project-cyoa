@@ -11,7 +11,7 @@
   }
 }
 
-.gender-button {
+.sex-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,5 +55,24 @@
 
   &:disabled {
     cursor: default;
+  }
+}
+
+.skills-description {
+  display: flex;
+  flex-direction: column;
+  font-size: large;
+  width: 100%;
+
+  .contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0px;
+    width: 100%;
+  }
+
+  .column {
+    gap: 12px;
   }
 }

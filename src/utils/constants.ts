@@ -18,22 +18,30 @@ export enum Chapter {
   Louisville = "Louisville Checkpoint",
 }
 
-export enum Gender {
-  Male,
-  Female,
+export enum Sex {
+  Male = "Male",
+  Female = "Female",
 }
 
 export enum Occupation {
   Firefighter = "Firefighter",
   Police = "Police Officer",
-  Baseball = "Baseball Player",
   Lumberjack = "Lumberjack",
-  Construction = "Construction Worker",
   Doctor = "Doctor",
-  Chef = "Chef",
+  Burglar = "Burglar",
+}
+
+export enum Hobby {
+  Runner = "Runner",
+  Weightlifter = "Weightlifter",
+  Gymnast = "Gymnast",
+  Shooter = "Shooter",
+  FirstAid = "First Aider",
+  Baseball = "Baseball Player",
 }
 
 export enum Hunger {
+  Full = "Full",
   Satiated = "Satiated",
   Hungry = "Hungry",
   Starving = "Starving",

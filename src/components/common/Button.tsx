@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useSound } from "../../utils/hooks";
 
 import "./common.css";
 
@@ -13,11 +14,10 @@ const Button = (props: {
 }) => {
   const { onClick, text, icon, sound, disabled, title } = props;
 
-  const mySound = require(`../../assets/sounds/${sound ? sound : "click"}.mp3`);
-  const audio = new Audio(mySound);
+  const clickSound = useSound(`${sound ? sound : "click"}.mp3`);
 
   const clickFunc = () => {
-    audio.play();
+    clickSound.play();
     onClick();
   };
 

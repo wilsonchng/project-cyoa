@@ -50,7 +50,9 @@ const MainMenu = () => {
             You have an existing character, if you start a new game it will
             override your current playthrough.
           </p>
-          <Button text="Confirm" onClick={overrideExisting} />
+          <span style={{ alignSelf: "end", padding: "2px" }}>
+            <Button text="Confirm" onClick={overrideExisting} />
+          </span>
         </div>
       </Modal>
     </>

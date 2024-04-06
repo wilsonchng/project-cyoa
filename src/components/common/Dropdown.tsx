@@ -1,28 +1,33 @@
 import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  IconDefinition,
+  faCaretDown,
+  faCaretUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { useSound } from "../../utils/hooks";
 
 import "./common.css";
 
 const Dropdown = (props: {
-  onChange: (selection: string) => void;
   options: string[];
-  initial: string;
+  initial?: string;
   title?: string;
+  onChange: (selection: string) => void;
+  getIcon?: (selection: string) => IconDefinition;
 }) => {
-  const { onChange, options, initial, title } = props;
+  const { options, initial, title, onChange, getIcon } = props;
 
-  const mySound = require("../../assets/sounds/click.mp3");
-  const audio = new Audio(mySound);
+  const mySound = useSound("click.mp3");
 
   const ref = useRef<HTMLDivElement>(null);
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>(initial);
+  const [selected, setSelected] = useState<string>(initial || "");
 
   useEffect(() => {
     const handleClick = (event: any) => {
-      if (event.target.className !== "dropdown-btn") {
+      if (event.target.className !== `dropdown-btn ${options[0]}`) {
         setIsActive(false);
       }
     };
@@ -34,12 +39,11 @@ const Dropdown = (props: {
   }, [ref.current]);
 
   const onClick = () => {
-    audio.play();
+    mySound.play();
     setIsActive(!isActive);
   };
 
   const onSelect = (selection: string) => {
-    audio.play();
     setSelected(selection);
     setIsActive(!isActive);
     onChange(selection);
@@ -47,8 +51,12 @@ const Dropdown = (props: {
 
   return (
     <div className="dropdown" ref={ref}>
-      <div className="dropdown-btn" title={title} onClick={onClick}>
-        {selected}
+      <div
+        className={`dropdown-btn ${options[0]}`}
+        title={title}
+        onClick={onClick}
+      >
+        {selected ? selected : "Choose one..."}
         <FontAwesomeIcon icon={isActive ? faCaretUp : faCaretDown} />
       </div>
       <div
@@ -63,6 +71,7 @@ const Dropdown = (props: {
               onClick={() => onSelect(opt)}
             >
               {opt}
+              {getIcon ? <FontAwesomeIcon icon={getIcon(opt)} /> : null}
             </div>
           );
         })}

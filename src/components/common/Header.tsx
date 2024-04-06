@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useMemo, useState } from "react";
 import {
   faHome,
   faUserCircle,
@@ -8,78 +7,73 @@ import {
 
 import { GAME_NAME, StoreContext } from "../../App";
 import { Screen } from "../../utils/constants";
-import Modal from "./Modal";
-import Button from "./Button";
 import { UpdateType } from "../../utils/store";
+import { useSound } from "../../utils/hooks";
+import { Modal, Button, IconButton } from "./";
 
 import "./common.css";
 
 const Header = () => {
   const store = useContext(StoreContext);
-  const [showStats, setShowStats] = useState<boolean>(false);
-  const [showSettings, setShowSettings] = useState<boolean>(false);
 
-  const mySound = require("../../assets/sounds/pageTurn.mp3");
-  const audio = new Audio(mySound);
+  const [open, setOpen] = useState<boolean>(false);
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
 
-  const switchToStats = () => {
-    audio.play();
-    setShowStats(true);
-    changeScreen(Screen.Character);
-  };
+  const mySound = useSound("pageTurn.mp3");
 
-  const returnToMenu = () => {
-    setShowSettings(false);
-    changeScreen(Screen.MainMenu);
-  };
+  const showStats = useMemo(
+    () => store.state.currentScreen === Screen.Character,
+    [store.state.currentScreen]
+  );
 
   const changeScreen = (screen: Screen) =>
     store.dispatch({ type: UpdateType.Screen, payload: screen });
 
-  const back = () => {
-    audio.play();
-    setShowStats(false);
-    store.dispatch({
-      type: UpdateType.Screen,
-      payload: store.state.lastScreen,
-    });
+  const switchToCharacter = () => {
+    mySound.play();
+    changeScreen(Screen.Character);
   };
 
-  // add event listener for "back" pressed on mobile
-  const getContents = () => {
-    if (showStats)
-      return <FontAwesomeIcon icon={faArrowRight} onClick={back} />;
+  const returnToMenu = () => {
+    changeScreen(Screen.MainMenu);
+    closeModal();
+  };
+
+  const back = () => {
+    mySound.play();
+    changeScreen(store.state.lastScreen);
+  };
+
+  // todo: add event listener for "back" pressed on mobile
+
+  const getIcons = () => {
+    if (showStats) return <IconButton icon={faArrowRight} onClick={back} />;
 
     const notOnMenu = store.state.currentScreen !== Screen.MainMenu;
 
     return (
       <>
         {store.state.playthrough && notOnMenu && (
-          <FontAwesomeIcon icon={faUserCircle} onClick={switchToStats} />
+          <IconButton icon={faUserCircle} onClick={switchToCharacter} />
         )}
-        {notOnMenu && (
-          <FontAwesomeIcon
-            icon={faHome}
-            onClick={() => setShowSettings(true)}
-          />
-        )}
+        {notOnMenu && <IconButton icon={faHome} onClick={openModal} />}
       </>
     );
   };
 
   return (
     <div className="header">
-      <span>{showStats ? "Character Stats" : GAME_NAME}</span>
-      <span style={{ flexGrow: 1 }} />
-      {getContents()}
-      <Modal
-        header="Return to Menu"
-        open={showSettings}
-        onClose={() => setShowSettings(false)}
-      >
+      <span className="header-text">
+        {showStats ? "Character Stats" : GAME_NAME}
+      </span>
+      <div className="header-icons">{getIcons()}</div>
+      <Modal header="Return to Menu" open={open} onClose={closeModal}>
         <div className="container">
           <p>Do you want to return to the main menu?</p>
-          <Button text="Confirm" onClick={returnToMenu} />
+          <span style={{ alignSelf: "end", padding: "2px" }}>
+            <Button text="Confirm" onClick={returnToMenu} />
+          </span>
         </div>
       </Modal>
     </div>

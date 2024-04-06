@@ -1,7 +1,13 @@
-import { Gender } from "./constants";
+import { Sex } from "./constants";
 
-export const getRandomName = (gender: Gender = Gender.Male) => {
-  const firstNames = gender === Gender.Male ? maleFirstNames : femaleFirstNames;
+export const getRandomEnum = (myEnum: object): string => {
+  const enumValues = Object.values(myEnum);
+  const randomIndex = Math.floor(Math.random() * enumValues.length);
+  return enumValues[randomIndex];
+};
+
+export const getRandomName = (sex: Sex = Sex.Male): string => {
+  const firstNames = sex === Sex.Male ? maleFirstNames : femaleFirstNames;
 
   const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];

@@ -8,8 +8,10 @@ const IconButton = (props: {
   onClick: () => void;
   title?: string;
   style?: any;
+  bounce?: boolean;
+  shake?: boolean;
 }) => {
-  const { icon, title, onClick, style } = props;
+  const { onClick, icon, title, style, bounce, shake } = props;
   return (
     <FontAwesomeIcon
       icon={icon}
@@ -17,6 +19,8 @@ const IconButton = (props: {
       onMouseDown={onClick}
       title={title}
       style={style}
+      bounce={bounce}
+      shake={shake}
     />
   );
 };
