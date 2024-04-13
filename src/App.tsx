@@ -9,7 +9,6 @@ import {
   CharacterCreation,
   Credits,
   CharacterSheet,
-  Summary,
   Death,
   Game,
 } from "./components/screens";
@@ -25,23 +24,21 @@ const App = () => {
   const renderScreen = () => {
     window.scrollTo(0, 0);
     switch (state.currentScreen) {
-      case Screen.MainMenu:
-      default:
-        return <MainMenu />;
       case Screen.Achievements:
         return <Achievements />;
       case Screen.Creation:
         return <CharacterCreation />;
       case Screen.Character:
         return <CharacterSheet />;
-      case Screen.Summary:
-        return <Summary />;
       case Screen.Credits:
         return <Credits />;
       case Screen.Game:
         return <Game />;
       case Screen.Death:
         return <Death />;
+      case Screen.MainMenu:
+      default:
+        return <MainMenu />;
     }
   };
 

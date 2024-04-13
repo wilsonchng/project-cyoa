@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import { UpdateType } from "./store";
 import {
   Chapter,
+  GameMode,
   Hobby,
   Hunger,
   ItemType,
@@ -26,6 +27,7 @@ export interface Playthrough {
   occupation: Occupation;
   hobby: Hobby;
   skills: Skills;
+  gameMode: GameMode;
   chapter: Chapter;
   health: number;
   hunger: Hunger;

@@ -178,3 +178,21 @@
     border-radius: 10px;
   }
 }
+
+.typewriter {
+  font-size: large;
+  text-align: center !important;
+}
+
+.fade-in {
+  animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}

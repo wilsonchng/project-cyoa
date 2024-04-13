@@ -11,21 +11,19 @@ import {
   Occupation,
   Screen,
   Hobby,
+  GameMode,
 } from "../../utils/constants";
 import { Playthrough } from "../../utils/types";
-import { UpdateType } from "../../utils/store";
 import { getRandomEnum, getRandomName } from "../../utils/random";
 import { getHobbyIcon, getOccupationIcon, getSkills } from "../../utils/skills";
 import { SkillSheet } from "./Character";
-import { useSound } from "../../utils/hooks";
+import { useSound } from "../../utils/customHooks";
+import { changeScreen, newGame } from "../../utils/actionCreators";
 
 import "./screens.css";
 
 const CharacterCreation = () => {
   const store = useContext(StoreContext);
-
-  const changeScreen = (screen: Screen) => () =>
-    store.dispatch({ type: UpdateType.Screen, payload: screen });
 
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [name, setName] = useState<string>(getRandomName(sex));
@@ -63,6 +61,7 @@ const CharacterCreation = () => {
       occupation: occupation,
       hobby: hobby,
       skills: skills,
+      gameMode: GameMode.Prologue,
       chapter: Chapter.Rosewood,
       health: 100,
       hunger: Hunger.Satiated,
@@ -71,8 +70,8 @@ const CharacterCreation = () => {
       daysLived: 0,
     };
 
-    store.dispatch({ type: UpdateType.NewPlaythrough, payload: newCharacter });
-    store.dispatch({ type: UpdateType.Screen, payload: Screen.Game });
+    newGame(store, newCharacter);
+    changeScreen(store, Screen.Game);
   };
 
   return (
@@ -87,7 +86,10 @@ const CharacterCreation = () => {
       </div>
       <br />
       <Button text="START" sound="start" onClick={startGame} disabled={error} />
-      <Button text="BACK" onClick={changeScreen(Screen.MainMenu)} />
+      <Button
+        text="BACK"
+        onClick={() => changeScreen(store, Screen.MainMenu)}
+      />
     </>
   );
 };

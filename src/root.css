@@ -52,11 +52,7 @@
     min-width: 320px;
 
     p {
-      align-self: flex-start;
-    }
-
-    b {
-      text-align: center;
+      text-align: justify;
     }
 
     .error {

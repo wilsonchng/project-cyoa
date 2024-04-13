@@ -12,17 +12,11 @@ import {
   getOccupationIcon,
   getSkillDescription,
 } from "../../utils/skills";
-import { UpdateType } from "../../utils/store";
+import { changeScreen } from "../../utils/actionCreators";
 
 export const CharacterSheet = () => {
   const store = useContext(StoreContext);
   const playthrough = store.state.playthrough;
-
-  const returnPage = () =>
-    store.dispatch({
-      type: UpdateType.Screen,
-      payload: store.state.lastScreen,
-    });
 
   return (
     <>
@@ -35,7 +29,10 @@ export const CharacterSheet = () => {
         </div>
       )}
       <br />
-      <Button text="Back" onClick={returnPage} />
+      <Button
+        text="Back"
+        onClick={() => changeScreen(store, store.state.lastScreen)}
+      />
     </>
   );
 };

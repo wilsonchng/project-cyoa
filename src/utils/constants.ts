@@ -2,11 +2,20 @@ export enum Screen {
   MainMenu,
   Achievements,
   Credits,
-  Game,
-  Summary,
   Creation,
+  Game,
   Character,
   Death,
+}
+
+export enum GameMode {
+  Prologue,
+  Dawn,
+  Explore,
+  Location,
+  Combat,
+  Dusk,
+  Night,
 }
 
 export enum Chapter {

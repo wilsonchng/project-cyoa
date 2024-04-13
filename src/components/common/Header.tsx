@@ -7,9 +7,9 @@ import {
 
 import { GAME_NAME, StoreContext } from "../../App";
 import { Screen } from "../../utils/constants";
-import { UpdateType } from "../../utils/store";
-import { useSound } from "../../utils/hooks";
+import { useSound } from "../../utils/customHooks";
 import { Modal, Button, IconButton } from "./";
+import { changeScreen } from "../../utils/actionCreators";
 
 import "./common.css";
 
@@ -27,22 +27,19 @@ const Header = () => {
     [store.state.currentScreen]
   );
 
-  const changeScreen = (screen: Screen) =>
-    store.dispatch({ type: UpdateType.Screen, payload: screen });
-
   const switchToCharacter = () => {
     mySound.play();
-    changeScreen(Screen.Character);
+    changeScreen(store, Screen.Character);
   };
 
   const returnToMenu = () => {
-    changeScreen(Screen.MainMenu);
+    changeScreen(store, Screen.MainMenu);
     closeModal();
   };
 
   const back = () => {
     mySound.play();
-    changeScreen(store.state.lastScreen);
+    changeScreen(store, store.state.lastScreen);
   };
 
   // todo: add event listener for "back" pressed on mobile

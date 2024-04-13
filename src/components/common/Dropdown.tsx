@@ -5,7 +5,7 @@ import {
   faCaretDown,
   faCaretUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSound } from "../../utils/hooks";
+import { useSound } from "../../utils/customHooks";
 
 import "./common.css";
 

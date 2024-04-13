@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useSound } from "../../utils/hooks";
+import { useSound } from "../../utils/customHooks";
 import IconButton from "./IconButton";
 
 import "./common.css";

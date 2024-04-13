@@ -7,6 +7,8 @@ import Image from "./Image";
 import Dropdown from "./Dropdown";
 import IconButton from "./IconButton";
 import HealthBar from "./HealthBar";
+import Typewriter from "./Typewriter";
+import Fader from "./Fader";
 
 export {
   Button,
@@ -18,4 +20,6 @@ export {
   Image,
   Dropdown,
   HealthBar,
+  Typewriter,
+  Fader,
 };

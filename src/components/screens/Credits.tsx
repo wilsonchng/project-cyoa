@@ -2,13 +2,10 @@ import { useContext } from "react";
 import { GAME_NAME, StoreContext } from "../../App";
 import { Banner, Button } from "../common";
 import { Screen } from "../../utils/constants";
-import { UpdateType } from "../../utils/store";
+import { changeScreen } from "../../utils/actionCreators";
 
 const Credits = () => {
   const store = useContext(StoreContext);
-
-  const changeScreen = (screen: Screen) => () =>
-    store.dispatch({ type: UpdateType.Screen, payload: screen });
 
   return (
     <>
@@ -60,7 +57,10 @@ const Credits = () => {
         </p>
       </div>
       <br />
-      <Button text="BACK" onClick={changeScreen(Screen.MainMenu)} />
+      <Button
+        text="BACK"
+        onClick={() => changeScreen(store, Screen.MainMenu)}
+      />
     </>
   );
 };
