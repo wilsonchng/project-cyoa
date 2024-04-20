@@ -51,7 +51,7 @@ const Header = () => {
 
     return (
       <>
-        {store.state.playthrough && notOnMenu && (
+        {store.state.player && notOnMenu && (
           <IconButton icon={faUserCircle} onClick={switchToCharacter} />
         )}
         {notOnMenu && <IconButton icon={faHome} onClick={openModal} />}

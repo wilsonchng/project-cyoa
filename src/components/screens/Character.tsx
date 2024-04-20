@@ -1,13 +1,19 @@
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
-import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAddressCard,
+  faMars,
+  faUtensils,
+  faVenus,
+} from "@fortawesome/free-solid-svg-icons";
 
-import { Playthrough, Skills } from "../../utils/types";
+import { Player } from "../../utils/types";
 import { Hunger, Sex } from "../../utils/constants";
 import { Banner, IconButton, Modal, HealthBar, Button } from "../common";
 import { StoreContext } from "../../App";
 import {
+  Skills,
   getHobbyIcon,
   getOccupationIcon,
   getSkillDescription,
@@ -16,16 +22,16 @@ import { changeScreen } from "../../utils/actionCreators";
 
 export const CharacterSheet = () => {
   const store = useContext(StoreContext);
-  const playthrough = store.state.playthrough;
+  const player = store.state.player;
 
   return (
     <>
-      {playthrough && (
+      {player && (
         <div className="container">
-          <Banner>{playthrough.name}</Banner>
-          <Background character={playthrough} />
-          <Status character={playthrough} />
-          <SkillSheet skills={playthrough.skills} />
+          <Banner>{player.name}</Banner>
+          <Background character={player} />
+          <Status character={player} />
+          <SkillSheet skills={player.skills} />
         </div>
       )}
       <br />
@@ -37,14 +43,20 @@ export const CharacterSheet = () => {
   );
 };
 
-const Status = (props: { character: Playthrough }) => {
-  const { health, hunger, killCount, daysLived } = props.character;
+const Status = (props: { character: Player }) => {
+  const {
+    currHealth: health,
+    maxHealth,
+    hunger,
+    killCount,
+    daysLived,
+  } = props.character;
 
   return (
     <>
       <div className="row">
         <label>Health:</label>
-        <HealthBar health={health} />
+        <HealthBar health={health} maxHealth={maxHealth} />
       </div>
       <div className="row">
         <HungerStatus hunger={hunger} />
@@ -90,23 +102,22 @@ const HungerStatus = (props: { hunger: Hunger }) => {
         style={{ marginLeft: "5px" }}
         onClick={openModal}
       />
-      <Modal header="Hunger" open={open} onClose={closeModal}>
+      <Modal header="HUNGER" icon={faUtensils} open={open} onClose={closeModal}>
         <div className="container">
           <p>Affects physical performance, eat food to reduce hunger.</p>
           <p>
-            <strong>FULL</strong> +5% MELEE damage, +5% chance to SHOVE, +10%
-            STAMINA
+            <strong>FULL</strong> +5% MELEE damage, +5% chance to SHOVE, +10 MAX
+            HEALTH
           </p>
           <p>
             <strong>SATIATED</strong> no bonuses or penalties
           </p>
           <p>
-            <strong>HUNGRY</strong> -5% MELEE damage, -5% chance to SHOVE, -10%
-            STAMINA
+            <strong>HUNGRY</strong> -5% MELEE damage, -5% chance to SHOVE
           </p>
           <p>
-            <strong>STARVING</strong> -10% MELEE damage, -10% chance to SHOVE, ,
-            -20% STAMINA
+            <strong>STARVING</strong> -10% MELEE damage, -10% chance to SHOVE,
+            -10 MAX HEALTH
           </p>
         </div>
       </Modal>
@@ -114,7 +125,7 @@ const HungerStatus = (props: { hunger: Hunger }) => {
   );
 };
 
-const Background = (props: { character: Playthrough }) => {
+const Background = (props: { character: Player }) => {
   const { sex, occupation, hobby, chapter } = props.character;
 
   return (
@@ -183,7 +194,12 @@ export const SkillSheet = (props: { skills: Skills }) => {
           </div>
         </div>
       </div>
-      <Modal header="Skills Description" open={open} onClose={closeModal}>
+      <Modal
+        header="SKILLS"
+        icon={faAddressCard}
+        open={open}
+        onClose={closeModal}
+      >
         <div className="container">
           {Object.keys(skills).map((key) => {
             return (

@@ -7,10 +7,16 @@ enum HealthColor {
   Dying = "crimson",
 }
 
-const HealthBar = (props: { health: number }) => {
-  const { health } = props;
+const HealthBar = (props: {
+  health: number;
+  maxHealth: number;
+  enemy?: boolean;
+}) => {
+  const { health, maxHealth, enemy = false } = props;
 
   const getColor = () => {
+    if (enemy) return HealthColor.Dying;
+
     if (health > 70) {
       return HealthColor.Healthy;
     } else if (health > 50) {
@@ -29,7 +35,10 @@ const HealthBar = (props: { health: number }) => {
       <div className="healthbar">
         <div
           className="health"
-          style={{ width: `${health}%`, backgroundColor: getColor() }}
+          style={{
+            width: `${(health / maxHealth) * 100}%`,
+            backgroundColor: getColor(),
+          }}
         >
           {health}
         </div>

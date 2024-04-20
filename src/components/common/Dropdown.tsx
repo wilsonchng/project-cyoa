@@ -11,19 +11,18 @@ import "./common.css";
 
 const Dropdown = (props: {
   options: string[];
-  initial?: string;
+  selected: string;
   title?: string;
   onChange: (selection: string) => void;
   getIcon?: (selection: string) => IconDefinition;
 }) => {
-  const { options, initial, title, onChange, getIcon } = props;
+  const { options, selected, title, onChange, getIcon } = props;
 
   const mySound = useSound("click.mp3");
 
   const ref = useRef<HTMLDivElement>(null);
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>(initial || "");
 
   useEffect(() => {
     const handleClick = (event: any) => {
@@ -44,7 +43,6 @@ const Dropdown = (props: {
   };
 
   const onSelect = (selection: string) => {
-    setSelected(selection);
     setIsActive(!isActive);
     onChange(selection);
   };

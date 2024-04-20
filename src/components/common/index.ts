@@ -9,6 +9,7 @@ import IconButton from "./IconButton";
 import HealthBar from "./HealthBar";
 import Typewriter from "./Typewriter";
 import Fader from "./Fader";
+import ButtonGroup from "./ButtonGroup";
 
 export {
   Button,
@@ -22,4 +23,5 @@ export {
   HealthBar,
   Typewriter,
   Fader,
+  ButtonGroup,
 };

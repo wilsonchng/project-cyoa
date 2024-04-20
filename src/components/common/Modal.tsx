@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSound } from "../../utils/customHooks";
 import IconButton from "./IconButton";
@@ -9,9 +11,10 @@ const Modal = (props: {
   open: boolean;
   header: string;
   children: React.ReactNode;
+  icon?: IconProp;
   onClose: () => void;
 }) => {
-  const { open, header, children, onClose } = props;
+  const { open, header, children, icon, onClose } = props;
 
   const ref = useRef<HTMLDialogElement>(null);
   const mySound = useSound("pageTurn.mp3");
@@ -36,6 +39,12 @@ const Modal = (props: {
       <div className="modal-contents">
         <div className="row">
           <h3>{header}</h3>
+          {icon && (
+            <FontAwesomeIcon
+              icon={icon}
+              style={{ fontSize: "x-large", marginLeft: "5px" }}
+            />
+          )}
           <span style={{ flexGrow: 1 }} />
           <IconButton icon={faXmark} onClick={onClose} title="Close" />
         </div>

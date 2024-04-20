@@ -1,6 +1,11 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDice, faVenus, faMars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDice,
+  faVenus,
+  faMars,
+  faBiohazard,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { StoreContext } from "../../App";
 import { Banner, Button, Dropdown, IconButton } from "../common";
@@ -11,11 +16,18 @@ import {
   Occupation,
   Screen,
   Hobby,
-  GameMode,
+  Page,
 } from "../../utils/constants";
-import { Playthrough } from "../../utils/types";
+import { Player } from "../../utils/types";
 import { getRandomEnum, getRandomName } from "../../utils/random";
-import { getHobbyIcon, getOccupationIcon, getSkills } from "../../utils/skills";
+import {
+  getHobbyIcon,
+  getHobbySkills,
+  getMaxHealth,
+  getOccupationIcon,
+  getOccupationSkills,
+  getSkills,
+} from "../../utils/skills";
 import { SkillSheet } from "./Character";
 import { useSound } from "../../utils/customHooks";
 import { changeScreen, newGame } from "../../utils/actionCreators";
@@ -42,7 +54,15 @@ const CharacterCreation = () => {
     if (name && name.length > 0) setError(false);
   }, [name]);
 
-  const onToggle = (selection: Sex) => {
+  const allRandom = () => {
+    const newSex = getRandomEnum(Sex) as Sex;
+    setSex(newSex);
+    setName(getRandomName(newSex));
+    setHobby(getRandomEnum(Hobby) as Hobby);
+    setOccupation(getRandomEnum(Occupation) as Occupation);
+  };
+
+  const onSexToggle = (selection: Sex) => {
     if (sex === selection) return;
     const newSex = sex === Sex.Male ? Sex.Female : Sex.Male;
     setSex(newSex);
@@ -55,15 +75,19 @@ const CharacterCreation = () => {
       return;
     }
 
-    const newCharacter: Playthrough = {
+    const health = getMaxHealth(skills.Fitness, Hunger.Satiated);
+
+    const newCharacter: Player = {
       name: name,
       sex: sex,
       occupation: occupation,
       hobby: hobby,
       skills: skills,
-      gameMode: GameMode.Prologue,
       chapter: Chapter.Rosewood,
-      health: 100,
+      page: Page.Prologue,
+      combat: null,
+      currHealth: health,
+      maxHealth: health,
       hunger: Hunger.Satiated,
       inventory: [],
       killCount: 0,
@@ -79,13 +103,24 @@ const CharacterCreation = () => {
       <Banner>NEW GAME</Banner>
       <div className="container">
         <NameInput name={name} error={error} sex={sex} onChange={setName} />
-        <SexSelector sex={sex} onToggle={onToggle} />
+        <SexSelector sex={sex} onToggle={onSexToggle} />
         <OccupationChoice occupation={occupation} onChange={setOccupation} />
         <HobbyChoice hobby={hobby} onChange={setHobby} />
         <SkillSheet skills={skills} />
       </div>
       <br />
-      <Button text="START" sound="start" onClick={startGame} disabled={error} />
+      <Button
+        text="START"
+        onClick={startGame}
+        disabled={error}
+        icon={faBiohazard}
+      />
+      <Button
+        text="RANDOM"
+        onClick={allRandom}
+        sound="diceRoll"
+        icon={faDice}
+      />
       <Button
         text="BACK"
         onClick={() => changeScreen(store, Screen.MainMenu)}
@@ -102,15 +137,8 @@ const NameInput = (props: {
 }) => {
   const { name, error, sex: sex, onChange } = props;
 
-  const mySound = useSound("diceRoll.mp3");
-
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     onChange(e.target.value);
-
-  const randomName = () => {
-    mySound.play();
-    onChange(getRandomName(sex));
-  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -123,13 +151,7 @@ const NameInput = (props: {
           value={name}
           maxLength={24}
           onChange={onInputChange}
-        />
-        <IconButton
-          icon={faDice}
-          onClick={randomName}
-          title="Random Name"
-          style={{ marginLeft: "5px" }}
-          bounce={error}
+          autoFocus={true}
         />
       </div>
       {error && (
@@ -185,17 +207,26 @@ const OccupationChoice = (props: {
 }) => {
   const { occupation, onChange } = props;
 
+  const bonuses = Object.entries(getOccupationSkills(occupation))
+    .map((skill) => {
+      return `+${skill[1]} ${skill[0]}`;
+    })
+    .join(", ");
+
   return (
-    <div className="row">
-      <label>Occupation:</label>
-      <Dropdown
-        options={Object.values(Occupation)}
-        initial={occupation}
-        title="Select Occupation"
-        onChange={(o: string) => onChange(o as Occupation)}
-        getIcon={getOccupationIcon}
-      />
-    </div>
+    <>
+      <div className="row">
+        <label>Occupation:</label>
+        <Dropdown
+          options={Object.values(Occupation)}
+          selected={occupation}
+          title="Select Occupation"
+          onChange={(o: string) => onChange(o as Occupation)}
+          getIcon={getOccupationIcon}
+        />
+      </div>
+      <span className="bonus-text">{bonuses}</span>
+    </>
   );
 };
 
@@ -205,17 +236,26 @@ const HobbyChoice = (props: {
 }) => {
   const { hobby, onChange } = props;
 
+  const bonuses = Object.entries(getHobbySkills(hobby))
+    .map((skill) => {
+      return `+${skill[1]} ${skill[0]}`;
+    })
+    .join(", ");
+
   return (
-    <div className="row">
-      <label>Hobby:</label>
-      <Dropdown
-        options={Object.values(Hobby)}
-        initial={hobby}
-        title="Select Hobby"
-        onChange={(h: string) => onChange(h as Hobby)}
-        getIcon={getHobbyIcon}
-      />
-    </div>
+    <>
+      <div className="row">
+        <label>Hobby:</label>
+        <Dropdown
+          options={Object.values(Hobby)}
+          selected={hobby}
+          title="Select Hobby"
+          onChange={(h: string) => onChange(h as Hobby)}
+          getIcon={getHobbyIcon}
+        />
+      </div>
+      <span className="bonus-text">{bonuses}</span>
+    </>
   );
 };
 

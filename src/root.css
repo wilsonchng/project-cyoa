@@ -52,13 +52,18 @@
     min-width: 320px;
 
     p {
+      font-size: large;
       text-align: justify;
+    }
+
+    hr {
+      width: 100%;
+      border: 1px dotted grey;
     }
 
     .error {
       position: absolute;
       color: yellow;
-      font-size: small;
       margin: 0px;
     }
 
@@ -71,14 +76,11 @@
       color: darkgrey;
       margin: 0px 6px;
       text-align: center;
-      font-size: small;
     }
 
     .bonus-text {
-      align-self: center;
       color: lawngreen;
       text-align: center;
-      font-size: small;
     }
 
     .damage-text {

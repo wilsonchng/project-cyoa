@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { UpdateType } from "./store";
 import {
   Chapter,
-  GameMode,
+  Page as Page,
   Hobby,
   Hunger,
   ItemType,
@@ -10,6 +10,8 @@ import {
   Screen,
   Sex,
 } from "./constants";
+import { Enemy } from "./enemy";
+import { Skills } from "./skills";
 
 export interface Store {
   state: AppState;
@@ -21,39 +23,44 @@ export interface Update {
   payload?: any;
 }
 
-export interface Playthrough {
+export interface AppState {
+  currentScreen: Screen;
+  lastScreen: Screen;
+  player: Player | null;
+}
+
+export interface Player {
   name: string;
   sex: Sex;
   occupation: Occupation;
   hobby: Hobby;
   skills: Skills;
-  gameMode: GameMode;
   chapter: Chapter;
-  health: number;
+  page: Page;
+  combat: Combat | null;
+  currHealth: number;
+  maxHealth: number;
   hunger: Hunger;
   inventory: Item[];
   killCount: number;
   daysLived: number;
 }
 
-export interface Skills {
-  Strength: number;
-  Fitness: number;
-  Stealth: number;
-  Medicine: number;
-  Firearms: number;
-  Axes: number;
-  Blades: number;
-  Bludgeon: number;
+export interface Combat {
+  text: string;
+  playersTurn: boolean;
+  enemy: Enemy;
+  noFlee?: boolean;
 }
 
 export interface AppState {
   currentScreen: Screen;
   lastScreen: Screen;
-  playthrough: Playthrough | null;
+  player: Player | null;
 }
 
 export interface Item {
   id: string;
+  name: string;
   type: ItemType;
 }

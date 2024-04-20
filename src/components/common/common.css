@@ -126,7 +126,8 @@
   justify-content: center;
   padding: 5px;
   margin: 5px;
-  min-width: 200px;
+  width: 200px;
+  height: 38px;
   font-size: medium;
   color: ivory;
   background-color: black;
@@ -148,7 +149,7 @@
   }
 
   &:disabled {
-    cursor: default;
+    cursor: not-allowed;
     background-color: darkgrey;
   }
 }
@@ -184,8 +185,11 @@
   text-align: center !important;
 }
 
-.fade-in {
-  animation: fade-in 2s;
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 @keyframes fade-in {
@@ -194,5 +198,14 @@
   }
   to {
     opacity: 100;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 100;
+  }
+  to {
+    opacity: 0;
   }
 }

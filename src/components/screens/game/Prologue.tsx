@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { StoreContext } from "../../../App";
 import { Banner, Button, Fader, Typewriter } from "../../common";
-import { setGameMode } from "../../../utils/actionCreators";
-import { GameMode } from "../../../utils/constants";
+import { changePage } from "../../../utils/actionCreators";
+import { Page } from "../../../utils/constants";
 
 const Prologue = () => {
   const store = useContext(StoreContext);
@@ -17,14 +17,14 @@ const Prologue = () => {
       <Banner>Prologue</Banner>
       <Typewriter
         fullText={
-          "A mysterious infection has swept over Knox country, turning its inhabitants into mindless, insatiable zombies overnight."
+          "A mysterious infection has swept over Knox country, turning its inhabitants into mindless, insatiable cannibals overnight."
         }
         onDone={() => setPartOne(true)}
       />
       {partOne && (
         <Typewriter
           fullText={
-            "In response, the government issued a massive quarantine, calling in the military to erect a blockade to contain the epidemic."
+            "In response, the government issued a quarantine, calling in the military to erect a blockade to contain the epidemic."
           }
           onDone={() => setPartTwo(true)}
         />
@@ -49,7 +49,7 @@ const Prologue = () => {
           <Button
             text="BEGIN"
             sound="start"
-            onClick={() => setGameMode(store, GameMode.Dawn)}
+            onClick={() => changePage(store, Page.Tutorial)}
           />
         </Fader>
       )}

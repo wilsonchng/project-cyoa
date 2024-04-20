@@ -1,17 +1,21 @@
 import { useContext } from "react";
 import { StoreContext } from "../../App";
-import { GameMode } from "../../utils/constants";
-import { Dawn, Prologue } from "./game/";
+import { Page } from "../../utils/constants";
+import { Combat, Dawn, Prologue, Tutorial } from "./game/";
 
 const Game = () => {
   const store = useContext(StoreContext);
-  const playthrough = store.state.playthrough!;
+  const player = store.state.player!;
 
   const renderGame = () => {
-    switch (playthrough.gameMode) {
-      case GameMode.Dawn:
+    switch (player.page) {
+      case Page.Combat:
+        return <Combat />;
+      case Page.Tutorial:
+        return <Tutorial />;
+      case Page.Dawn:
         return <Dawn />;
-      case GameMode.Prologue:
+      case Page.Prologue:
       default:
         return <Prologue />;
     }

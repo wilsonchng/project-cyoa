@@ -1,13 +1,23 @@
 import { useContext } from "react";
 import { StoreContext } from "../../../App";
+import { Banner, Button } from "../../common";
 
 const Dawn = () => {
   const store = useContext(StoreContext);
-  const playthrough = store.state.playthrough;
+  const player = store.state.player;
 
-  if (!playthrough) return null; // throw error?
+  if (!player) return null; // throw error?
 
-  return <></>;
+  return (
+    <>
+      <Banner>Dawn</Banner>
+      <br />
+      <Button text="Explore" onClick={console.log} />
+      <Button text="Supplies" onClick={console.log} />
+      <Button text="Objectives" onClick={console.log} />
+      <Button text="Travel" onClick={console.log} />
+    </>
+  );
 };
 
 export default Dawn;

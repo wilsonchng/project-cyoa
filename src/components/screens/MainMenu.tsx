@@ -3,11 +3,12 @@ import { GAME_NAME, StoreContext } from "../../App";
 import { Banner, Button, Modal } from "../common";
 import { Screen } from "../../utils/constants";
 import { changeScreen, resetState } from "../../utils/actionCreators";
+import { faInfoCircle, faTrophy } from "@fortawesome/free-solid-svg-icons";
 
 const MainMenu = () => {
   const store = useContext(StoreContext);
   const [open, setOpen] = useState<boolean>(false);
-  const hasExistingSave = !!store.state.playthrough;
+  const hasExistingSave = !!store.state.player;
 
   const newGame = () => {
     if (hasExistingSave) {
@@ -36,10 +37,12 @@ const MainMenu = () => {
       <Button
         text="CREDITS"
         onClick={() => changeScreen(store, Screen.Credits)}
+        icon={faInfoCircle}
       />
       <Button
         text="ACHIEVEMENTS"
         title="Coming soon!"
+        icon={faTrophy}
         disabled={true}
         onClick={() => changeScreen(store, Screen.Achievements)}
       />

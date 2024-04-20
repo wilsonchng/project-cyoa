@@ -8,8 +8,9 @@ export enum Screen {
   Death,
 }
 
-export enum GameMode {
+export enum Page {
   Prologue,
+  Tutorial,
   Dawn,
   Explore,
   Location,
@@ -54,6 +55,10 @@ export enum Hunger {
   Satiated = "Satiated",
   Hungry = "Hungry",
   Starving = "Starving",
+}
+
+export enum EnemyStatus {
+  Prone = "Prone",
 }
 
 export enum ItemType {

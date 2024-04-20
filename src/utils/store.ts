@@ -3,20 +3,21 @@ import { Screen } from "./constants";
 
 export enum UpdateType {
   Screen,
+  Page,
   ResetState,
-  NewPlaythrough,
-  GameMode,
+  NewGame,
+  Combat,
 }
 
 export const INITIAL_STATE = {
   currentScreen: Screen.MainMenu,
   lastScreen: Screen.MainMenu,
-  playthrough: null,
+  player: null,
 };
 
 export const storeReducer = (state: AppState, update: Update): AppState => {
   const newState = getNewState(state, update);
-  console.log(JSON.stringify(newState)); // todo: improve logging
+  console.log(newState); // todo: improve logging
   return newState;
 };
 
@@ -28,18 +29,26 @@ const getNewState = (state: AppState, update: Update): AppState => {
         currentScreen: update.payload,
         lastScreen: state.currentScreen,
       };
-    case UpdateType.GameMode:
+    case UpdateType.Page:
       return {
         ...state,
-        playthrough: {
-          ...state.playthrough!,
-          gameMode: update.payload,
+        player: {
+          ...state.player!,
+          page: update.payload,
         },
       };
-    case UpdateType.NewPlaythrough:
+    case UpdateType.Combat:
       return {
         ...state,
-        playthrough: update.payload,
+        player: {
+          ...state.player!,
+          combat: update.payload,
+        },
+      };
+    case UpdateType.NewGame:
+      return {
+        ...state,
+        player: update.payload,
       };
     case UpdateType.ResetState:
       return INITIAL_STATE;

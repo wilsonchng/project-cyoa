@@ -1,9 +1,8 @@
-import { Hobby, Occupation } from "./constants";
+import { Hobby, Hunger, Occupation } from "./constants";
 import {
   faFireExtinguisher,
   faHandcuffs,
   faStethoscope,
-  faHammer,
   faBaseballBatBall,
   faTree,
   faKitMedical,
@@ -15,7 +14,32 @@ import {
   faTriangleExclamation,
   faFingerprint,
 } from "@fortawesome/free-solid-svg-icons";
-import { Skills } from "./types";
+
+export interface Skills {
+  Strength: number;
+  Fitness: number;
+  Stealth: number;
+  Medicine: number;
+  Firearms: number;
+  Axes: number;
+  Blades: number;
+  Bludgeon: number;
+}
+
+export const getMaxHealth = (fitness: number, hunger: Hunger) => {
+  const hungerModifier = () => {
+    switch (hunger) {
+      case Hunger.Full:
+        return 10;
+      case Hunger.Starving:
+        return -10;
+      default:
+        return 0;
+    }
+  };
+
+  return 100 + 10 * fitness + hungerModifier();
+};
 
 export const getOccupationIcon = (
   occupation: Occupation | string
@@ -155,7 +179,7 @@ export const getSkillDescription = (skill: string) => {
     case "strength":
       return "+5% MELEE damage, +5% chance to SHOVE per level";
     case "fitness":
-      return "+10% STAMINA per level";
+      return "+10 MAX HEALTH per level";
     case "stealth":
       return "+10% chance to SNEAK per level";
     case "medicine":
