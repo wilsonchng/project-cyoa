@@ -6,7 +6,7 @@ import Modal from "./Modal";
 import Image from "./Image";
 import Dropdown from "./Dropdown";
 import IconButton from "./IconButton";
-import HealthBar from "./HealthBar";
+import { HealthBar, StaminaBar } from "./HealthBar";
 import Typewriter from "./Typewriter";
 import Fader from "./Fader";
 import ButtonGroup from "./ButtonGroup";
@@ -21,6 +21,7 @@ export {
   Image,
   Dropdown,
   HealthBar,
+  StaminaBar,
   Typewriter,
   Fader,
   ButtonGroup,

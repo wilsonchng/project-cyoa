@@ -169,9 +169,10 @@
 }
 
 .healthbar {
-  width: 240px;
+  width: 280px;
   background-color: white;
   border-radius: 10px;
+  margin: 4px;
 
   .health {
     color: white;

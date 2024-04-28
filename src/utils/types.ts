@@ -2,16 +2,17 @@ import { Dispatch } from "react";
 import { UpdateType } from "./store";
 import {
   Chapter,
-  Page as Page,
+  Page,
   Hobby,
   Hunger,
-  ItemType,
   Occupation,
   Screen,
   Sex,
+  PlayerStatus,
 } from "./constants";
 import { Enemy } from "./enemy";
 import { Skills } from "./skills";
+import { Item } from "./items";
 
 export interface Store {
   state: AppState;
@@ -38,29 +39,34 @@ export interface Player {
   chapter: Chapter;
   page: Page;
   combat: Combat | null;
-  currHealth: number;
+  health: number;
   maxHealth: number;
+  stamina: number;
+  maxStamina: number;
   hunger: Hunger;
+  status: PlayerStatus[];
+  weapon: Item;
   inventory: Item[];
   killCount: number;
   daysLived: number;
+  metaData: any;
 }
 
 export interface Combat {
-  text: string;
-  playersTurn: boolean;
   enemy: Enemy;
+  playersTurn: boolean;
+  battleLog: BattleLog[];
   noFlee?: boolean;
+  tutorial?: boolean;
+}
+
+export interface BattleLog {
+  text: string;
+  color: "white" | "yellow" | "green" | "red";
 }
 
 export interface AppState {
   currentScreen: Screen;
   lastScreen: Screen;
   player: Player | null;
-}
-
-export interface Item {
-  id: string;
-  name: string;
-  type: ItemType;
 }

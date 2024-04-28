@@ -1,6 +1,6 @@
 import Dawn from "./Dawn";
 import Prologue from "./Prologue";
 import Tutorial from "./Tutorial";
-import Combat from "./Combat";
+import Battle from "./Battle";
 
-export { Prologue, Dawn, Tutorial, Combat };
+export { Prologue, Dawn, Tutorial, Battle };

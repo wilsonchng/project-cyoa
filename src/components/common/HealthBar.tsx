@@ -1,50 +1,71 @@
 import "./common.css";
 
-enum HealthColor {
+enum BarColour {
   Healthy = "green",
   OK = "darkorange",
   Injured = "orangered",
   Dying = "crimson",
+  Stamina = "deepskyblue",
 }
 
-const HealthBar = (props: {
-  health: number;
-  maxHealth: number;
-  enemy?: boolean;
-}) => {
-  const { health, maxHealth, enemy = false } = props;
-
-  const getColor = () => {
-    if (enemy) return HealthColor.Dying;
-
-    if (health > 70) {
-      return HealthColor.Healthy;
-    } else if (health > 50) {
-      return HealthColor.OK;
-    } else if (health > 20) {
-      return HealthColor.Injured;
-    } else {
-      return HealthColor.Dying;
-    }
-  };
-
-  if (health === 0) return <span style={{ color: "darkgrey" }}>Deceased</span>;
+export const StaminaBar = (props: { stamina: number; maxStamina: number }) => {
+  const { stamina, maxStamina } = props;
+  const value = Math.max(0, stamina);
 
   return (
     <>
-      <div className="healthbar">
+      <div className="healthbar" title="Your Stamina">
         <div
           className="health"
           style={{
-            width: `${(health / maxHealth) * 100}%`,
-            backgroundColor: getColor(),
+            width: `${(value / maxStamina) * 100}%`,
+            backgroundColor: BarColour.Stamina,
           }}
         >
-          {health}
+          {value}
         </div>
       </div>
     </>
   );
 };
 
-export default HealthBar;
+export const HealthBar = (props: {
+  health: number;
+  maxHealth: number;
+  enemy?: boolean;
+}) => {
+  const { health, maxHealth, enemy = false } = props;
+  const value = Math.max(0, health);
+
+  const getColor = () => {
+    if (enemy) return BarColour.Dying;
+
+    if (value > 70) {
+      return BarColour.Healthy;
+    } else if (value > 50) {
+      return BarColour.OK;
+    } else if (value > 20) {
+      return BarColour.Injured;
+    } else {
+      return BarColour.Dying;
+    }
+  };
+
+  if (value === 0) return <span style={{ color: "darkgrey" }}>Deceased</span>;
+
+  return (
+    <>
+      <div className="healthbar" title={enemy ? "Enemy Health" : "Your Health"}>
+        <div
+          className="health"
+          style={{
+            width: `${(value / maxHealth) * 100}%`,
+            backgroundColor: getColor(),
+          }}
+        >
+          {value}
+        </div>
+      </div>
+    </>
+  );
+};

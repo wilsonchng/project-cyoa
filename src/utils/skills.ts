@@ -14,6 +14,7 @@ import {
   faTriangleExclamation,
   faFingerprint,
 } from "@fortawesome/free-solid-svg-icons";
+import { DEFAULT_WEIGHT } from "./enemy";
 
 export interface Skills {
   Strength: number;
@@ -26,20 +27,35 @@ export interface Skills {
   Bludgeon: number;
 }
 
-export const getMaxHealth = (fitness: number, hunger: Hunger) => {
-  const hungerModifier = () => {
-    switch (hunger) {
-      case Hunger.Full:
-        return 10;
-      case Hunger.Starving:
-        return -10;
-      default:
-        return 0;
-    }
-  };
-
-  return 100 + 10 * fitness + hungerModifier();
+const hungerModifier = (hunger: Hunger, skill: "fitness" | "strength") => {
+  const modifer = skill === "fitness" ? 2 : 1;
+  switch (hunger) {
+    case Hunger.Full:
+      return 5 * modifer;
+    case Hunger.Hungry:
+      return -5 * modifer;
+    case Hunger.Starving:
+      return -10 * modifer;
+    default:
+      return 0;
+  }
 };
+
+export const shoveEnemy = (
+  challengeRating: number = DEFAULT_WEIGHT,
+  strength: number,
+  hunger: Hunger
+) => {
+  const rolled = Math.random() * 100;
+  const strBonus = strength * getSkillBonus("strength");
+  const hungerMod = hungerModifier(hunger, "strength");
+  const finalValue = rolled + strBonus + hungerMod;
+
+  return finalValue > challengeRating;
+};
+
+export const getMaxStamina = (fitness: number, hunger: Hunger) =>
+  100 + fitness * getSkillBonus("fitness") + hungerModifier(hunger, "fitness");
 
 export const getOccupationIcon = (
   occupation: Occupation | string
@@ -172,27 +188,48 @@ export const getOccupationSkills = (
   }
 };
 
-export const getSkillDescription = (skill: string) => {
+export const getSkillDescription = (skill: string): string => {
+  const lowerCase = skill.toLowerCase();
+  const bonus = getSkillBonus(lowerCase);
+
+  switch (lowerCase) {
+    case "strength":
+      return `+${bonus}% MELEE damage, +${bonus}% chance to SHOVE per level`;
+    case "fitness":
+      return `+${bonus} MAX STAMINA per level`;
+    case "stealth":
+      return `+${bonus}% chance to SNEAK/HIDE per level`;
+    case "medicine":
+      return `+${bonus}% HEALING per level`;
+    case "firearms":
+      return `+${bonus}% damage with FIREARMS per level`;
+    case "axes":
+      return `+${bonus}% damage with AXES per level`;
+    case "blades":
+      return `+${bonus}% damage with BLADE WEAPONS per level`;
+    case "bludgeon":
+      return `+${bonus}% damage with BLUNT WEAPONS per level`;
+    default:
+      return "";
+  }
+};
+
+export const getSkillBonus = (skill: string): number => {
   const lowerCase = skill.toLowerCase();
 
   switch (lowerCase) {
     case "strength":
-      return "+5% MELEE damage, +5% chance to SHOVE per level";
+      return 5;
     case "fitness":
-      return "+10 MAX HEALTH per level";
     case "stealth":
-      return "+10% chance to SNEAK per level";
-    case "medicine":
-      return "+25% HEALING per level";
     case "firearms":
-      return "+10% damage with GUNS per level";
     case "axes":
-      return "+10% damage with AXES per level";
     case "blades":
-      return "+10% damage with BLADES per level";
     case "bludgeon":
-      return "+10% damage with BLUNT WEAPONS per level";
+      return 10;
+    case "medicine":
+      return 25;
     default:
-      return "";
+      return 0;
   }
 };

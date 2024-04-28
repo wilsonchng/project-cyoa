@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StoreContext } from "../../App";
 import { Page } from "../../utils/constants";
-import { Combat, Dawn, Prologue, Tutorial } from "./game/";
+import { Battle, Dawn, Prologue, Tutorial } from "./game/";
 
 const Game = () => {
   const store = useContext(StoreContext);
@@ -9,8 +9,8 @@ const Game = () => {
 
   const renderGame = () => {
     switch (player.page) {
-      case Page.Combat:
-        return <Combat />;
+      case Page.Battle:
+        return <Battle />;
       case Page.Tutorial:
         return <Tutorial />;
       case Page.Dawn:

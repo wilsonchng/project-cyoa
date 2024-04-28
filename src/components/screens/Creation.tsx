@@ -23,14 +23,15 @@ import { getRandomEnum, getRandomName } from "../../utils/random";
 import {
   getHobbyIcon,
   getHobbySkills,
-  getMaxHealth,
+  getMaxStamina,
   getOccupationIcon,
   getOccupationSkills,
   getSkills,
 } from "../../utils/skills";
 import { SkillSheet } from "./Character";
 import { useSound } from "../../utils/customHooks";
-import { changeScreen, newGame } from "../../utils/actionCreators";
+import { changeScreen, setPlayer } from "../../utils/actionCreators";
+import { UNARMED } from "../../utils/items";
 
 import "./screens.css";
 
@@ -75,7 +76,7 @@ const CharacterCreation = () => {
       return;
     }
 
-    const health = getMaxHealth(skills.Fitness, Hunger.Satiated);
+    const stamina = getMaxStamina(skills.Fitness, Hunger.Satiated);
 
     const newCharacter: Player = {
       name: name,
@@ -84,17 +85,23 @@ const CharacterCreation = () => {
       hobby: hobby,
       skills: skills,
       chapter: Chapter.Rosewood,
-      page: Page.Prologue,
+      // page: Page.Prologue,
+      page: Page.Tutorial,
       combat: null,
-      currHealth: health,
-      maxHealth: health,
+      health: 100,
+      maxHealth: 100,
+      stamina: stamina,
+      maxStamina: stamina,
       hunger: Hunger.Satiated,
+      status: [],
+      weapon: UNARMED,
       inventory: [],
       killCount: 0,
       daysLived: 0,
+      metaData: null,
     };
 
-    newGame(store, newCharacter);
+    setPlayer(store, newCharacter);
     changeScreen(store, Screen.Game);
   };
 

@@ -5,8 +5,12 @@ export enum UpdateType {
   Screen,
   Page,
   ResetState,
-  NewGame,
+  Player,
   Combat,
+  Health,
+  Stamina,
+  Weapon,
+  Metadata,
 }
 
 export const INITIAL_STATE = {
@@ -45,10 +49,42 @@ const getNewState = (state: AppState, update: Update): AppState => {
           combat: update.payload,
         },
       };
-    case UpdateType.NewGame:
+    case UpdateType.Weapon:
+      return {
+        ...state,
+        player: {
+          ...state.player!,
+          weapon: update.payload,
+        },
+      };
+    case UpdateType.Health:
+      return {
+        ...state,
+        player: {
+          ...state.player!,
+          health: update.payload,
+        },
+      };
+    case UpdateType.Stamina:
+      return {
+        ...state,
+        player: {
+          ...state.player!,
+          stamina: update.payload,
+        },
+      };
+    case UpdateType.Player:
       return {
         ...state,
         player: update.payload,
+      };
+    case UpdateType.Metadata:
+      return {
+        ...state,
+        player: {
+          ...state.player!,
+          metaData: update.payload,
+        },
       };
     case UpdateType.ResetState:
       return INITIAL_STATE;

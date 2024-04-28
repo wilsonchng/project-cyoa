@@ -56,6 +56,11 @@
       text-align: justify;
     }
 
+    .dear-diary {
+      align-self: flex-start;
+      text-align: justify;
+    }
+
     hr {
       width: 100%;
       border: 1px dotted grey;

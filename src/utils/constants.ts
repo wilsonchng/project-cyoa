@@ -14,7 +14,7 @@ export enum Page {
   Dawn,
   Explore,
   Location,
-  Combat,
+  Battle,
   Dusk,
   Night,
 }
@@ -57,13 +57,9 @@ export enum Hunger {
   Starving = "Starving",
 }
 
-export enum EnemyStatus {
-  Prone = "Prone",
-}
-
-export enum ItemType {
-  Weapon,
-  Tool,
-  Medicine,
-  Misc,
+export enum PlayerStatus {
+  Grabbed,
+  Bleeding,
+  Tired,
+  Exhausted,
 }
