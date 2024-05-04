@@ -3,7 +3,7 @@ import Button from "./Button";
 import Header from "./Header";
 import Footer from "./Footer";
 import Modal from "./Modal";
-import Image from "./Image";
+// import Image from "./Image";
 import Dropdown from "./Dropdown";
 import IconButton from "./IconButton";
 import { HealthBar, StaminaBar } from "./HealthBar";
@@ -18,7 +18,7 @@ export {
   Header,
   Footer,
   Modal,
-  Image,
+  // Image,
   Dropdown,
   HealthBar,
   StaminaBar,

@@ -4,6 +4,7 @@ import {
   faRunning,
   faHandFist,
   faCrosshairs,
+  faShieldAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHand } from "@fortawesome/free-regular-svg-icons";
 
@@ -15,12 +16,17 @@ import {
   HealthBar,
   StaminaBar,
 } from "../../common";
-import { Combat, BattleLog, Player } from "../../../utils/types";
-import { DIFFICULTY_MODIFIER, Item } from "../../../utils/items";
+import { Combat, CombatLog, Player } from "../../../utils/types";
+import {
+  DIFFICULTY_MODIFIER,
+  Item,
+  UNARMED,
+  WeaponClass,
+} from "../../../utils/items";
 import { setPlayer } from "../../../utils/actionCreators";
 import { getRandomInteger } from "../../../utils/random";
 import { Enemy, EnemyStatus } from "../../../utils/enemy";
-import { shoveEnemy } from "../../../utils/skills";
+import { Skills, shoveEnemy } from "../../../utils/skills";
 import { Hunger, PlayerStatus } from "../../../utils/constants";
 
 const Battle = () => {
@@ -29,8 +35,8 @@ const Battle = () => {
 
   if (!player?.combat) return null; // throw error?
 
-  const { combat, status, hunger, stamina, skills, weapon } = player;
-  const { playersTurn, enemy, battleLog, noFlee = true } = combat;
+  const { combat, status, hunger, stamina, skills, weapon, inventory } = player;
+  const { playersTurn, enemy, combatLog, noFlee = true } = combat;
 
   const [showInventory, setInventory] = useState<boolean>(false);
 
@@ -39,20 +45,44 @@ const Battle = () => {
     }
   }, [playersTurn]);
 
-  const updateState = (playerState: Player) => setPlayer(store, playerState);
+  const updateState = (playerState: Player) => {
+    setPlayer(store, {
+      ...playerState,
+    });
+  };
 
   const useItem = (item: Item) => console.log(item);
 
   const attack = () => {
-    const damage = damageCalculator(weapon, status, hunger);
+    let newCombatLog = combatLog;
+    const damage = damageCalculator(weapon, skills, status, hunger);
 
-    const newStamina = Math.max(0, stamina - (weapon?.weight || 1));
-    const newStatus = addFatigueStatus(status, newStamina);
+    const newStamina = Math.max(0, stamina - (weapon.weight || 1));
+    const newStatus = updateFatigue(status, newStamina);
 
-    const durability = weapon ? weapon.durability! - 1 : null;
-    const weaponState = weapon
-      ? ({ ...weapon, durability: durability } as Item)
-      : null;
+    if (newStatus.includes(PlayerStatus.Exhausted)) {
+      newCombatLog.push({
+        text: "You are exhausted! Get some rest!",
+        color: "red",
+      });
+    } else if (newStatus.includes(PlayerStatus.Tired)) {
+      newCombatLog.push({
+        text: "You are starting to feel tired... Melee damage reduced.",
+        color: "yellow",
+      });
+    }
+
+    const durability = weapon.durability! - 1;
+    let weaponState = weapon;
+    if (durability === 0) {
+      newCombatLog.push({
+        text: `Your ${weapon.name} has broken!`,
+        color: "red",
+      });
+      weaponState = UNARMED;
+    } else {
+      weaponState = { ...weapon, durability: durability } as Item;
+    }
 
     // add stagger/prone etc
     // add when enemy dies
@@ -61,16 +91,16 @@ const Battle = () => {
       health: enemy.health - damage,
     } as Enemy;
 
-    const newLog = {
+    newCombatLog.push({
       text: `${weapon.attack}, dealing ${damage} damage!`,
       color: "white",
-    } as BattleLog;
+    } as CombatLog);
 
     const combatState = {
       ...combat,
       playersTurn: false,
       enemy: enemyState,
-      battleLog: battleLog.concat(newLog),
+      combatLog: newCombatLog,
     } as Combat;
 
     const playerState = {
@@ -85,31 +115,47 @@ const Battle = () => {
   };
 
   const shove = () => {
-    const enemy = combat?.enemy;
+    let newCombatLog = combatLog;
+    const rollValue = shoveEnemy(skills.Strength, hunger, status);
 
-    const success = shoveEnemy(enemy?.weight, skills.Strength, hunger);
-
-    const enemyStatus = enemy?.status || [];
-    if (success) enemyStatus.push(EnemyStatus.Prone);
-
+    const enemyStatus = enemy.status || [];
+    if (rollValue > enemy.weight) {
+      newCombatLog.push({
+        text: `You successfully shoved them back! ${enemy.name} is now prone!`,
+        color: "white",
+      });
+      enemyStatus.push(EnemyStatus.Prone);
+    } else {
+      newCombatLog.push({
+        text: `You failed to shove them back! (Rolled: ${rollValue})`,
+        color: "red",
+      });
+    }
     const enemyState = {
       ...enemy,
       status: enemyStatus,
     } as Enemy;
 
     const newStamina = Math.max(0, stamina - 10);
-    const newStatus = addFatigueStatus(status, newStamina);
+    const newStatus = updateFatigue(status, newStamina);
 
-    const newLog = {
-      text: success ? `You successfully ` : ``,
-      color: "white",
-    };
+    if (newStatus.includes(PlayerStatus.Exhausted)) {
+      newCombatLog.push({
+        text: "You are exhausted! Get some rest!",
+        color: "red",
+      });
+    } else if (newStatus.includes(PlayerStatus.Tired)) {
+      newCombatLog.push({
+        text: "You are starting to feel tired... Melee effectiveness reduced.",
+        color: "yellow",
+      });
+    }
 
     const combatState = {
       ...player.combat,
       playersTurn: false,
       enemy: enemyState,
-      battleLog: [...battleLog, newLog],
+      combatLog: newCombatLog,
     } as Combat;
 
     const playerState = {
@@ -117,7 +163,44 @@ const Battle = () => {
       status: newStatus,
       stamina: newStamina,
       combat: combatState,
-      // status: playerStatus,
+    } as Player;
+
+    updateState(playerState);
+  };
+
+  const defend = () => {
+    let newCombatLog = combatLog;
+    newCombatLog.push({
+      text: `You back up and try to catch your breath...`,
+      color: "white",
+    });
+
+    const newStamina = Math.min(player.maxStamina, stamina + 20);
+    const newStatus = updateFatigue(status, newStamina);
+
+    if (!newStatus.includes(PlayerStatus.Exhausted)) {
+      newCombatLog.push({
+        text: "You are no longer exhausted!",
+        color: "lawngreen",
+      });
+    } else if (!newStatus.includes(PlayerStatus.Tired)) {
+      newCombatLog.push({
+        text: "You are no longer tired!",
+        color: "lawngreen",
+      });
+    }
+
+    const combatState = {
+      ...player.combat,
+      playersTurn: false,
+      combatLog: newCombatLog,
+    } as Combat;
+
+    const playerState = {
+      ...player,
+      status: newStatus,
+      stamina: newStamina,
+      combat: combatState,
     } as Player;
 
     updateState(playerState);
@@ -126,13 +209,15 @@ const Battle = () => {
   const flee = () => {};
 
   const PlayerOptions = () => {
-    const gunEquipped = weapon?.weapon === "firearm";
+    const gunEquipped = weapon.weaponClass === WeaponClass.Firearm;
     const isGrabbed = !!status?.find((s) => s === PlayerStatus.Grabbed);
     const exhausted = !!status?.find((s) => s === PlayerStatus.Exhausted);
+    const enemyProne = enemy.status?.includes(EnemyStatus.Prone);
 
     const getFleeTitle = () => {
       if (isGrabbed) return "You cannot run while you are being grabbed!";
       if (noFlee) return "You cannot run away from this fight";
+      if (exhausted) return "You are too tired to flee!";
       return "Run away from this fight";
     };
 
@@ -140,17 +225,31 @@ const Battle = () => {
       if (isGrabbed) return "You cannot attack while you are grabbed!";
       if (exhausted && !gunEquipped)
         return "You are too tired to swing your weapon!";
-      return `Attack ${enemy.name} with ${
-        player.weapon?.name || "your bare fists"
+      return `${gunEquipped ? "Shoot" : "Attack"} ${enemy.name} with ${
+        weapon.name
       }`;
     };
+
+    const getShoveTitle = () =>
+      enemyProne
+        ? "The enemy is already prone!"
+        : "Push back an enemy, potentially making them fall prone";
+
+    const getDefendTitle = () =>
+      isGrabbed
+        ? "You are grabbed! Push them back!"
+        : "Protect yourself and regain some stamina";
 
     if (showInventory) {
       return (
         <ButtonGroup>
-          {player.inventory.map((item) => {
-            return <Button text={item.name} onClick={() => useItem(item)} />;
-          })}
+          {inventory.length === 0 ? (
+            <p className="info-text">You have no items!</p>
+          ) : (
+            inventory.map((item) => (
+              <Button text={item.name} onClick={() => useItem(item)} />
+            ))
+          )}
           <Button text="BACK" onClick={() => setInventory(false)} />
         </ButtonGroup>
       );
@@ -168,14 +267,16 @@ const Battle = () => {
             text="SHOVE"
             icon={faHand}
             onClick={shove}
-            title={
-              exhausted
-                ? "You are too tired to push them back!"
-                : "Pushes back an enemy, using STRENGTH"
-            }
-            disabled={exhausted}
+            title={getShoveTitle()}
+            disabled={enemyProne}
           />
-          {/* defend option, recover stamina while taking less damage */}
+          <Button
+            text="DEFEND"
+            title={getDefendTitle()}
+            onClick={defend}
+            icon={faShieldAlt}
+            disabled={isGrabbed}
+          />
           {/* <Button
             text="HIDE"
             icon={faUserNinja}
@@ -188,7 +289,7 @@ const Battle = () => {
             icon={faRunning}
             onClick={flee}
             title={getFleeTitle()}
-            disabled={noFlee || isGrabbed}
+            disabled={noFlee || isGrabbed || exhausted}
           />
           <Button
             text="ITEM"
@@ -214,7 +315,7 @@ const Battle = () => {
         maxHealth={enemy.maxHealth}
         enemy={true}
       />
-      <BattleLogDisplay log={battleLog} />
+      <CombatLogDisplay log={combatLog} />
       <HealthBar health={player.health} maxHealth={player.maxHealth} />
       <StaminaBar stamina={player.stamina} maxStamina={player.maxStamina} />
       {/* status effects w modal description of moodles */}
@@ -224,10 +325,10 @@ const Battle = () => {
   );
 };
 
-const BattleLogDisplay = (props: { log: BattleLog[] }) => {
+const CombatLogDisplay = (props: { log: CombatLog[] }) => {
   return (
     <div className="battle-log">
-      {props.log.map((log: BattleLog, index: number) => {
+      {props.log.map((log: CombatLog, index: number) => {
         return (
           <span key={`battlelog-${index}`} style={{ color: log.color }}>
             {log.text}
@@ -240,31 +341,70 @@ const BattleLogDisplay = (props: { log: BattleLog[] }) => {
 
 const damageCalculator = (
   weapon: Item,
+  skills: Skills,
   status: PlayerStatus[],
   hunger: Hunger
 ) => {
   const { minDmg, maxDmg } = weapon;
   const rawDamage = getRandomInteger(minDmg || 1, maxDmg || 2);
-  const fatigueMod = status.includes(PlayerStatus.Tired) ? 0.5 : 1;
+  const skillMod = getSkillsModifier(skills, weapon.weaponClass);
+  const fatigueMod = getStatusModifier(status);
   const hungerMod = getHungerModifier(hunger);
-  return Math.round(rawDamage * fatigueMod * hungerMod * DIFFICULTY_MODIFIER);
+  return Math.round(
+    rawDamage * (fatigueMod + hungerMod + skillMod + DIFFICULTY_MODIFIER)
+  );
 };
+
+const getSkillsModifier = (
+  skills: Skills,
+  weaponClass: WeaponClass | undefined
+) => {
+  switch (weaponClass) {
+    case WeaponClass.Firearm:
+      return skills.Firearms * 0.1;
+    case WeaponClass.Axe:
+      return skills.Axes * 0.1 + skills.Strength * 0.05;
+    case WeaponClass.Blade:
+      return skills.Blades * 0.1 + skills.Strength * 0.05;
+    case WeaponClass.Blunt:
+      return skills.Bludgeon * 0.1 + skills.Strength * 0.05;
+    default:
+      return 0;
+  }
+};
+
+// 25% less melee damage when tired
+const getStatusModifier = (status: PlayerStatus[]) =>
+  status.includes(PlayerStatus.Tired) ? -0.25 : 0;
 
 const getHungerModifier = (hunger: Hunger) => {
   switch (hunger) {
     case Hunger.Full:
-      return 1.05;
+      return 0.05;
     case Hunger.Hungry:
-      return 0.95;
+      return -0.05;
     case Hunger.Starving:
-      return 0.9;
+      return -0.1;
     case Hunger.Satiated:
     default:
-      return 1;
+      return 0;
   }
 };
 
-const addFatigueStatus = (
+const updateFatigue2 = (
+  stamina: number,
+  newStamina: number,
+  status: PlayerStatus[],
+  log: CombatLog[]
+) => {
+  if (newStamina > stamina) {
+  } else {
+    if (stamina === 0) {
+    }
+  }
+};
+
+const updateFatigue = (
   currEffects: PlayerStatus[],
   stamina: number
 ): PlayerStatus[] => {

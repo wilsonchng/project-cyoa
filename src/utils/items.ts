@@ -4,11 +4,18 @@ export interface Item {
   type: ItemType;
   description?: string;
   attack?: string;
-  weapon?: "axe" | "blade" | "blunt" | "firearm";
+  weaponClass?: WeaponClass;
   minDmg?: number;
   maxDmg?: number;
   weight?: number;
   durability?: number;
+}
+
+export enum WeaponClass {
+  Axe,
+  Blade,
+  Blunt,
+  Firearm,
 }
 
 export enum ItemType {
@@ -31,10 +38,10 @@ export const getItem = (id: ItemID) => ITEMS.find((i) => i.id === id);
 
 export const UNARMED: Item = {
   id: ItemID.Unarmed,
-  name: "Unarmed",
-  description: "Your bare fists",
+  name: "Bare Fists",
+  description: "your fists",
   type: ItemType.Weapon,
-  weapon: "blunt",
+  weaponClass: WeaponClass.Blunt,
   attack: "You throw a punch at your enemy",
   minDmg: 10,
   maxDmg: 20,
@@ -48,7 +55,7 @@ const ITEMS: Item[] = [
     name: "Kitchen Knife",
     description: "A stainless steel chef's knife",
     type: ItemType.Weapon,
-    weapon: "blade",
+    weaponClass: WeaponClass.Blade,
     attack: "You thrust the blade of your knife at your enemy",
     minDmg: 10,
     maxDmg: 40,
@@ -60,7 +67,7 @@ const ITEMS: Item[] = [
     name: "Frying Pan",
     description: "A heavy cast iron pan",
     type: ItemType.Weapon,
-    weapon: "blunt",
+    weaponClass: WeaponClass.Blunt,
     attack: "You swing the heavy pan at your enemy",
     minDmg: 20,
     maxDmg: 30,
@@ -72,7 +79,7 @@ const ITEMS: Item[] = [
     name: "Broom Stick",
     description: "A long stick of plywood",
     type: ItemType.Weapon,
-    weapon: "blunt",
+    weaponClass: WeaponClass.Blunt,
     attack: "You swing the long wooden pole at your enemy",
     minDmg: 20,
     maxDmg: 30,

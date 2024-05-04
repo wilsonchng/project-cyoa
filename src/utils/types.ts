@@ -55,14 +55,14 @@ export interface Player {
 export interface Combat {
   enemy: Enemy;
   playersTurn: boolean;
-  battleLog: BattleLog[];
+  combatLog: CombatLog[];
   noFlee?: boolean;
   tutorial?: boolean;
 }
 
-export interface BattleLog {
+export interface CombatLog {
   text: string;
-  color: "white" | "yellow" | "green" | "red";
+  color: "white" | "yellow" | "lawngreen" | "red";
 }
 
 export interface AppState {

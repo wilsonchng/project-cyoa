@@ -1,4 +1,4 @@
-import { Hobby, Hunger, Occupation } from "./constants";
+import { Hobby, Hunger, Occupation, PlayerStatus } from "./constants";
 import {
   faFireExtinguisher,
   faHandcuffs,
@@ -14,7 +14,6 @@ import {
   faTriangleExclamation,
   faFingerprint,
 } from "@fortawesome/free-solid-svg-icons";
-import { DEFAULT_WEIGHT } from "./enemy";
 
 export interface Skills {
   Strength: number;
@@ -42,16 +41,21 @@ const hungerModifier = (hunger: Hunger, skill: "fitness" | "strength") => {
 };
 
 export const shoveEnemy = (
-  challengeRating: number = DEFAULT_WEIGHT,
   strength: number,
-  hunger: Hunger
+  hunger: Hunger,
+  status: PlayerStatus[]
 ) => {
   const rolled = Math.random() * 100;
   const strBonus = strength * getSkillBonus("strength");
   const hungerMod = hungerModifier(hunger, "strength");
-  const finalValue = rolled + strBonus + hungerMod;
+  const fatigueMod = fatigueModifier(status);
+  return rolled + strBonus + hungerMod + fatigueMod;
+};
 
-  return finalValue > challengeRating;
+const fatigueModifier = (status: PlayerStatus[]) => {
+  if (status.includes(PlayerStatus.Exhausted)) return -50;
+  if (status.includes(PlayerStatus.Exhausted)) return -25;
+  return 0;
 };
 
 export const getMaxStamina = (fitness: number, hunger: Hunger) =>

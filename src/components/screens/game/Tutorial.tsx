@@ -25,7 +25,7 @@ const Tutorial = () => {
 
   const tutorialCombat: Combat = {
     playersTurn: true,
-    battleLog: [{ text: "Frank approaches menacingly...", color: "red" }],
+    combatLog: [{ text: "Frank approaches menacingly...", color: "red" }],
     enemy: getEnemy(EnemyID.Frank)!,
     tutorial: true,
   };
